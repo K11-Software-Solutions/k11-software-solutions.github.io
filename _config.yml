@@ -19,6 +19,9 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag
 
+# Show future posts
+future: true
+
 # Collections
 collections:
   projects:
