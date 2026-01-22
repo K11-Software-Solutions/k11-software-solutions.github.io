@@ -9,8 +9,8 @@ title: Home
     <p class="hero-tagline">Building innovative software solutions for your business</p>
     <p class="hero-description">We deliver cutting-edge web applications, mobile apps, and cloud solutions that drive business growth and digital transformation.</p>
     <div class="hero-buttons">
-      <a href="{{ '/services.html' | relative_url }}" class="btn btn-primary">Our Services</a>
-      <a href="{{ '/contact.html' | relative_url }}" class="btn btn-secondary">Get in Touch</a>
+      <a href="{{ '/services/' | relative_url }}" class="btn btn-primary">Our Services</a>
+      <a href="{{ '/contact/' | relative_url }}" class="btn btn-secondary">Get in Touch</a>
     </div>
   </div>
 </div>
@@ -21,22 +21,22 @@ title: Home
     <div class="service-card">
       <h3>🌐 Web Development</h3>
       <p>Custom web applications, e-commerce platforms, and progressive web apps built with modern frameworks and technologies.</p>
-      <a href="{{ '/services.html#web-development' | relative_url }}" class="learn-more">Learn More →</a>
+      <a href="{{ '/services/#web-development' | relative_url }}" class="learn-more">Learn More →</a>
     </div>
     <div class="service-card">
       <h3>📱 Mobile Apps</h3>
       <p>Native and cross-platform mobile applications for iOS and Android that deliver exceptional user experiences.</p>
-      <a href="{{ '/services.html#mobile-development' | relative_url }}" class="learn-more">Learn More →</a>
+      <a href="{{ '/services/#mobile-development' | relative_url }}" class="learn-more">Learn More →</a>
     </div>
     <div class="service-card">
       <h3>☁️ Cloud Solutions</h3>
       <p>Scalable cloud architecture, DevOps automation, and infrastructure management on AWS, Azure, and Google Cloud.</p>
-      <a href="{{ '/services.html#cloud-solutions' | relative_url }}" class="learn-more">Learn More →</a>
+      <a href="{{ '/services/#cloud-solutions' | relative_url }}" class="learn-more">Learn More →</a>
     </div>
     <div class="service-card">
       <h3>⚙️ Custom Software</h3>
       <p>Tailored software solutions designed to solve your unique business challenges and automate workflows.</p>
-      <a href="{{ '/services.html#custom-software' | relative_url }}" class="learn-more">Learn More →</a>
+      <a href="{{ '/services/#custom-software' | relative_url }}" class="learn-more">Learn More →</a>
     </div>
   </div>
 </section>
@@ -66,5 +66,5 @@ title: Home
 <section class="cta-section">
   <h2>Ready to Start Your Project?</h2>
   <p>Let's discuss how we can help transform your ideas into reality.</p>
-  <a href="{{ '/contact.html' | relative_url }}" class="btn btn-primary">Contact Us Today</a>
+  <a href="{{ '/contact/' | relative_url }}" class="btn btn-primary">Contact Us Today</a>
 </section>
