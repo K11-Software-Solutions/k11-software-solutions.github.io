@@ -1,0 +1,47 @@
+# Site settings
+title: K11 Software Solutions
+email: k11softwaresolutions@gmail.com
+description: >-
+  Building innovative software solutions for your business. 
+  Expert web development, mobile apps, and cloud solutions.
+
+baseurl: ""
+url: "https://k11-software-solutions.github.io"
+
+# Social media usernames (can be updated later)
+github_username: k11-software-solutions
+twitter_username: k11software
+linkedin_username: k11-software-solutions
+
+# Build settings
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Collections
+collections:
+  projects:
+    output: true
+    permalink: /portfolio/:name/
+  team:
+    output: true
+    permalink: /team/:name/
+
+# Navigation menu
+header_pages:
+  - about.md
+  - services.md
+  - portfolio.md
+  - blog.md
+  - contact.md
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
