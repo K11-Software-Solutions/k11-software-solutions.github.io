@@ -271,6 +271,17 @@ The contact page includes an embedded Google Forms contact form for easy communi
 - Mobile-friendly design
 - Matches website styling
 
+### Setting Up Your Google Form
+
+The site includes a placeholder form ID. To set up your actual Google Form:
+
+1. **Create your Google Form** - Follow the detailed instructions in [CONTACT_FORM_SETUP.md](CONTACT_FORM_SETUP.md)
+2. **Get the embed code** - Copy your form's embed URL from Google Forms
+3. **Update contact.md** - Replace the placeholder form ID with your actual form ID
+4. **Test** - Verify the form works on your local site before deploying
+
+See [CONTACT_FORM_SETUP.md](CONTACT_FORM_SETUP.md) for complete step-by-step instructions on creating and configuring your Google Form.
+
 ### How It Works
 1. Visitors fill out the form on `/contact/`
 2. Submissions are sent to Google Forms

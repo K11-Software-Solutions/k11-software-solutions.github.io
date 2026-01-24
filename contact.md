@@ -69,18 +69,3 @@ Once you reach out, here's what you can expect:
 We look forward to working with you!
 
 [View Our Services](/services/){: .btn .btn-primary} [View Portfolio](/portfolio/){: .btn .btn-secondary}
-
----
-
-## What's Next?
-
-Once you reach out, here's what you can expect:
-
-1. **Initial Response** - We'll acknowledge your inquiry within 24 business hours
-2. **Discovery Call** - We'll schedule a call to discuss your project in detail
-3. **Proposal** - We'll provide a detailed proposal with timeline and cost estimates
-4. **Project Kickoff** - Once approved, we'll begin working on your project
-
-We look forward to working with you!
-
-[View Our Services](/services/){: .btn .btn-primary} [View Portfolio](/portfolio/){: .btn .btn-secondary}
