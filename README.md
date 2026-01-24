@@ -4,7 +4,7 @@ A professional business website built with Jekyll and hosted on GitHub Pages. Th
 
 ## 🌐 Live Site
 
-Visit us at: [https://k11softwaresolutions.com](https://k11softwaresolutions.com)
+Visit us at: [https://k11-software-solutions.github.io/](https://k11-software-solutions.github.io/)
 
 ## 📋 Table of Contents
 
@@ -85,7 +85,7 @@ header_pages:
 
 The blog page (`blog.md`) automatically displays all blog posts dynamically using Jekyll's Liquid templating:
 
-**Blog Page URL:** [https://k11softwaresolutions.com/blog/](https://k11softwaresolutions.com/blog/)
+**Blog Page URL:** [https://k11-software-solutions.github.io/blog/](https://k11-software-solutions.github.io/blog/)
 
 ```liquid
 {% for post in site.posts %}
@@ -104,7 +104,7 @@ Posts are rendered in reverse chronological order (newest first) with:
 
 The site includes an **automatically generated RSS feed** for blog subscribers:
 
-**RSS Feed URL:** [https://k11softwaresolutions.com/feed.xml](https://k11softwaresolutions.com/feed.xml)
+**RSS Feed URL:** [https://k11-software-solutions.github.io/feed.xml](https://k11-software-solutions.github.io/feed.xml)
 
 This feed is powered by the `jekyll-feed` plugin and includes:
 - All published blog posts
@@ -117,7 +117,7 @@ This feed is powered by the `jekyll-feed` plugin and includes:
 
 The site also provides a **JSON Feed** for modern feed readers:
 
-**JSON Feed URL:** [https://k11softwaresolutions.com/blog/feed.json](https://k11softwaresolutions.com/blog/feed.json)
+**JSON Feed URL:** [https://k11-software-solutions.github.io/blog/feed.json](https://k11-software-solutions.github.io/blog/feed.json)
 
 This feed follows the JSON Feed specification and includes:
 - Latest 20 blog posts
@@ -133,12 +133,12 @@ Readers can subscribe using either feed format:
 
 **RSS/XML Feed:**
 ```
-https://k11softwaresolutions.com/feed.xml
+https://k11-software-solutions.github.io/feed.xml
 ```
 
 **JSON Feed:**
 ```
-https://k11softwaresolutions.com/blog/feed.json
+https://k11-software-solutions.github.io/blog/feed.json
 ```
 
 Popular feed readers:
@@ -274,42 +274,42 @@ The site is automatically deployed via **GitHub Pages** when changes are pushed 
 
 3. GitHub Pages will automatically build and deploy (takes 1-2 minutes)
 
-4. View your changes at: https://k11softwaresolutions.com
+4. View your changes at: https://k11-software-solutions.github.io/
 
 ### Build Settings
 
 Configuration is in `_config.yml`:
-- **URL:** `https://k11softwaresolutions.com`
+- **URL:** `https://k11-software-solutions.github.io/`
 - **Theme:** Minima
 - **Plugins:** jekyll-feed, jekyll-seo-tag
 
 ## 📧 Contact Form
 
-The contact page includes an embedded Google Forms contact form for easy communication.
+The contact page includes a Formspree-based contact form for easy communication.
 
 ### Contact Form Features
 - Name, Email, Subject, Message fields
-- Spam protection via Google Forms
+- Spam protection via Formspree
 - Email notifications for form submissions
 - Mobile-friendly design
 - Matches website styling
 
-### Setting Up Your Google Form
+### Setting Up Your Formspree Form
 
-The site includes a placeholder form ID. To set up your actual Google Form:
+The site includes a placeholder form endpoint. To set up your actual Formspree form:
 
-1. **Create your Google Form** - Follow the detailed instructions in [CONTACT_FORM_SETUP.md](CONTACT_FORM_SETUP.md)
-2. **Get the embed code** - Copy your form's embed URL from Google Forms
-3. **Update contact.md** - Replace the placeholder form ID with your actual form ID
+1. **Create your Formspree account** - Follow the detailed instructions in [CONTACT_FORM_SETUP.md](CONTACT_FORM_SETUP.md)
+2. **Get the form endpoint** - Copy your form's endpoint URL from Formspree
+3. **Update contact.md** - Replace the placeholder form endpoint with your actual endpoint
 4. **Test** - Verify the form works on your local site before deploying
 
-See [CONTACT_FORM_SETUP.md](CONTACT_FORM_SETUP.md) for complete step-by-step instructions on creating and configuring your Google Form.
+See [CONTACT_FORM_SETUP.md](CONTACT_FORM_SETUP.md) for complete step-by-step instructions on creating and configuring your Formspree form.
 
 ### How It Works
 1. Visitors fill out the form on `/contact/`
-2. Submissions are sent to Google Forms
-3. Form responses appear in the linked Google Sheet
-4. Email notifications are sent to `k11softwaresolutions@gmail.com`
+2. Submissions are sent to Formspree
+3. Form responses are forwarded to `k11softwaresolutions@gmail.com`
+4. Email notifications are sent for each submission
 
 ## 🤝 Contributing
 
@@ -337,7 +337,7 @@ Copyright © 2024-present K11 Software Solutions. All rights reserved.
 ## 📞 Contact
 
 - **Email:** k11softwaresolutions@gmail.com
-- **Website:** https://k11softwaresolutions.com
+- **Website:** https://k11-software-solutions.github.io/
 - **GitHub:** [@k11-software-solutions](https://github.com/k11-software-solutions)
 - **LinkedIn:** [K11 Software Solutions](https://linkedin.com/company/k11-software-solutions)
 
