@@ -460,6 +460,21 @@
   color: #667eea !important;
 }
 
+.site-nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.site-nav li {
+  margin: 0;
+  padding: 0;
+}
+
 .site-nav .page-link {
   color: #333;
   transition: color 0.3s ease;
