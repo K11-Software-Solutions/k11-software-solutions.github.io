@@ -2,7 +2,7 @@
 
 /* Hero Section */
 .hero {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #17a2b8 0%, #138496 100%); /* Professional teal gradient */
   color: white;
   padding: 80px 20px;
   text-align: center;
@@ -472,6 +472,11 @@
   gap: 15px;
 }
 
+.site-title a, .site-title a:visited {
+  color: #ffffff !important; /* Ensure link is also white */
+  text-decoration: none;
+}
+
 .site-logo {
   width: 50px;
   height: 50px;
@@ -500,4 +505,54 @@
 .site-nav .page-link:hover {
   color: #667eea; /* Purple hover color */
   text-decoration: none;
+}
+
+/* Footer Styles */
+.site-footer {
+  background-color: #f8f9fa;
+  padding: 30px 0;
+  margin-top: 60px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-content p {
+  margin: 0;
+  color: #666;
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: #17a2b8;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-weight: 500;
+}
+
+.footer-links a:hover {
+  color: #138496;
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .footer-links {
+    justify-content: center;
+  }
 }

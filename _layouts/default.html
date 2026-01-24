@@ -18,7 +18,14 @@
     </main>
     <footer class="site-footer">
       <div class="container">
-        <p>&copy; {{ site.time | date: '%Y' }} {{ site.title }}. All rights reserved.</p>
+        <div class="footer-content">
+          <p>&copy; {{ site.time | date: '%Y' }} {{ site.title }}. All rights reserved.</p>
+          <div class="footer-links">
+            <a href="https://k11softwaresolutions.com" target="_blank" rel="noopener noreferrer">Website</a>
+            <a href="https://www.linkedin.com/company/k11-software-solutions/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/{{ site.github_username }}" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
       </div>
     </footer>
   </body>
