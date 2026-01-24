@@ -1,5 +1,31 @@
 /* Custom styles for K11 Software Solutions */
 
+/* Global Page Styles */
+body {
+  background-color: #f0f4f5; /* Light teal-gray background */
+  margin: 0;
+  padding: 0;
+}
+
+.site-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 40px 30px 60px; /* Extra left padding for readability */
+  background-color: #ffffff; /* White content area */
+  min-height: calc(100vh - 200px);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+}
+
+.page-content {
+  padding: 0 20px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
 /* Hero Section */
 .hero {
   background: linear-gradient(135deg, #17a2b8 0%, #138496 100%); /* Professional teal gradient */
@@ -426,6 +452,18 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .site-content {
+    padding: 20px 20px 20px 30px; /* Reduced padding for mobile */
+  }
+
+  .page-content {
+    padding: 0 10px;
+  }
+
+  .container {
+    padding: 0 15px;
+  }
+
   .hero h1 {
     font-size: 2rem;
   }
