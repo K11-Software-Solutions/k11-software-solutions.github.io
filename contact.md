@@ -11,30 +11,156 @@ We'd love to hear about your project and discuss how we can help. Fill out the c
 ## Contact Form
 
 <div class="contact-form-container">
-  <iframe src="https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform?embedded=true" width="100%" height="900" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+  <form action="https://formspree.io/f/meeapewz" method="POST" class="contact-form">
+    <div class="form-group">
+      <label for="name">Name <span class="required">*</span></label>
+      <input type="text" id="name" name="name" required placeholder="Your Full Name">
+    </div>
+    
+    <div class="form-group">
+      <label for="email">Email <span class="required">*</span></label>
+      <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+    </div>
+    
+    <div class="form-group">
+      <label for="subject">Subject</label>
+      <input type="text" id="subject" name="subject" placeholder="What's this about?">
+    </div>
+    
+    <div class="form-group">
+      <label for="message">Message <span class="required">*</span></label>
+      <textarea id="message" name="message" rows="8" required placeholder="Tell us about your project or question..."></textarea>
+    </div>
+    
+    <input type="hidden" name="_subject" value="New Contact Form Submission - K11 Software Solutions">
+    <input type="hidden" name="_next" value="https://k11-software-solutions.github.io/contact/#thank-you">
+    <input type="text" name="_gotcha" style="display:none">
+    
+    <button type="submit" class="submit-btn">Send Message</button>
+  </form>
+  
+  <div id="thank-you" class="thank-you-message" style="display:none;">
+    <h3>Thank You!</h3>
+    <p>Your message has been sent successfully. We'll get back to you within 24 business hours.</p>
+  </div>
 </div>
 
 <style>
 .contact-form-container {
   margin: 2rem 0;
+  background: white;
   border-radius: 8px;
-  overflow: hidden;
+  padding: 30px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-.contact-form-container iframe {
+.contact-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
   display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+  font-size: 1rem;
+}
+
+.required {
+  color: #dc3545;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group textarea {
   width: 100%;
-  min-height: 900px;
+  padding: 12px 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 15px 30px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
   border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+.submit-btn:active {
+  transform: translateY(0);
+}
+
+.thank-you-message {
+  text-align: center;
+  padding: 40px 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #28a745;
+}
+
+.thank-you-message h3 {
+  color: #28a745;
+  margin-bottom: 15px;
+}
+
+.thank-you-message p {
+  color: #666;
+  font-size: 1.1rem;
 }
 
 @media (max-width: 768px) {
-  .contact-form-container iframe {
-    min-height: 1000px;
+  .contact-form-container {
+    padding: 20px;
+  }
+  
+  .form-group input[type="text"],
+  .form-group input[type="email"],
+  .form-group textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
   }
 }
 </style>
+
+<script>
+// Show thank you message if redirected back with #thank-you
+if (window.location.hash === '#thank-you') {
+  document.querySelector('.contact-form').style.display = 'none';
+  document.querySelector('.thank-you-message').style.display = 'block';
+}
+</script>
 
 ---
 
