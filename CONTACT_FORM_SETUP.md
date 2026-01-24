@@ -125,9 +125,9 @@ Add the following fields to your form:
 1. Open `contact.md` in your repository
 2. Find this line:
    ```html
-   <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSf8xYZ9QJ_example_form_id/viewform?embedded=true"
+   <iframe src="https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/viewform?embedded=true"
    ```
-3. Replace `1FAIpQLSf8xYZ9QJ_example_form_id` with your actual form ID from the embed code
+3. Replace `YOUR_FORM_ID_HERE` with your actual form ID from the embed code
 4. Save the file and commit the changes
 
 ## Testing the Form

@@ -185,7 +185,7 @@ Each blog post supports:
    ---
    layout: post
    title: "Your Post Title"
-   date: 2026-01-24 10:00:00 -0800
+   date: YYYY-MM-DD HH:MM:SS -0800
    author: Your Name
    categories: category1 category2
    ---
@@ -200,7 +200,7 @@ Each blog post supports:
 ---
 layout: post
 title: "Getting Started with React"
-date: 2026-01-24 10:00:00 -0800
+date: YYYY-MM-DD HH:MM:SS -0800
 author: K11 Team
 categories: tutorial web-development
 ---
@@ -309,7 +309,7 @@ We welcome contributions! To contribute:
 
 ## 📝 License
 
-Copyright © 2026 K11 Software Solutions. All rights reserved.
+Copyright © 2024-present K11 Software Solutions. All rights reserved.
 
 ## 📞 Contact
 
