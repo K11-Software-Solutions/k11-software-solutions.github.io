@@ -12,7 +12,7 @@ body {
   margin: 0 auto;
   padding: 30px 40px 30px 60px; /* Extra left padding for readability */
   background-color: #ffffff; /* White content area */
-  min-height: calc(100vh - 200px);
+  min-height: calc(100vh - 200px); /* Approximate header + footer height */
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
 }
 
