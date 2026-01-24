@@ -279,7 +279,7 @@ The site is automatically deployed via **GitHub Pages** when changes are pushed 
 ### Build Settings
 
 Configuration is in `_config.yml`:
-- **URL:** `https://k11-software-solutions.github.io/`
+- **URL:** `https://k11-software-solutions.github.io`
 - **Theme:** Minima
 - **Plugins:** jekyll-feed, jekyll-seo-tag
 
