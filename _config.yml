@@ -32,10 +32,11 @@ collections:
 
 # Navigation menu
 header_pages:
-  - about.md
+  - index.md
   - services.md
   - portfolio.md
   - blog.md
+  - about.md
   - contact.md
 
 # Exclude from processing

@@ -48,7 +48,7 @@ Here are some of the topics you can look forward to:
 We believe the best learning happens through dialogue and community. Here's how you can engage with us:
 
 - **Leave Comments:** Share your thoughts, questions, and experiences on our posts
-- **Follow Us:** Stay connected on [GitHub](https://github.com/k11-software-solutions), [LinkedIn](https://linkedin.com/company/k11-software-solutions), and [Twitter](https://twitter.com/k11software)
+- **Follow Us:** Stay connected on [GitHub](https://github.com/k11-software-solutions) and [LinkedIn](https://linkedin.com/company/k11-software-solutions)
 - **Suggest Topics:** Have a topic you'd like us to cover? [Reach out](/contact/) and let us know!
 - **Share Our Content:** If you find our posts helpful, share them with your network
 

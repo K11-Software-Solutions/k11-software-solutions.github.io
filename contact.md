@@ -23,7 +23,6 @@ Stay connected and follow our latest updates on social media:
 
 - **GitHub:** [github.com/k11-software-solutions](https://github.com/k11-software-solutions)
 - **LinkedIn:** [linkedin.com/company/k11-software-solutions](https://linkedin.com/company/k11-software-solutions)
-- **Twitter:** [@k11software](https://twitter.com/k11software)
 
 ---
 
