@@ -85,6 +85,8 @@ header_pages:
 
 The blog page (`blog.md`) automatically displays all blog posts dynamically using Jekyll's Liquid templating:
 
+**Blog Page URL:** [https://k11softwaresolutions.com/blog/](https://k11softwaresolutions.com/blog/)
+
 ```liquid
 {% for post in site.posts %}
   <!-- Post title, date, author, excerpt -->
@@ -102,7 +104,7 @@ Posts are rendered in reverse chronological order (newest first) with:
 
 The site includes an **automatically generated RSS feed** for blog subscribers:
 
-**Feed URL:** [https://k11softwaresolutions.com/feed.xml](https://k11softwaresolutions.com/feed.xml)
+**RSS Feed URL:** [https://k11softwaresolutions.com/feed.xml](https://k11softwaresolutions.com/feed.xml)
 
 This feed is powered by the `jekyll-feed` plugin and includes:
 - All published blog posts
@@ -111,18 +113,39 @@ This feed is powered by the `jekyll-feed` plugin and includes:
 - Author information
 - Post categories
 
+### JSON Feed
+
+The site also provides a **JSON Feed** for modern feed readers:
+
+**JSON Feed URL:** [https://k11softwaresolutions.com/blog/feed.json](https://k11softwaresolutions.com/blog/feed.json)
+
+This feed follows the JSON Feed specification and includes:
+- Latest 20 blog posts
+- Full HTML content
+- Publication dates
+- Author information
+- Tags and categories
+- Post summaries/excerpts
+
 #### Subscribe to Our Blog
 
-Readers can subscribe using any RSS reader by adding the feed URL:
+Readers can subscribe using either feed format:
+
+**RSS/XML Feed:**
 ```
 https://k11softwaresolutions.com/feed.xml
 ```
 
-Popular RSS readers:
-- Feedly
-- Inoreader
-- NewsBlur
-- RSS readers built into browsers
+**JSON Feed:**
+```
+https://k11softwaresolutions.com/blog/feed.json
+```
+
+Popular feed readers:
+- **Feedly** - Supports both RSS and JSON feeds
+- **Inoreader** - Supports both RSS and JSON feeds
+- **NewsBlur** - Supports both formats
+- **RSS readers built into browsers** - Usually RSS/XML only
 
 ### Blog Post Features
 
