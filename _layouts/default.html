@@ -4,7 +4,12 @@
   <body>
     <header class="site-header">
       <div class="container">
-        <h1 class="site-title"><a href="{{ site.baseurl }}/">{{ site.title }}</a></h1>
+        <h1 class="site-title">
+          <a href="{{ site.baseurl }}/">
+            <img src="{{ '/assets/images/k11-logo.svg' | relative_url }}" alt="K11 Logo" class="site-logo">
+            {{ site.title }}
+          </a>
+        </h1>
         {% include nav.html %}
       </div>
     </header>

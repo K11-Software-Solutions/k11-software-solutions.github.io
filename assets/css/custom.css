@@ -453,11 +453,29 @@
 
 /* Additional Minima theme overrides */
 .site-header {
+  background-color: #001f3f; /* Dark navy blue */
   border-top: 5px solid #667eea;
+  padding: 15px 0;
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .site-title, .site-title:visited {
-  color: #667eea !important;
+  color: #ffffff !important; /* White text on dark background */
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.site-logo {
+  width: 50px;
+  height: 50px;
+  vertical-align: middle;
 }
 
 .site-nav ul {
@@ -476,11 +494,11 @@
 }
 
 .site-nav .page-link {
-  color: #333;
+  color: #ffffff; /* White text for dark background */
   transition: color 0.3s ease;
 }
 
 .site-nav .page-link:hover {
-  color: #667eea;
+  color: #667eea; /* Purple hover color */
   text-decoration: none;
 }
