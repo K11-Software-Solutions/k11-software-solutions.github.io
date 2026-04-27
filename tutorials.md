@@ -23,4 +23,22 @@ Explore practical learning resources, interview prep tools, and hands-on technic
     </div>
     <a class="btn btn-primary tutorial-card-link" href="{{ '/tutorials/qa-lead-python/' | relative_url }}">Open Tutorial</a>
   </article>
+
+  <article class="tutorial-card">
+    <div class="tutorial-card-meta">Interview Preparation</div>
+    <h2>QA Lead / Architect Interview Prep - Java Track</h2>
+    <p>
+      A Java-focused training app covering core Java, collections, JUnit 5,
+      TestNG, Selenium WebDriver, REST Assured, Mockito, Spring Boot,
+      Testcontainers, CI/CD, framework architecture, and leadership stories.
+    </p>
+    <div class="tutorial-card-tags">
+      <span>Java</span>
+      <span>JUnit 5</span>
+      <span>Selenium</span>
+      <span>REST Assured</span>
+      <span>Spring Boot</span>
+    </div>
+    <a class="btn btn-primary tutorial-card-link" href="{{ '/tutorials/qa-lead-java/' | relative_url }}">Open Java Tutorial</a>
+  </article>
 </div>

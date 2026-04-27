@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QA Lead / Architect Interview Prep - Java Track</title>
+<style>
+  :root {
+    --bg: #0f1411;
+    --surface: #17211b;
+    --surface-2: #213027;
+    --surface-3: #101814;
+    --border: #304239;
+    --text: #edf5ef;
+    --muted: #9db0a5;
+    --accent: #38d39f;
+    --accent-2: #82e6c4;
+    --good: #59d98e;
+    --warn: #efc75e;
+    --bad: #ff6b6b;
+    --code-bg: #0b100d;
+    --radius: 8px;
+    --shadow: 0 4px 18px rgba(0, 0, 0, 0.32);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Arial, sans-serif;
+    line-height: 1.55;
+  }
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 18px 28px;
+    background: linear-gradient(135deg, #173f34 0%, #1e5f46 48%, #304f2d 100%);
+    border-bottom: 1px solid var(--border);
+  }
+
+  header h1 {
+    margin: 0;
+    font-size: 20px;
+    letter-spacing: 0;
+  }
+
+  header small {
+    display: block;
+    color: #d8fff0;
+    font-size: 13px;
+    font-weight: 400;
+    margin-top: 2px;
+  }
+
+  button, input { font: inherit; }
+
+  .progress-pill {
+    flex: 0 0 auto;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 7px 14px;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+    min-height: calc(100vh - 74px);
+  }
+
+  nav {
+    position: sticky;
+    top: 74px;
+    height: calc(100vh - 74px);
+    overflow-y: auto;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 16px 12px;
+  }
+
+  .search {
+    width: 100%;
+    margin-bottom: 14px;
+    padding: 9px 11px;
+    color: var(--text);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    outline: none;
+  }
+
+  .search:focus { border-color: var(--accent); }
+
+  .label {
+    margin: 4px 8px 10px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+  }
+
+  .topic-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 4px;
+    padding: 10px 12px;
+    color: var(--text);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .topic-btn:hover { background: var(--surface-2); }
+  .topic-btn.active { background: var(--surface-2); border-color: var(--accent); }
+
+  .topic-btn .num {
+    min-width: 28px;
+    padding: 2px 8px;
+    color: var(--accent-2);
+    background: rgba(56, 211, 159, 0.16);
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 800;
+    text-align: center;
+  }
+
+  .topic-btn.done .num {
+    color: var(--good);
+    background: rgba(89, 217, 142, 0.18);
+  }
+
+  main {
+    max-width: 1120px;
+    min-width: 0;
+    padding: 26px 32px 60px;
+    overflow-x: hidden;
+  }
+
+  .topic-title {
+    margin: 0 0 4px;
+    font-size: 26px;
+  }
+
+  .topic-sub {
+    margin-bottom: 18px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .summary-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 22px;
+    padding: 14px 18px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  .stats {
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .stats strong { color: var(--text); }
+
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 22px;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tab-btn {
+    padding: 10px 16px;
+    color: var(--muted);
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    font-weight: 800;
+  }
+
+  .notes p { margin: 0 0 12px; }
+  .notes h3 { margin: 22px 0 8px; color: var(--accent-2); font-size: 17px; }
+  .notes ul { margin: 0 0 14px; padding-left: 22px; }
+  .notes li { margin-bottom: 6px; }
+  code { color: #ffd479; }
+
+  .callout {
+    margin: 14px 0;
+    padding: 12px 14px;
+    background: rgba(56, 211, 159, 0.08);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+  }
+
+  .callout strong { color: var(--accent-2); }
+
+  .roadmap-intro,
+  .roadmap-level,
+  .flashcard,
+  .quiz-q,
+  .mock-q,
+  .code-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .roadmap-intro {
+    margin-bottom: 18px;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, rgba(23, 63, 52, 0.55), rgba(48, 79, 45, 0.35));
+  }
+
+  .roadmap-level {
+    margin-bottom: 16px;
+    padding: 18px 22px;
+  }
+
+  .level-label {
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 4px 12px;
+    color: #d8fff0;
+    background: linear-gradient(135deg, #173f34, #1e5f46);
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+  }
+
+  .when {
+    margin-bottom: 12px;
+    color: var(--muted);
+    font-size: 13.5px;
+    font-style: italic;
+  }
+
+  .roadmap-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 12px;
+  }
+
+  .roadmap-block {
+    padding: 12px 14px;
+    background: var(--surface-2);
+    border-radius: var(--radius);
+  }
+
+  .roadmap-block h4 {
+    margin: 0 0 8px;
+    color: var(--accent-2);
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .tag-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    padding: 3px 9px;
+    color: var(--accent-2);
+    background: rgba(56, 211, 159, 0.12);
+    border-radius: 999px;
+    font-size: 12px;
+  }
+
+  .resource-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+    padding: 7px 10px;
+    color: var(--text);
+    text-decoration: none;
+    border-radius: 6px;
+  }
+
+  .resource-link:hover {
+    color: var(--accent-2);
+    background: rgba(56, 211, 159, 0.10);
+  }
+
+  .pill {
+    flex: 0 0 auto;
+    padding: 2px 7px;
+    color: var(--muted);
+    background: var(--bg);
+    border-radius: 4px;
+    font-size: 10px;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+  }
+
+  .flash-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+
+  .counter { color: var(--muted); font-size: 13px; }
+
+  .flashcard {
+    margin-bottom: 16px;
+    padding: 24px 28px;
+    cursor: pointer;
+  }
+
+  .flashcard:hover { border-color: var(--accent); }
+
+  .flashcard .flag {
+    margin-bottom: 10px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+  }
+
+  .flashcard .q {
+    font-size: 16px;
+    font-weight: 800;
+  }
+
+  .flashcard .a {
+    display: none;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border);
+    font-size: 14.5px;
+  }
+
+  .flashcard.flipped .a { display: block; }
+  .flashcard.flipped .flag { color: var(--good); }
+
+  .quiz-q,
+  .mock-q {
+    margin-bottom: 16px;
+    padding: 18px 22px;
+  }
+
+  .qtext {
+    margin-bottom: 12px;
+    font-weight: 800;
+  }
+
+  .opt {
+    display: block;
+    margin-bottom: 7px;
+    padding: 10px 14px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+
+  .opt:hover { border-color: var(--accent); }
+  .opt.correct { background: rgba(89, 217, 142, 0.13); border-color: var(--good); }
+  .opt.wrong { background: rgba(255, 107, 107, 0.11); border-color: var(--bad); }
+
+  .explanation {
+    display: none;
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: rgba(239, 199, 94, 0.09);
+    border-left: 3px solid var(--warn);
+    border-radius: 6px;
+    font-size: 13.5px;
+  }
+
+  .quiz-q.answered .explanation { display: block; }
+
+  .label-q {
+    margin-bottom: 6px;
+    color: var(--accent-2);
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+  }
+
+  .question {
+    margin-bottom: 10px;
+    font-size: 15.5px;
+    font-weight: 800;
+  }
+
+  details { margin-top: 8px; }
+
+  summary {
+    color: var(--accent);
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  .answer-body {
+    margin-top: 10px;
+    padding: 12px 14px;
+    background: var(--surface-2);
+    border-radius: var(--radius);
+    font-size: 14px;
+  }
+
+  .answer-body p { margin: 0 0 8px; }
+
+  .tips {
+    margin-top: 8px;
+    padding-left: 10px;
+    color: var(--muted);
+    border-left: 2px solid var(--warn);
+    font-size: 13px;
+  }
+
+  .code-block {
+    margin-bottom: 18px;
+    overflow: hidden;
+  }
+
+  .ctitle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+    font-weight: 800;
+  }
+
+  .lang-tag {
+    padding: 2px 8px;
+    color: var(--accent-2);
+    background: rgba(56, 211, 159, 0.15);
+    border-radius: 4px;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  pre {
+    margin: 0;
+    padding: 16px 18px;
+    overflow-x: auto;
+    color: #dce8df;
+    background: var(--code-bg);
+    font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .desc {
+    padding: 12px 16px;
+    color: var(--muted);
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+  }
+
+  .btn {
+    padding: 8px 14px;
+    color: var(--text);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  .btn:hover { border-color: var(--accent); }
+
+  .btn-primary {
+    color: #07110d;
+    background: var(--accent);
+    border-color: var(--accent);
+    font-weight: 800;
+  }
+
+  .btn-primary:hover { background: var(--accent-2); }
+
+  .empty {
+    padding: 18px;
+    color: var(--muted);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+  }
+
+  @media (max-width: 860px) {
+    header { position: static; align-items: flex-start; flex-direction: column; }
+    .layout { grid-template-columns: 1fr; }
+    nav {
+      position: static;
+      height: auto;
+      max-height: 45vh;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+    }
+    main { padding: 18px; }
+    .roadmap-grid { grid-template-columns: 1fr; }
+    .summary-bar, .flash-controls { align-items: stretch; flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>QA Lead / Architect Interview Prep
+    <small>Java track: core Java, JUnit/TestNG, Selenium, REST Assured, Spring, CI/CD, and leadership</small>
+  </h1>
+  <div class="progress-pill" id="progressPill">Topic 1 of 10</div>
+</header>
+
+<div class="layout">
+  <nav>
+    <input id="searchBox" class="search" type="search" placeholder="Search Java topics">
+    <div class="label">Topics to revise</div>
+    <div id="topicNav"></div>
+  </nav>
+  <main id="main"></main>
+</div>
+
+<script>
+const TOPICS = [
+  {
+    id: "core-java",
+    title: "Core Java foundations",
+    subtitle: "Syntax, JVM basics, types, OOP, memory, and idioms every automation lead should know.",
+    notes: `
+      <p>Java remains one of the most common languages for enterprise test automation. A QA Lead or Architect should be comfortable with the language, the JVM, build tools, and the testing ecosystem around JUnit, TestNG, Selenium, REST Assured, and Spring.</p>
+      <h3>Must know cold</h3>
+      <ul>
+        <li>Primitive vs reference types, autoboxing, immutability, <code>String</code> pool behavior.</li>
+        <li>Classes, interfaces, inheritance, composition, access modifiers, static vs instance members.</li>
+        <li>Exception handling: checked vs unchecked, try-with-resources, custom exceptions.</li>
+        <li>Collections, generics, streams, lambdas, optionals, records, and annotations.</li>
+        <li>JVM memory: stack, heap, garbage collection, class loading, and why memory leaks still happen.</li>
+        <li>Build and dependency management with Maven or Gradle.</li>
+      </ul>
+      <h3>Lead-level review signals</h3>
+      <ul>
+        <li>Use clear domain objects instead of loose <code>Map&lt;String, Object&gt;</code> payloads everywhere.</li>
+        <li>Prefer composition over inheritance for page objects and reusable test components.</li>
+        <li>Use try-with-resources for files, streams, DB connections, and HTTP clients.</li>
+        <li>Avoid brittle waits, shared mutable state, hard-coded test data, and overengineered base classes.</li>
+      </ul>
+      <div class="callout"><strong>Interview signal:</strong> Connect Java choices to suite reliability: type safety, maintainability, fast feedback, and clean ownership boundaries.</div>
+    `,
+    roadmap: [
+      ["Beginner", "Goal: write readable Java and understand automation code.", ["Syntax", "Types", "Methods", "Classes", "Interfaces", "Packages", "Exceptions", "Collections"], [["Java Tutorials - Oracle", "https://docs.oracle.com/javase/tutorial/", "docs"], ["Java Guide - Baeldung", "https://www.baeldung.com/java-tutorial", "tutorial"]], [["Exercism Java", "https://exercism.org/tracks/java"], ["HackerRank Java", "https://www.hackerrank.com/domains/java"]]],
+      ["Intermediate", "Goal: write idiomatic framework code and review PRs well.", ["Generics", "Streams", "Lambdas", "Optional", "Records", "Annotations", "Maven", "Gradle", "JUnit 5"], [["JUnit 5 User Guide", "https://junit.org/junit5/docs/current/user-guide/", "docs"], ["Maven Getting Started", "https://maven.apache.org/guides/getting-started/", "docs"], ["Gradle User Manual", "https://docs.gradle.org/current/userguide/userguide.html", "docs"]], [["Build a JUnit 5 API test suite", "https://rest-assured.io/"], ["Practice Java streams", "https://codingbat.com/java"]]],
+      ["Advanced", "Goal: design scalable Java automation frameworks.", ["Concurrency", "CompletableFuture", "ThreadLocal", "JVM tuning", "Design patterns", "Spring Boot", "Testcontainers", "CI/CD"], [["Java Concurrency Tutorial", "https://docs.oracle.com/javase/tutorial/essential/concurrency/", "docs"], ["Spring Boot Docs", "https://docs.spring.io/spring-boot/docs/current/reference/html/", "docs"], ["Testcontainers Java", "https://java.testcontainers.org/", "docs"]], [["Build a Selenium Grid suite", "https://www.selenium.dev/documentation/grid/"], ["Build contract/API tests with REST Assured", "https://rest-assured.io/"]]]
+    ],
+    flashcards: [
+      ["Primitive vs reference type?", "Primitives store simple values directly. Reference variables point to objects on the heap. This matters for nullability, equality, autoboxing, and performance."],
+      ["== vs equals()?", "== compares primitive values or object references. equals() compares logical equality when implemented correctly. For Strings and domain objects, use equals()."],
+      ["Checked vs unchecked exceptions?", "Checked exceptions must be declared or caught. Unchecked exceptions extend RuntimeException and usually represent programming errors or invalid state."],
+      ["Why is String immutable?", "Immutability supports thread safety, caching, string pool reuse, secure class loading, and predictable hash codes."],
+      ["What is try-with-resources?", "A Java construct that automatically closes AutoCloseable resources such as files, streams, DB connections, and clients."],
+      ["Why prefer composition over inheritance?", "Composition keeps behavior modular and avoids brittle base-class hierarchies, especially in page objects and shared test components."]
+    ],
+    mcqs: [
+      ["Best way to compare two Java Strings for content?", ["a == b", "a.equals(b)", "a.compareTo(b) == 1", "Objects.hash(a) == Objects.hash(b)"], 1, "equals() compares logical content; == compares references."],
+      ["Best cleanup pattern for a FileInputStream?", ["Manual close only at end", "try-with-resources", "Rely on GC", "Never close in tests"], 1, "try-with-resources closes resources even when exceptions occur."],
+      ["Which type is immutable?", ["StringBuilder", "ArrayList", "String", "HashMap"], 2, "String is immutable; builders and collections are mutable."],
+      ["Best design for shared page widget?", ["Copy locators into every page", "Put everything in BasePage", "Create a component class and compose it into pages", "Use Thread.sleep"], 2, "Reusable UI widgets should be modeled as components."]
+    ],
+    mockQA: [
+      ["How would you teach Java to a manual tester moving into automation?", "I would start with core syntax, classes, methods, exceptions, and collections, then move into JUnit 5 and Selenium or REST Assured. Every week would include small code reviews focused on readability and test design. By the end, they should ship a small framework with page objects or API clients, meaningful assertions, and CI execution.", "Show a path, milestones, and mentoring style."],
+      ["What Java features help make automation frameworks maintainable?", "Generics make helper APIs type-safe, streams help with readable collection processing, records are useful for immutable test data, annotations support metadata like tags and retries, and try-with-resources prevents leaks. I use these features when they make test intent clearer, not to show off language knowledge.", "Tie features to maintainability."],
+      ["Tell me about a Java bug you would watch for in test frameworks.", "I watch for shared mutable state, especially static fields in utility classes or page objects. It may pass locally and fail under parallel TestNG or JUnit execution. The fix is to keep state per test, use proper factories, and isolate WebDriver through ThreadLocal or framework-managed fixtures.", "Parallel execution plus shared state is a strong lead-level theme."]
+    ],
+    code: [
+      ["try-with-resources", "java", `try (BufferedReader reader = Files.newBufferedReader(Path.of("users.csv"))) {
+    String line;
+    while ((line = reader.readLine()) != null) {
+        process(line);
+    }
+}`, "The resource is closed automatically even when processing throws an exception."],
+      ["Record for test data", "java", `public record UserRequest(String email, String role, boolean active) {
+    public static UserRequest admin(String email) {
+        return new UserRequest(email, "ADMIN", true);
+    }
+}`, "Records are concise immutable data carriers for stable request/response shapes."],
+      ["Safe string comparison", "java", `String status = response.getStatus();
+
+assertEquals("ACTIVE", status);
+assertTrue(List.of("ACTIVE", "PENDING").contains(status));`, "Use assertion APIs and content equality instead of reference comparison."]
+    ]
+  },
+  {
+    id: "collections",
+    title: "Collections, generics, and streams",
+    subtitle: "Lists, maps, sets, generics, streams, optionals, and data processing in tests.",
+    notes: `
+      <p>Collections are everywhere in Java automation: API payloads, DB rows, UI table values, CSV data, and assertion helpers. Leads should know both the APIs and the performance/readability trade-offs.</p>
+      <h3>Core choices</h3>
+      <ul>
+        <li><code>List</code> preserves order and allows duplicates.</li>
+        <li><code>Set</code> models uniqueness; <code>HashSet</code> is fast, <code>LinkedHashSet</code> keeps insertion order, <code>TreeSet</code> sorts.</li>
+        <li><code>Map</code> stores key-value pairs; <code>HashMap</code>, <code>LinkedHashMap</code>, and <code>ConcurrentHashMap</code> serve different needs.</li>
+        <li>Generics make helper methods type-safe and reduce casts.</li>
+        <li>Streams are great for transformation and filtering, but avoid making assertions unreadable.</li>
+      </ul>
+      <div class="callout"><strong>Review signal:</strong> A readable loop beats a clever stream pipeline when debugging test failure output matters.</div>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["List vs Set?", "List keeps order and duplicates. Set keeps unique values. Pick the interface that expresses the contract."],
+      ["HashMap vs LinkedHashMap?", "HashMap does not guarantee iteration order. LinkedHashMap preserves insertion order, which is useful for deterministic test output."],
+      ["Why use generics?", "Generics provide compile-time type safety and remove risky casts from helper code."],
+      ["When avoid Optional?", "Do not use Optional for fields in DTOs or serialization models unless the framework supports it cleanly. It is most useful as a return type."],
+      ["Stream gotcha?", "Streams are lazy. Intermediate operations do nothing until a terminal operation such as collect, count, or forEach runs."]
+    ],
+    mcqs: [
+      ["Need unique user roles with no duplicates. Which collection?", ["ArrayList", "HashSet", "StringBuilder", "Queue"], 1, "A Set expresses uniqueness."],
+      ["Need stable order for assertion diff output from a map. Which is best?", ["HashMap", "LinkedHashMap", "WeakHashMap", "IdentityHashMap"], 1, "LinkedHashMap preserves insertion order."],
+      ["What makes generics useful in test utilities?", ["They slow code down", "They enforce type safety at compile time", "They remove all exceptions", "They replace assertions"], 1, "Generics catch mismatched types before runtime."]
+    ],
+    mockQA: [
+      ["How do you assert a UI table in Java cleanly?", "I extract rows into typed objects or maps, then assert specific columns and business rules. For order-sensitive tables I use List assertions. For presence checks I use Sets. I avoid raw string concatenation because failure messages become unreadable.", "Show data modeling and assertion clarity."],
+      ["When would you use streams in tests?", "I use streams for filtering API lists, mapping UI rows to values, and checking aggregate conditions. If the pipeline gets complex, I extract named helper methods or use a loop so failures are easier to debug.", "Balanced answer: readable first."],
+      ["How do generics improve framework APIs?", "A generic API client method can return a typed response model, like get(path, User.class), so tests do not cast maps everywhere. That reduces runtime failures and makes refactors safer.", "Connect to API clients."]
+    ],
+    code: [
+      ["Filter API response with streams", "java", `List<User> admins = users.stream()
+    .filter(user -> "ADMIN".equals(user.role()))
+    .filter(User::active)
+    .toList();
+
+assertFalse(admins.isEmpty());`, "Streams work well for concise filtering and mapping."],
+      ["Generic API helper", "java", `public <T> T get(String path, Class<T> type) {
+    return given()
+        .baseUri(baseUri)
+        .when()
+        .get(path)
+        .then()
+        .statusCode(200)
+        .extract()
+        .as(type);
+}`, "Generic helpers keep tests strongly typed."]
+    ]
+  },
+  {
+    id: "junit-testng",
+    title: "JUnit 5, TestNG, and assertions",
+    subtitle: "Test structure, lifecycle, tags, parameterization, parallel execution, and reporting.",
+    notes: `
+      <p>Java test suites usually standardize on JUnit 5 or TestNG. Both work. The architectural questions are lifecycle, parameterization, parallelism, reporting, and how much framework behavior is hidden from test authors.</p>
+      <h3>JUnit 5 essentials</h3>
+      <ul>
+        <li><code>@Test</code>, <code>@BeforeEach</code>, <code>@AfterEach</code>, <code>@BeforeAll</code>, <code>@AfterAll</code>.</li>
+        <li><code>@ParameterizedTest</code> with value, CSV, method, and enum sources.</li>
+        <li><code>@Tag</code> for smoke, regression, flaky, and integration groups.</li>
+        <li>Extensions for lifecycle, dependency injection, screenshots, and reporting hooks.</li>
+      </ul>
+      <h3>TestNG essentials</h3>
+      <ul>
+        <li>Groups, dependencies, data providers, suite XML, and mature parallel execution controls.</li>
+        <li>Still common in Selenium-heavy enterprise stacks.</li>
+      </ul>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["JUnit 5 tag usage?", "Use @Tag(\"smoke\") or @Tag(\"regression\") and configure Maven/Gradle or CI to include/exclude tags."],
+      ["Parameterized test benefit?", "One test method covers many inputs while each case is reported separately."],
+      ["BeforeEach vs BeforeAll?", "BeforeEach runs before every test. BeforeAll runs once per class and must be static unless using per-class lifecycle."],
+      ["JUnit extension purpose?", "Extensions add reusable behavior such as browser setup, screenshots, logging, or dependency injection."],
+      ["TestNG DataProvider?", "A method that supplies test data rows to a test method, commonly used for data-driven suites."]
+    ],
+    mcqs: [
+      ["Best JUnit 5 feature for same test with many inputs?", ["@RepeatedTest", "@ParameterizedTest", "@Disabled", "@AfterAll"], 1, "Parameterized tests create separate cases from data rows."],
+      ["Run only smoke tests in JUnit 5?", ["@Tag and build config", "Rename files", "Comment out tests", "Use Thread.sleep"], 0, "Tags are the normal selection mechanism."],
+      ["What should own screenshots on failure?", ["Every test manually", "A reusable extension/listener", "No screenshots", "Production code"], 1, "Extensions/listeners centralize cross-cutting test behavior."]
+    ],
+    mockQA: [
+      ["JUnit 5 or TestNG for a new Java automation framework?", "For a new framework I usually choose JUnit 5 because it is modern, well-supported, and integrates well with Maven/Gradle and extensions. I would choose TestNG when the organization already has a large TestNG suite or relies on its suite XML, groups, and parallel execution model.", "Shows context-based selection."],
+      ["How would you design test tags?", "I keep tags business-useful: smoke, regression, integration, contract, ui, api, slow, flaky. CI owns the mapping from tags to pipelines. I avoid tags that mirror folders only, because that duplicates structure without adding selection value.", "Tags should support delivery decisions."],
+      ["How do you avoid framework magic in JUnit extensions?", "Extensions should handle lifecycle and observability, not hide test behavior. Browser setup, screenshots, and logs are good extension work. Business actions and assertions should remain visible in tests or page/action classes.", "Clear boundary between infrastructure and test intent."]
+    ],
+    code: [
+      ["JUnit 5 parameterized test", "java", `@ParameterizedTest
+@CsvSource({
+    "admin, 200",
+    "viewer, 403"
+})
+void userRoleControlsAccess(String role, int expectedStatus) {
+    ApiResponse response = api.asRole(role).get("/admin/reports");
+    assertEquals(expectedStatus, response.statusCode());
+}`, "Each CSV row is reported as a separate test invocation."],
+      ["JUnit 5 tags", "java", `@Test
+@Tag("smoke")
+void userCanSignIn() {
+    loginPage.signIn(validUser);
+    dashboardPage.expectLoaded();
+}`, "Tags let CI run focused suites without duplicating tests."]
+    ]
+  },
+  {
+    id: "selenium-java",
+    title: "Selenium WebDriver with Java",
+    subtitle: "Locators, waits, Page Object Model, Grid, parallel execution, and flake reduction.",
+    notes: `
+      <p>Selenium with Java is still a core enterprise automation stack. Lead-level answers should focus on stable locators, explicit waits, clean page objects, parallel isolation, and useful debugging artifacts.</p>
+      <h3>Best practices</h3>
+      <ul>
+        <li>Prefer stable attributes such as accessible labels, IDs, and <code>data-testid</code> over brittle XPath.</li>
+        <li>Use <code>WebDriverWait</code> and expected conditions. Avoid implicit waits mixed with explicit waits.</li>
+        <li>Use page objects for screen-specific behavior and component objects for reusable widgets.</li>
+        <li>Use Selenium Grid or cloud providers for cross-browser and parallel execution.</li>
+        <li>Keep WebDriver isolated per test/thread, commonly through JUnit extensions, TestNG listeners, or <code>ThreadLocal</code>.</li>
+      </ul>
+      <div class="callout"><strong>Flake rule:</strong> Replace fixed sleeps with a wait on the actual UI or state condition.</div>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["Explicit vs implicit wait?", "Explicit wait waits for a specific condition. Implicit wait changes findElement polling globally and can create confusing delays when mixed."],
+      ["Page Object purpose?", "Encapsulate locators and user-level actions so tests read as scenarios and UI changes are fixed in one place."],
+      ["ThreadLocal WebDriver?", "A way to give each parallel test thread its own driver instance and avoid cross-test browser state collisions."],
+      ["Selenium Grid purpose?", "Run tests across browsers, OS versions, and parallel nodes using remote WebDriver sessions."],
+      ["XPath risk?", "Long DOM-dependent XPath locators break easily when markup changes."]
+    ],
+    mcqs: [
+      ["Best wait for clickable button?", ["Thread.sleep(5000)", "WebDriverWait elementToBeClickable", "Implicit wait only", "Refresh page"], 1, "Wait for the actionability condition."],
+      ["Parallel Selenium tests share one static driver. Risk?", ["Faster and safe", "Tests interfere with each other", "No screenshots", "Better memory use"], 1, "Shared static driver causes cross-test state and race issues."],
+      ["Best place for login button locator?", ["Every test", "LoginPage object", "CI script", "README"], 1, "Page objects centralize UI details."]
+    ],
+    mockQA: [
+      ["How do you reduce Selenium flakiness?", "I start by removing sleeps, replacing brittle locators, isolating WebDriver per test/thread, and collecting screenshots/logs on failure. Then I rank failures over time and fix the top causes: timing, stale elements, state leakage, and environment issues.", "Root-cause framing."],
+      ["How design page objects in Java?", "Pages expose actions and assertions at the user level, such as loginAs or expectError. Shared widgets become components. Tests do not call raw locators directly. I avoid a giant BasePage with unrelated methods.", "Composition over inheritance."],
+      ["How run Selenium tests in parallel?", "Each worker gets its own driver session, test data, and browser profile. For local scale use Grid; for large cross-browser coverage use a cloud grid. The suite must not depend on test order or shared mutable state.", "Parallelism requires isolation."]
+    ],
+    code: [
+      ["Explicit wait helper", "java", `public WebElement clickWhenReady(By locator) {
+    WebElement element = wait.until(ExpectedConditions.elementToBeClickable(locator));
+    element.click();
+    return element;
+}`, "A small helper removes many sleep-based flake patterns."],
+      ["Page object", "java", `public class LoginPage {
+    private final WebDriver driver;
+    private final By email = By.id("email");
+    private final By password = By.id("password");
+    private final By submit = By.cssSelector("[data-testid='sign-in']");
+
+    public LoginPage(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    public void signIn(String user, String pass) {
+        driver.findElement(email).sendKeys(user);
+        driver.findElement(password).sendKeys(pass);
+        driver.findElement(submit).click();
+    }
+}`, "Tests should call signIn rather than repeat locators."]
+    ]
+  },
+  {
+    id: "api-restassured",
+    title: "API testing with REST Assured",
+    subtitle: "Typed clients, schema checks, contracts, auth, retries, and negative testing.",
+    notes: `
+      <p>REST Assured is the standard Java library for expressive API tests. Lead-level design is about reusable clients, typed models, schema validation, contract coverage, and clear assertions.</p>
+      <h3>What good looks like</h3>
+      <ul>
+        <li>A reusable API client owns base URI, auth, logging, timeouts, and common headers.</li>
+        <li>Tests assert status, schema, business fields, and invariants.</li>
+        <li>Request and response DTOs are typed Java classes or records.</li>
+        <li>Mock external services at component level; use real calls for integration and contract tests.</li>
+        <li>Use OpenAPI, JSON Schema, Pact, or Spring Cloud Contract where service compatibility matters.</li>
+      </ul>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["Why typed DTOs?", "They catch field changes earlier, improve IDE support, and remove fragile map/string access."],
+      ["What does REST Assured given/when/then express?", "Arrange request, execute action, assert response."],
+      ["Contract test purpose?", "Ensure providers continue satisfying consumer expectations before deployment."],
+      ["What not to assert?", "Do not assert the full response body unless that exact body is the contract."],
+      ["How handle auth?", "Centralize token creation and headers in a client or fixture, never hardcode secrets."]
+    ],
+    mcqs: [
+      ["Best API assertion strategy?", ["Exact full JSON every time", "Status, schema, targeted business fields", "Print response only", "Sleep then retry"], 1, "Targeted assertions catch real regressions without blocking additive API changes."],
+      ["Best layer to mock third-party payment API?", ["Unit/component tests", "Final production smoke only", "Never", "All end-to-end tests"], 0, "Mock external systems when testing your code paths and error handling."],
+      ["Consumer/provider compatibility pattern?", ["Visual test", "Contract testing", "Load testing", "Manual demo"], 1, "Contract tests catch incompatible API changes early."]
+    ],
+    mockQA: [
+      ["Design Java API tests for a new service.", "I would create a REST Assured client wrapper with auth, base URI, logging, and common error handling. Response models are typed DTOs or records. Tests are tagged as smoke, regression, negative, and contract. CI runs smoke on every PR and contracts before deploy; full regression runs on main/nightly.", "Covers architecture and CI."],
+      ["What do you assert in an API test?", "I assert status and schema first, then the specific behavior under test, then critical business invariants. I avoid asserting unrelated fields, because additive API changes should not break tests.", "Same strong three-layer frame."],
+      ["How debug intermittent API failures?", "Capture request ID, payload, response body, status, headers, timestamp, and environment. Correlate with deploys, load, data patterns, and dependency health before adding retries.", "Evidence first."]
+    ],
+    code: [
+      ["REST Assured typed response", "java", `UserResponse user = given()
+    .baseUri(baseUri)
+    .header("Authorization", "Bearer " + token)
+    .when()
+    .get("/users/{id}", userId)
+    .then()
+    .statusCode(200)
+    .extract()
+    .as(UserResponse.class);
+
+assertEquals("ACTIVE", user.status());`, "Typed extraction keeps assertions readable."],
+      ["Negative test", "java", `given()
+    .baseUri(baseUri)
+    .contentType(ContentType.JSON)
+    .body(new CreateUserRequest("", "ADMIN"))
+    .when()
+    .post("/users")
+    .then()
+    .statusCode(400)
+    .body("error.code", equalTo("INVALID_EMAIL"));`, "Negative tests should assert the expected error contract, not only the status code."]
+    ]
+  },
+  {
+    id: "mockito-spring",
+    title: "Mockito, Spring Boot, and Testcontainers",
+    subtitle: "Mocks, integration tests, Spring slices, database containers, and service-level testing.",
+    notes: `
+      <p>Java QA Architects often need to influence test strategy beyond black-box automation. Mockito, Spring Boot test slices, and Testcontainers help teams test closer to the code with faster, more reliable feedback.</p>
+      <h3>Layering guidance</h3>
+      <ul>
+        <li>Mockito is for unit/component tests where you control collaborators.</li>
+        <li>Spring Boot test slices keep context startup focused and faster.</li>
+        <li>Testcontainers gives realistic dependencies such as PostgreSQL, Kafka, Redis, or LocalStack.</li>
+        <li>E2E should stay thin because service/component tests catch most logic faster.</li>
+      </ul>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["Mock vs stub?", "A stub supplies canned behavior. A mock can also verify interactions. In practice Mockito can do both."],
+      ["When not to mock?", "Do not mock the thing you are trying to verify or contracts you need confidence in. Use real dependencies at integration level."],
+      ["Testcontainers value?", "Real dependency behavior in disposable containers, reducing environment drift and shared-state flake."],
+      ["Spring test slice?", "A focused test context, such as @WebMvcTest or @DataJpaTest, instead of loading the full application."],
+      ["Mockito verify risk?", "Over-verifying implementation details makes tests brittle during refactors."]
+    ],
+    mcqs: [
+      ["Need realistic PostgreSQL behavior in CI. Best tool?", ["In-memory list", "Testcontainers PostgreSQL", "Mock every query", "Manual DB"], 1, "Testcontainers runs a real disposable database."],
+      ["Controller test without full app startup?", ["@WebMvcTest", "@SpringBootTest always", "Selenium", "Thread.sleep"], 0, "@WebMvcTest loads MVC-related pieces."],
+      ["Mockito overuse risk?", ["Too much confidence", "Tests assert implementation details instead of behavior", "No compiler", "More browsers"], 1, "Excessive interaction verification makes tests brittle."]
+    ],
+    mockQA: [
+      ["Where would you use Mockito in a QA strategy?", "I would push developers to use Mockito for fast unit/component coverage around business logic and error handling. QA-owned black-box tests should not mock internals, but QA leads should understand mocks to review the overall test pyramid and avoid over-reliance on UI tests.", "Shows cross-team influence."],
+      ["Why use Testcontainers?", "It gives realistic dependencies without shared CI environments. For example, testing migrations and repository behavior against real PostgreSQL catches issues H2 misses. It also enables parallel, isolated test environments.", "Realism plus isolation."],
+      ["How balance SpringBootTest vs slices?", "Use slices for focused controller/repository tests because they are faster. Use full @SpringBootTest for wiring and end-to-end service checks where full context matters. If every test loads the whole app, feedback gets slow.", "Speed vs confidence trade-off."]
+    ],
+    code: [
+      ["Mockito behavior test", "java", `when(paymentGateway.charge(any()))
+    .thenReturn(new ChargeResult("ch_123", "APPROVED"));
+
+Order order = checkoutService.checkout(cart);
+
+assertEquals(OrderStatus.PAID, order.status());
+verify(paymentGateway).charge(any());`, "Mock collaborators when testing service behavior in isolation."],
+      ["Testcontainers PostgreSQL", "java", `@Container
+static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16");
+
+@DynamicPropertySource
+static void dbProperties(DynamicPropertyRegistry registry) {
+    registry.add("spring.datasource.url", postgres::getJdbcUrl);
+    registry.add("spring.datasource.username", postgres::getUsername);
+    registry.add("spring.datasource.password", postgres::getPassword);
+}`, "Disposable real dependencies make integration tests more trustworthy."]
+    ]
+  },
+  {
+    id: "concurrency",
+    title: "Java concurrency and parallel tests",
+    subtitle: "Threads, executors, CompletableFuture, ThreadLocal, synchronization, and flaky parallel suites.",
+    notes: `
+      <p>Parallel execution is essential for large Java automation suites, but it exposes shared-state bugs. A lead must understand enough concurrency to design safe test infrastructure.</p>
+      <h3>Concepts</h3>
+      <ul>
+        <li><code>ExecutorService</code> manages thread pools.</li>
+        <li><code>CompletableFuture</code> composes async work, useful for parallel API checks.</li>
+        <li><code>ThreadLocal</code> can isolate WebDriver or context per test thread, but must be cleaned up.</li>
+        <li><code>ConcurrentHashMap</code> supports safe concurrent access for shared read/write maps.</li>
+        <li>Atomic classes help counters and flags without explicit locks.</li>
+      </ul>
+      <div class="callout"><strong>Lead warning:</strong> Parallel failures are often test design bugs: shared users, static drivers, shared files, shared DB rows, or order dependence.</div>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["ExecutorService purpose?", "Manage a pool of threads and submit tasks without manually creating threads everywhere."],
+      ["ThreadLocal risk?", "If not removed, data can leak between tests using reused thread-pool threads."],
+      ["CompletableFuture value?", "Compose async tasks and collect results from parallel operations, especially API checks."],
+      ["Synchronized vs concurrent collection?", "synchronized controls critical sections; concurrent collections provide thread-safe data structures with better concurrency behavior."],
+      ["Static WebDriver risk?", "Parallel tests fight over one browser/session and create nondeterministic failures."]
+    ],
+    mcqs: [
+      ["Best isolation for WebDriver in parallel Java tests?", ["One static driver", "Driver per test/thread", "One driver for all classes", "No cleanup"], 1, "Each test or worker needs isolated browser state."],
+      ["ThreadLocal cleanup method?", ["remove()", "delete()", "finalize()", "sleep()"], 0, "ThreadLocal.remove() prevents state leak across reused threads."],
+      ["Parallel API smoke checks with Java?", ["CompletableFuture or ExecutorService", "One long loop only", "Selenium Grid", "Manual"], 0, "Async/concurrent Java APIs fit parallel HTTP checks."]
+    ],
+    mockQA: [
+      ["How do you make Java tests parallel-safe?", "I remove shared mutable state. Each worker gets its own browser, temp directory, data prefix, and sometimes schema. Static utilities are stateless. ThreadLocal is cleaned up. CI reports rerun and flake rates separately so parallel-only failures are visible.", "Concrete isolation tactics."],
+      ["How debug a test that fails only in parallel?", "Run it repeatedly with neighboring tests, randomize order, inspect shared data, static fields, files, ports, and environment variables. Parallel-only failures are usually hidden coupling, not random CI behavior.", "Systematic investigation."],
+      ["When would you use CompletableFuture in QA?", "For API health checks, contract checks across many endpoints, or bulk data setup where calls are independent. I would keep timeouts and failure aggregation clear so one hung future does not stall the run.", "Use case plus safety."]
+    ],
+    code: [
+      ["CompletableFuture API checks", "java", `List<CompletableFuture<ApiResult>> checks = urls.stream()
+    .map(url -> CompletableFuture.supplyAsync(() -> client.check(url), executor))
+    .toList();
+
+List<ApiResult> results = checks.stream()
+    .map(CompletableFuture::join)
+    .toList();`, "Useful for independent I/O-heavy checks."],
+      ["ThreadLocal WebDriver cleanup", "java", `private static final ThreadLocal<WebDriver> DRIVER = new ThreadLocal<>();
+
+public static WebDriver driver() {
+    return DRIVER.get();
+}
+
+public static void quitDriver() {
+    WebDriver driver = DRIVER.get();
+    if (driver != null) {
+        driver.quit();
+        DRIVER.remove();
+    }
+}`, "Always remove ThreadLocal state after the test."]
+    ]
+  },
+  {
+    id: "build-ci",
+    title: "Maven, Gradle, and CI/CD",
+    subtitle: "Build lifecycle, dependency hygiene, Surefire/Failsafe, tags, reports, and pipeline design.",
+    notes: `
+      <p>Java automation lives or dies by build reliability. A lead should know how Maven/Gradle execute tests, how to split unit and integration tests, and how reports flow into CI.</p>
+      <h3>Key topics</h3>
+      <ul>
+        <li>Maven lifecycle: test, verify, package, install.</li>
+        <li>Surefire for unit tests and Failsafe for integration tests.</li>
+        <li>Gradle test tasks, source sets, filtering, and build cache.</li>
+        <li>Dependency pinning, version updates, and avoiding transitive dependency surprises.</li>
+        <li>JUnit XML, Allure, and CI artifacts for triage.</li>
+      </ul>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["Surefire vs Failsafe?", "Surefire runs unit tests in the test phase. Failsafe runs integration tests in integration-test/verify and fails after cleanup hooks can run."],
+      ["Why pin dependency versions?", "Reproducible builds and controlled upgrades. Floating versions can break CI unexpectedly."],
+      ["What report does CI usually consume?", "JUnit XML test reports."],
+      ["Maven profile use?", "Switch configurations such as smoke/regression, environments, or browser sets without editing code."],
+      ["Gradle build cache value?", "Avoid repeated work across builds when inputs have not changed."]
+    ],
+    mcqs: [
+      ["Integration tests should fail after cleanup. Maven plugin?", ["Surefire", "Failsafe", "Javadoc", "Shade"], 1, "Failsafe is designed for integration-test and verify phases."],
+      ["CI needs test results. Publish what?", ["Screenshots only", "JUnit XML", "README", "pom.xml"], 1, "Most CI platforms understand JUnit XML."],
+      ["PR build too slow. Best first moves?", ["Skip all tests", "Tag smoke, parallelize, cache dependencies, move long suites later", "Only manual test", "Retry everything"], 1, "Tiering plus speed work keeps feedback useful."]
+    ],
+    mockQA: [
+      ["How structure Maven test execution?", "I separate fast unit/component tests from integration and UI suites. Surefire handles unit tests. Failsafe handles integration tests in verify. Tags or profiles select smoke/regression. CI publishes JUnit XML and artifacts, and long cross-browser suites run outside the PR gate.", "Shows build lifecycle understanding."],
+      ["How keep Java dependencies healthy?", "Pin versions, use Dependabot or Renovate, review security advisories, and upgrade intentionally in small PRs. Test frameworks are production infrastructure; surprise transitive upgrades can break delivery.", "Dependency hygiene is architecture work."],
+      ["What should a Java CI pipeline look like?", "PR: compile, static analysis, unit, API smoke, a small UI smoke. Main: broader regression. Nightly: full cross-browser/device/performance. Release: contract and staging smoke against the artifact.", "Tiered delivery strategy."]
+    ],
+    code: [
+      ["Maven test command", "bash", `mvn test -Dgroups=smoke
+mvn verify -DskipUnitTests=false`, "Commands vary by plugin setup, but CI should make suite selection explicit."],
+      ["JUnit XML artifact path", "text", `target/surefire-reports/*.xml
+target/failsafe-reports/*.xml`, "These report paths are commonly published by CI."]
+    ]
+  },
+  {
+    id: "framework-architecture",
+    title: "Java automation framework architecture",
+    subtitle: "Layers, clients, page objects, data factories, config, observability, and extension points.",
+    notes: `
+      <p>Architect-level Java interviews often ask how you would design a framework. The answer should be layered, pragmatic, and focused on maintainability rather than a giant custom platform.</p>
+      <h3>Layered model</h3>
+      <ul>
+        <li>Tests: readable scenarios and clear assertions.</li>
+        <li>Domain actions: checkout, account, admin, billing operations.</li>
+        <li>Drivers and clients: Selenium, REST Assured, DB clients, message clients.</li>
+        <li>Data: builders, factories, fixtures, API seed helpers, cleanup.</li>
+        <li>Config: typed environment settings, secrets, timeouts, browser matrix.</li>
+        <li>Observability: logs, screenshots, videos, request IDs, Allure/JUnit output.</li>
+      </ul>
+      <div class="callout"><strong>Architecture rule:</strong> Use JUnit/TestNG, Selenium, REST Assured, Maven/Gradle, and Allure. Build only the product-specific layer around them.</div>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["What should tests contain?", "Scenario intent, domain actions, and assertions. Not raw locators, SQL, or low-level HTTP details."],
+      ["Typed config?", "A central config object validates required environment values and removes magic strings from tests."],
+      ["Data factory purpose?", "Create realistic data with defaults while letting tests override scenario-specific fields."],
+      ["Custom framework risk?", "Reinventing runners, assertions, reporting, or waits creates maintenance burden and onboarding friction."],
+      ["Good failure artifact?", "Screenshot/trace, URL, browser, request/response, test data IDs, logs, and CI link."]
+    ],
+    mcqs: [
+      ["Where should raw Selenium locators live?", ["Tests", "Page/component objects", "pom.xml", "CI YAML"], 1, "Locators are UI implementation details."],
+      ["What belongs in shared core?", ["Every team's special case", "Config, reporting, clients, data helpers", "All test scenarios", "Manual notes only"], 1, "Core should contain cross-cutting reusable infrastructure."],
+      ["Best onboarding metric?", ["Lines of framework code", "Time to first green test", "Number of base classes", "Number of retries"], 1, "Framework UX matters."]
+    ],
+    mockQA: [
+      ["Design a Java test framework for web and APIs.", "I would use JUnit 5, Selenium, REST Assured, Maven/Gradle, and Allure. Tests call domain actions. Page objects and API clients hide mechanics. Data factories create users/orders through APIs. Config is typed and environment-driven. CI runs tagged suites and publishes artifacts. Extension points let teams add product-specific behavior without polluting core.", "Hit layers, tools, data, CI, observability."],
+      ["How keep framework from becoming too abstract?", "I review whether an abstraction reduces duplication or hides important intent. If a new engineer cannot understand a test in a minute, the framework is too clever. Prefer small helpers and named domain actions over generic catch-all utilities.", "Judgment over abstraction."],
+      ["How onboard teams to the framework?", "Provide a README with exact commands, sample tests for UI/API/data, templates, review checklist, and office hours. I track time to first green CI test and framework PR cycle time.", "Framework as internal product."]
+    ],
+    code: [
+      ["Domain action test", "java", `@Test
+@Tag("smoke")
+void userCanCompleteCheckout() {
+    User user = data.createUser();
+    Product product = data.createProduct();
+
+    checkoutActions.addToCart(user, product);
+    checkoutActions.payWithDefaultCard(user);
+
+    ordersApi.expectOrderCreatedFor(user, product);
+}`, "Tests read as business behavior instead of tool mechanics."],
+      ["Builder for test data", "java", `public class UserBuilder {
+    private String role = "MEMBER";
+    private boolean active = true;
+
+    public UserBuilder role(String role) {
+        this.role = role;
+        return this;
+    }
+
+    public UserRequest build() {
+        return new UserRequest(randomEmail(), role, active);
+    }
+}`, "Builders keep test setup expressive and flexible."]
+    ]
+  },
+  {
+    id: "leadership",
+    title: "Leadership and interview stories",
+    subtitle: "STAR examples, stakeholder communication, mentoring, quality strategy, and trade-offs.",
+    notes: `
+      <p>For a QA Lead or Architect role, Java is only part of the interview. You also need stories about influence, framework decisions, flaky suite recovery, incident learning, and growing engineers.</p>
+      <h3>Prepare stories for</h3>
+      <ul>
+        <li>Migrating or modernizing a Java automation framework.</li>
+        <li>Reducing Selenium flakiness or CI duration.</li>
+        <li>Moving coverage down the pyramid with JUnit, Mockito, Spring tests, and API tests.</li>
+        <li>Convincing developers to own test quality.</li>
+        <li>Recovering from an escaped defect with a blameless postmortem.</li>
+        <li>Mentoring manual QA into Java automation.</li>
+      </ul>
+      <div class="callout"><strong>Prep tip:</strong> Keep each story to 2-3 minutes: situation, task, action, result, lesson.</div>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["Quality vs QA?", "QA is a function. Quality is a shared engineering responsibility across product, design, dev, QA, ops, and support."],
+      ["Useful metrics?", "Escape rate, flake rate, PR build duration p95, main pass rate, MTTR, critical journey coverage, and onboarding time."],
+      ["How influence developers?", "Bring data, pair on examples, improve tools, and align expectations with engineering leadership."],
+      ["Automation vs exploratory?", "Automation protects known paths. Exploratory testing finds unknown risk. Strong teams use both."],
+      ["Good STAR result?", "Measurable impact: flake reduced, builds faster, escaped defects lower, adoption higher, or onboarding faster."]
+    ],
+    mcqs: [
+      ["A Java suite has 15% flake. Best lead move?", ["Add retries=3 globally", "Measure, categorize, fix top causes, quarantine with owners", "Delete everything", "Ignore"], 1, "Visibility and root-cause ownership restore trust."],
+      ["Developer says QA owns all tests. Best response?", ["Write tests for them forever", "Reframe quality as shared and pair on the first examples", "Escalate first", "Drop automation"], 1, "Influence with enablement and evidence."],
+      ["Best way to communicate framework value to leadership?", ["Number of classes", "Business impact and engineering time saved", "Lines of code", "Tool names only"], 1, "Leaders care about speed, risk, cost, and customer impact."]
+    ],
+    mockQA: [
+      ["Tell me about modernizing a Java automation framework.", "A strong story includes baseline pain, such as slow CI and flaky Selenium tests, then actions: JUnit 5 migration, page/component cleanup, REST Assured API layer, tags, parallel isolation, and better reporting. The result should include numbers like build time, flake rate, and adoption.", "Use concrete metrics."],
+      ["How grow a tester into Java automation?", "Create a learning path: core Java, JUnit, REST Assured or Selenium, code review, then ownership of a small suite. Pairing and review are essential. The goal is not syntax memorization; it is shipping maintainable tests.", "Mentoring signal."],
+      ["How handle disagreement about release risk?", "Bring data on defects, coverage, customer impact, and time cost. Offer a risk-based option, such as targeted smoke plus the highest-risk regression areas, instead of only saying no.", "Data plus alternative."]
+    ],
+    code: [
+      ["STAR scaffold", "text", `Situation: context and why it mattered.
+Task: what you owned.
+Action: decisions, trade-offs, and influence.
+Result: measurable outcome.
+Lesson: what changed in your approach.`, "Prepare and rehearse several stories before the interview."],
+      ["Quality OKR sample", "text", `Objective: Make Java automation trusted and fast.
+
+KR1: PR test p95 below 8 minutes.
+KR2: Selenium flake rate below 1%.
+KR3: API smoke covers top 10 critical service paths.
+KR4: New QA engineer ships first Java test in 1 week.`, "Useful talk track for leadership interviews."]
+    ]
+  }
+];
+
+const state = {
+  topic: 0,
+  tab: "notes",
+  flashIndex: 0,
+  visited: new Set([0]),
+  query: ""
+};
+
+const TABS = [
+  ["notes", "Notes"],
+  ["roadmap", "Roadmap"],
+  ["flashcards", "Flashcards"],
+  ["mcqs", "MCQs"],
+  ["mockQA", "Mock Q&A"],
+  ["code", "Code"]
+];
+
+function createEl(tag, attrs = {}, ...children) {
+  const node = document.createElement(tag);
+  for (const [key, value] of Object.entries(attrs || {})) {
+    if (key === "className") node.className = value;
+    else if (key === "onclick") node.addEventListener("click", value);
+    else if (key === "innerHTML") node.innerHTML = value;
+    else node.setAttribute(key, value);
+  }
+  for (const child of children) {
+    if (child == null) continue;
+    node.appendChild(typeof child === "string" ? document.createTextNode(child) : child);
+  }
+  return node;
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function currentTopic() {
+  return TOPICS[state.topic];
+}
+
+function topicMatches(topic) {
+  const query = state.query.trim().toLowerCase();
+  if (!query) return true;
+  return [topic.title, topic.subtitle, topic.id].join(" ").toLowerCase().includes(query);
+}
+
+function switchTopic(index) {
+  state.topic = index;
+  state.tab = "notes";
+  state.flashIndex = 0;
+  state.visited.add(index);
+  renderAll();
+}
+
+function renderNav() {
+  const nav = document.getElementById("topicNav");
+  nav.innerHTML = "";
+
+  TOPICS.forEach((topic, index) => {
+    if (!topicMatches(topic)) return;
+    nav.appendChild(createEl("button", {
+      className: "topic-btn" + (index === state.topic ? " active" : "") + (state.visited.has(index) ? " done" : ""),
+      onclick: () => switchTopic(index)
+    },
+      createEl("span", { className: "num" }, String(index + 1).padStart(2, "0")),
+      createEl("span", null, topic.title)
+    ));
+  });
+
+  if (!nav.children.length) {
+    nav.appendChild(createEl("div", { className: "empty" }, "No matching topics."));
+  }
+
+  document.getElementById("progressPill").textContent =
+    "Topic " + (state.topic + 1) + " of " + TOPICS.length + " | " + state.visited.size + " viewed";
+}
+
+function renderMain() {
+  const topic = currentTopic();
+  const main = document.getElementById("main");
+  main.innerHTML = "";
+
+  if (state.tab === "roadmap" && (!topic.roadmap || !topic.roadmap.length)) state.tab = "notes";
+
+  main.appendChild(createEl("h2", { className: "topic-title" }, topic.title));
+  main.appendChild(createEl("div", { className: "topic-sub" }, topic.subtitle));
+
+  const summary = createEl("div", { className: "summary-bar" });
+  const roadmapCount = topic.roadmap && topic.roadmap.length ? "<strong>" + topic.roadmap.length + "</strong> roadmap levels | " : "";
+  summary.appendChild(createEl("div", {
+    className: "stats",
+    innerHTML: roadmapCount +
+      "<strong>" + topic.flashcards.length + "</strong> flashcards | " +
+      "<strong>" + topic.mcqs.length + "</strong> MCQs | " +
+      "<strong>" + topic.mockQA.length + "</strong> mock Q&A | " +
+      "<strong>" + topic.code.length + "</strong> code snippets"
+  }));
+
+  summary.appendChild(createEl("div", null,
+    createEl("button", {
+      className: "btn",
+      onclick: () => {
+        if (state.topic > 0) switchTopic(state.topic - 1);
+      }
+    }, "< Previous"),
+    document.createTextNode(" "),
+    createEl("button", {
+      className: "btn btn-primary",
+      onclick: () => {
+        if (state.topic < TOPICS.length - 1) switchTopic(state.topic + 1);
+      }
+    }, "Next topic >")
+  ));
+  main.appendChild(summary);
+
+  const tabBar = createEl("div", { className: "tabs" });
+  TABS.forEach(([id, label]) => {
+    if (id === "roadmap" && (!topic.roadmap || !topic.roadmap.length)) return;
+    tabBar.appendChild(createEl("button", {
+      className: "tab-btn" + (state.tab === id ? " active" : ""),
+      onclick: () => {
+        state.tab = id;
+        state.flashIndex = 0;
+        renderMain();
+      }
+    }, label));
+  });
+  main.appendChild(tabBar);
+
+  const panels = {
+    notes: renderNotes,
+    roadmap: renderRoadmap,
+    flashcards: renderFlashcards,
+    mcqs: renderMcqs,
+    mockQA: renderMockQA,
+    code: renderCode
+  };
+  main.appendChild(panels[state.tab](topic));
+}
+
+function renderNotes(topic) {
+  return createEl("section", { className: "notes", innerHTML: topic.notes });
+}
+
+function renderRoadmap(topic) {
+  const wrap = createEl("section");
+  wrap.appendChild(createEl("div", {
+    className: "roadmap-intro",
+    innerHTML: "<strong>How to use this roadmap:</strong> study the levels in order, then build one runnable Java test project with CI before moving on."
+  }));
+
+  topic.roadmap.forEach(([level, when, topics, resources, practice]) => {
+    const card = createEl("article", { className: "roadmap-level" });
+    card.appendChild(createEl("span", { className: "level-label" }, level));
+    card.appendChild(createEl("div", { className: "when" }, when));
+
+    const topicBlock = createEl("div", { className: "roadmap-block" });
+    topicBlock.appendChild(createEl("h4", null, "What to learn"));
+    const tags = createEl("div", { className: "tag-wrap" });
+    topics.forEach(item => tags.appendChild(createEl("span", { className: "tag" }, item)));
+    topicBlock.appendChild(tags);
+    card.appendChild(topicBlock);
+
+    const grid = createEl("div", { className: "roadmap-grid" });
+    grid.appendChild(renderResourceBlock("Read and study", resources));
+    grid.appendChild(renderResourceBlock("Practice with code", practice.map(item => [item[0], item[1], "practice"])));
+    card.appendChild(grid);
+    wrap.appendChild(card);
+  });
+
+  return wrap;
+}
+
+function renderResourceBlock(title, items) {
+  const block = createEl("div", { className: "roadmap-block" });
+  block.appendChild(createEl("h4", null, title));
+  items.forEach(([label, url, type = "link"]) => {
+    block.appendChild(createEl("a", {
+      className: "resource-link",
+      href: url,
+      target: "_blank",
+      rel: "noopener noreferrer"
+    },
+      createEl("span", { className: "pill" }, type),
+      document.createTextNode(label)
+    ));
+  });
+  return block;
+}
+
+function renderFlashcards(topic) {
+  const wrap = createEl("section");
+  const index = state.flashIndex;
+  const card = topic.flashcards[index];
+
+  wrap.appendChild(createEl("div", { className: "flash-controls" },
+    createEl("div", { className: "counter" }, "Card " + (index + 1) + " of " + topic.flashcards.length),
+    createEl("div", null,
+      createEl("button", {
+        className: "btn",
+        onclick: () => {
+          state.flashIndex = (index - 1 + topic.flashcards.length) % topic.flashcards.length;
+          renderMain();
+        }
+      }, "< Prev"),
+      document.createTextNode(" "),
+      createEl("button", {
+        className: "btn btn-primary",
+        onclick: () => {
+          state.flashIndex = (index + 1) % topic.flashcards.length;
+          renderMain();
+        }
+      }, "Next >")
+    )
+  ));
+
+  const flash = createEl("article", {
+    className: "flashcard",
+    onclick: event => event.currentTarget.classList.toggle("flipped")
+  });
+  flash.appendChild(createEl("div", { className: "flag" }, "Click to reveal answer"));
+  flash.appendChild(createEl("div", { className: "q" }, card[0]));
+  flash.appendChild(createEl("div", { className: "a" }, card[1]));
+  wrap.appendChild(flash);
+  return wrap;
+}
+
+function renderMcqs(topic) {
+  const wrap = createEl("section");
+  topic.mcqs.forEach(([question, options, correct, explanation], qIndex) => {
+    const card = createEl("article", { className: "quiz-q" });
+    card.appendChild(createEl("div", { className: "qtext" }, (qIndex + 1) + ". " + question));
+    options.forEach((option, optIndex) => {
+      card.appendChild(createEl("div", {
+        className: "opt",
+        onclick: () => {
+          if (card.classList.contains("answered")) return;
+          card.classList.add("answered");
+          [...card.querySelectorAll(".opt")].forEach((node, index) => {
+            if (index === correct) node.classList.add("correct");
+            else if (index === optIndex) node.classList.add("wrong");
+          });
+        }
+      }, String.fromCharCode(65 + optIndex) + ". " + option));
+    });
+    card.appendChild(createEl("div", {
+      className: "explanation",
+      innerHTML: "<strong>Why:</strong> " + escapeHtml(explanation)
+    }));
+    wrap.appendChild(card);
+  });
+  return wrap;
+}
+
+function renderMockQA(topic) {
+  const wrap = createEl("section");
+  topic.mockQA.forEach(([question, answer, tip], index) => {
+    const card = createEl("article", { className: "mock-q" });
+    card.appendChild(createEl("div", { className: "label-q" }, "Mock question " + (index + 1)));
+    card.appendChild(createEl("div", { className: "question" }, question));
+    const details = createEl("details");
+    details.appendChild(createEl("summary", null, "Show model answer"));
+    const body = createEl("div", { className: "answer-body" });
+    body.appendChild(createEl("p", null, answer));
+    body.appendChild(createEl("div", { className: "tips", innerHTML: "<strong>Coaching tip:</strong> " + escapeHtml(tip) }));
+    details.appendChild(body);
+    card.appendChild(details);
+    wrap.appendChild(card);
+  });
+  return wrap;
+}
+
+function renderCode(topic) {
+  const wrap = createEl("section");
+  topic.code.forEach(([title, language, code, desc]) => {
+    const block = createEl("article", { className: "code-block" });
+    block.appendChild(createEl("div", { className: "ctitle" },
+      document.createTextNode(title),
+      createEl("span", { className: "lang-tag" }, language)
+    ));
+    block.appendChild(createEl("pre", null, createEl("code", null, code)));
+    block.appendChild(createEl("div", { className: "desc" }, desc));
+    wrap.appendChild(block);
+  });
+  return wrap;
+}
+
+function renderAll() {
+  renderNav();
+  renderMain();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+document.getElementById("searchBox").addEventListener("input", event => {
+  state.query = event.target.value;
+  renderNav();
+});
+
+document.addEventListener("keydown", event => {
+  if (["INPUT", "TEXTAREA"].includes(event.target.tagName)) return;
+  const topic = currentTopic();
+  if (event.key === "ArrowRight" && state.tab === "flashcards") {
+    state.flashIndex = (state.flashIndex + 1) % topic.flashcards.length;
+    renderMain();
+  } else if (event.key === "ArrowLeft" && state.tab === "flashcards") {
+    state.flashIndex = (state.flashIndex - 1 + topic.flashcards.length) % topic.flashcards.length;
+    renderMain();
+  } else if (event.key.toLowerCase() === "j" && state.topic < TOPICS.length - 1) {
+    switchTopic(state.topic + 1);
+  } else if (event.key.toLowerCase() === "k" && state.topic > 0) {
+    switchTopic(state.topic - 1);
+  }
+});
+
+renderAll();
+</script>
+</body>
+</html>
