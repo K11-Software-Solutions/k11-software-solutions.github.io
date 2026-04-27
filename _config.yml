@@ -35,6 +35,7 @@ header_pages:
   - index.md
   - services.md
   - portfolio.md
+  - tutorials.md
   - blog.md
   - about.md
   - contact.md
