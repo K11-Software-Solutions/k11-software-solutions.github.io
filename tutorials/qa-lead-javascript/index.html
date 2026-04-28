@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QA Lead / Architect Interview Prep - JavaScript Track</title>
+<style>
+  :root {
+    --bg: #111318;
+    --surface: #191d25;
+    --surface-2: #232936;
+    --border: #343d4d;
+    --text: #f1f5f9;
+    --muted: #a3adbd;
+    --accent: #f7c948;
+    --accent-2: #ffe08a;
+    --good: #5ee38b;
+    --warn: #f2b84b;
+    --bad: #ff6b6b;
+    --code-bg: #0d1117;
+    --radius: 8px;
+    --shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Arial, sans-serif;
+    line-height: 1.55;
+  }
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 18px 28px;
+    background: linear-gradient(135deg, #2d3342 0%, #5f4b17 54%, #8a650d 100%);
+    border-bottom: 1px solid var(--border);
+  }
+
+  header h1 {
+    margin: 0;
+    font-size: 20px;
+    letter-spacing: 0;
+  }
+
+  header small {
+    display: block;
+    color: #fff3c4;
+    font-size: 13px;
+    font-weight: 400;
+    margin-top: 2px;
+  }
+
+  button, input { font: inherit; }
+
+  .progress-pill {
+    flex: 0 0 auto;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 7px 14px;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+    min-height: calc(100vh - 74px);
+  }
+
+  nav {
+    position: sticky;
+    top: 74px;
+    height: calc(100vh - 74px);
+    overflow-y: auto;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 16px 12px;
+  }
+
+  .search {
+    width: 100%;
+    margin-bottom: 14px;
+    padding: 9px 11px;
+    color: var(--text);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    outline: none;
+  }
+
+  .search:focus { border-color: var(--accent); }
+
+  .label {
+    margin: 4px 8px 10px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+  }
+
+  .topic-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 4px;
+    padding: 10px 12px;
+    color: var(--text);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .topic-btn:hover { background: var(--surface-2); }
+  .topic-btn.active { background: var(--surface-2); border-color: var(--accent); }
+
+  .topic-btn .num {
+    min-width: 28px;
+    padding: 2px 8px;
+    color: var(--accent-2);
+    background: rgba(247, 201, 72, 0.16);
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 800;
+    text-align: center;
+  }
+
+  .topic-btn.done .num {
+    color: var(--good);
+    background: rgba(94, 227, 139, 0.18);
+  }
+
+  main {
+    max-width: 1120px;
+    min-width: 0;
+    padding: 26px 32px 60px;
+    overflow-x: hidden;
+  }
+
+  .topic-title {
+    margin: 0 0 4px;
+    font-size: 26px;
+  }
+
+  .topic-sub {
+    margin-bottom: 18px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .summary-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 22px;
+    padding: 14px 18px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  .stats {
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .stats strong { color: var(--text); }
+
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 22px;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tab-btn {
+    padding: 10px 16px;
+    color: var(--muted);
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    font-weight: 800;
+  }
+
+  .notes p { margin: 0 0 12px; }
+  .notes h3 { margin: 22px 0 8px; color: var(--accent-2); font-size: 17px; }
+  .notes ul { margin: 0 0 14px; padding-left: 22px; }
+  .notes li { margin-bottom: 6px; }
+  code { color: #ffe08a; }
+
+  .callout {
+    margin: 14px 0;
+    padding: 12px 14px;
+    background: rgba(247, 201, 72, 0.09);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+  }
+
+  .callout strong { color: var(--accent-2); }
+
+  .roadmap-intro,
+  .roadmap-level,
+  .flashcard,
+  .quiz-q,
+  .mock-q,
+  .code-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .roadmap-intro {
+    margin-bottom: 18px;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, rgba(45, 51, 66, 0.65), rgba(138, 101, 13, 0.24));
+  }
+
+  .roadmap-level {
+    margin-bottom: 16px;
+    padding: 18px 22px;
+  }
+
+  .level-label {
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 4px 12px;
+    color: #fff3c4;
+    background: linear-gradient(135deg, #5f4b17, #8a650d);
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+  }
+
+  .when {
+    margin-bottom: 12px;
+    color: var(--muted);
+    font-size: 13.5px;
+    font-style: italic;
+  }
+
+  .roadmap-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 12px;
+  }
+
+  .roadmap-block {
+    padding: 12px 14px;
+    background: var(--surface-2);
+    border-radius: var(--radius);
+  }
+
+  .roadmap-block h4 {
+    margin: 0 0 8px;
+    color: var(--accent-2);
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .tag-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    padding: 3px 9px;
+    color: var(--accent-2);
+    background: rgba(247, 201, 72, 0.12);
+    border-radius: 999px;
+    font-size: 12px;
+  }
+
+  .resource-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+    padding: 7px 10px;
+    color: var(--text);
+    text-decoration: none;
+    border-radius: 6px;
+  }
+
+  .resource-link:hover {
+    color: var(--accent-2);
+    background: rgba(247, 201, 72, 0.10);
+  }
+
+  .pill {
+    flex: 0 0 auto;
+    padding: 2px 7px;
+    color: var(--muted);
+    background: var(--bg);
+    border-radius: 4px;
+    font-size: 10px;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+  }
+
+  .flash-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+
+  .counter { color: var(--muted); font-size: 13px; }
+
+  .flashcard {
+    margin-bottom: 16px;
+    padding: 24px 28px;
+    cursor: pointer;
+  }
+
+  .flashcard:hover { border-color: var(--accent); }
+
+  .flashcard .flag {
+    margin-bottom: 10px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+  }
+
+  .flashcard .q {
+    font-size: 16px;
+    font-weight: 800;
+  }
+
+  .flashcard .a {
+    display: none;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border);
+    font-size: 14.5px;
+  }
+
+  .flashcard.flipped .a { display: block; }
+  .flashcard.flipped .flag { color: var(--good); }
+
+  .quiz-q,
+  .mock-q {
+    margin-bottom: 16px;
+    padding: 18px 22px;
+  }
+
+  .qtext {
+    margin-bottom: 12px;
+    font-weight: 800;
+  }
+
+  .opt {
+    display: block;
+    margin-bottom: 7px;
+    padding: 10px 14px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+
+  .opt:hover { border-color: var(--accent); }
+  .opt.correct { background: rgba(94, 227, 139, 0.13); border-color: var(--good); }
+  .opt.wrong { background: rgba(255, 107, 107, 0.11); border-color: var(--bad); }
+
+  .explanation {
+    display: none;
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: rgba(242, 184, 75, 0.09);
+    border-left: 3px solid var(--warn);
+    border-radius: 6px;
+    font-size: 13.5px;
+  }
+
+  .quiz-q.answered .explanation { display: block; }
+
+  .label-q {
+    margin-bottom: 6px;
+    color: var(--accent-2);
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+  }
+
+  .question {
+    margin-bottom: 10px;
+    font-size: 15.5px;
+    font-weight: 800;
+  }
+
+  details { margin-top: 8px; }
+
+  summary {
+    color: var(--accent);
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  .answer-body {
+    margin-top: 10px;
+    padding: 12px 14px;
+    background: var(--surface-2);
+    border-radius: var(--radius);
+    font-size: 14px;
+  }
+
+  .answer-body p { margin: 0 0 8px; }
+
+  .tips {
+    margin-top: 8px;
+    padding-left: 10px;
+    color: var(--muted);
+    border-left: 2px solid var(--warn);
+    font-size: 13px;
+  }
+
+  .code-block {
+    margin-bottom: 18px;
+    overflow: hidden;
+  }
+
+  .ctitle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+    font-weight: 800;
+  }
+
+  .lang-tag {
+    padding: 2px 8px;
+    color: var(--accent-2);
+    background: rgba(247, 201, 72, 0.15);
+    border-radius: 4px;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  pre {
+    margin: 0;
+    padding: 16px 18px;
+    overflow-x: auto;
+    color: #e6edf3;
+    background: var(--code-bg);
+    font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .desc {
+    padding: 12px 16px;
+    color: var(--muted);
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+  }
+
+  .btn {
+    padding: 8px 14px;
+    color: var(--text);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  .btn:hover { border-color: var(--accent); }
+
+  .btn-primary {
+    color: #15120a;
+    background: var(--accent);
+    border-color: var(--accent);
+    font-weight: 800;
+  }
+
+  .btn-primary:hover { background: var(--accent-2); }
+
+  .empty {
+    padding: 18px;
+    color: var(--muted);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+  }
+
+  @media (max-width: 860px) {
+    header { position: static; align-items: flex-start; flex-direction: column; }
+    .layout { grid-template-columns: 1fr; }
+    nav {
+      position: static;
+      height: auto;
+      max-height: 45vh;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+    }
+    main { padding: 18px; }
+    .roadmap-grid { grid-template-columns: 1fr; }
+    .summary-bar, .flash-controls { align-items: stretch; flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>QA Lead / Architect Interview Prep
+    <small>JavaScript track: language fundamentals, TypeScript, test runners, Playwright, Cypress, APIs, CI/CD, and leadership</small>
+  </h1>
+  <div class="progress-pill" id="progressPill">Topic 1 of 10</div>
+</header>
+
+<div class="layout">
+  <nav>
+    <input id="searchBox" class="search" type="search" placeholder="Search JavaScript topics">
+    <div class="label">Topics to revise</div>
+    <div id="topicNav"></div>
+  </nav>
+  <main id="main"></main>
+</div>
+
+<script>
+const TOPICS = [
+  {
+    id: "core-js",
+    title: "JavaScript fundamentals",
+    subtitle: "The language details that make or break automation code.",
+    notes: `
+      <p>JavaScript is a major automation language because modern web apps, Playwright, Cypress, WebdriverIO, Jest, Vitest, Pact, and many API tooling stacks live naturally in Node.js. A QA Lead should understand both browser JavaScript and Node-based test infrastructure.</p>
+      <h3>Must know cold</h3>
+      <ul>
+        <li><strong>Values and types:</strong> primitives, objects, arrays, null, undefined, truthy/falsy behavior.</li>
+        <li><strong>Equality:</strong> prefer <code>===</code> and understand coercion when reading older code.</li>
+        <li><strong>Scope:</strong> <code>let</code>, <code>const</code>, closures, lexical scope, and module boundaries.</li>
+        <li><strong>Objects:</strong> prototypes, classes, destructuring, spread/rest, optional chaining.</li>
+        <li><strong>Modules:</strong> ES modules vs CommonJS and how test runners load code.</li>
+        <li><strong>Error handling:</strong> try/catch, custom errors, rejected promises, and async stack traces.</li>
+      </ul>
+      <h3>Lead-level review signals</h3>
+      <ul>
+        <li>Do not hide async work without <code>await</code>; unawaited promises create false passes and flakes.</li>
+        <li>Prefer small typed helpers over broad utility files full of loosely shaped objects.</li>
+        <li>Use stable test data builders and clear assertions instead of console logging and eyeballing.</li>
+        <li>Keep test code deterministic: no arbitrary sleeps, random shared data, or hidden global state.</li>
+      </ul>
+      <div class="callout"><strong>Interview signal:</strong> Explain how JS language choices affect reliability in async UI and API test suites.</div>
+    `,
+    roadmap: [
+      ["Beginner", "Goal: read and write clean JS test utilities.", ["Types", "Objects", "Arrays", "Functions", "Modules", "Destructuring", "Promises", "Error handling"], [["MDN JavaScript Guide", "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide", "docs"], ["javascript.info", "https://javascript.info/", "tutorial"]], [["Exercism JavaScript", "https://exercism.org/tracks/javascript"], ["Codewars JavaScript", "https://www.codewars.com/?language=javascript"]]],
+      ["Intermediate", "Goal: build maintainable test helpers and suites.", ["async/await", "npm scripts", "ES modules", "Jest/Vitest", "Playwright", "API clients", "Linting", "TypeScript basics"], [["Node.js docs", "https://nodejs.org/en/docs", "docs"], ["Vitest Guide", "https://vitest.dev/guide/", "docs"], ["Playwright docs", "https://playwright.dev/docs/intro", "docs"]], [["Build a Playwright smoke suite", "https://playwright.dev/docs/writing-tests"], ["Build API tests with supertest", "https://github.com/ladjs/supertest"]]],
+      ["Advanced", "Goal: architect JS/TS automation at scale.", ["TypeScript strict mode", "fixtures", "parallelism", "mocking", "contract tests", "CI sharding", "monorepos", "observability"], [["TypeScript Handbook", "https://www.typescriptlang.org/docs/handbook/intro.html", "docs"], ["Cypress docs", "https://docs.cypress.io/", "docs"], ["Pact JS", "https://docs.pact.io/implementation_guides/javascript", "docs"]], [["Create a typed API client", "https://www.typescriptlang.org/docs/"], ["Build CI shards for Playwright", "https://playwright.dev/docs/test-sharding"]]]
+    ],
+    flashcards: [
+      ["== vs ===?", "== allows type coercion. === checks value and type without coercion. Test code should almost always use === to avoid surprising passes."],
+      ["null vs undefined?", "undefined usually means a value was not assigned or a property is missing. null is an intentional empty value. APIs should treat the distinction deliberately."],
+      ["What is a closure?", "A function retaining access to variables from its lexical scope after the outer function has returned."],
+      ["Why use const?", "const prevents rebinding and communicates intent. It does not make objects deeply immutable."],
+      ["What causes false passes in JS tests?", "Common causes include missing await, swallowed promise rejections, assertions inside callbacks that the test runner does not wait for, and over-broad mocks."],
+      ["ESM vs CommonJS?", "ES modules use import/export. CommonJS uses require/module.exports. Mixing them can affect test runner config and package compatibility."]
+    ],
+    mcqs: [
+      ["Best equality operator for most test assertions?", ["==", "===", "=", "typeof"], 1, "=== avoids implicit coercion and makes assertions more deterministic."],
+      ["const user = {}; user.name = 'A' does what?", ["Throws always", "Works because object contents can mutate", "Creates a new binding", "Freezes user"], 1, "const prevents rebinding the variable, not mutating the object."],
+      ["Most likely source of a JS async false pass?", ["Using ===", "Missing await before an async assertion/action", "Using const", "Using a named function"], 1, "If the runner does not wait for the promise, the test may finish before the check runs."],
+      ["Optional chaining helps with what?", ["Loop speed", "Safe nested property access", "Parallelism", "CSS selectors"], 1, "obj?.a?.b avoids throwing when an intermediate value is nullish."]
+    ],
+    mockQA: [
+      ["How would you teach JavaScript to a manual tester moving into automation?", "I would start with core JS, arrays, objects, functions, modules, and async/await. Then I would introduce Playwright or Cypress with one small UI suite and API tests using fetch or supertest. Every week would include code review focused on await usage, clear assertions, selectors, and deterministic data. The goal is a working suite in CI, not syntax memorization.", "Show milestones, code review, and a deliverable."],
+      ["What JS language issues create flaky automation?", "The biggest one is unawaited async work. Others are shared module-level state, tests relying on order, random data without cleanup, broad mocks that hide behavior, and timeouts used instead of condition waits. I review for these because they create tests that pass locally and fail in CI.", "Async reliability is the core JavaScript signal."],
+      ["How do you keep JS test utilities maintainable?", "I keep helpers small and domain-specific, use TypeScript for stable contracts, avoid global mutable state, and make failure messages useful. If a helper hides important behavior or needs a wiki page to understand it, it is too clever.", "Good framework UX answer."]
+    ],
+    code: [
+      ["Safe async test", "javascript", String.raw`test("user can sign in", async ({ page }) => {
+  await page.goto("/login");
+  await page.getByLabel("Email").fill("user@test.local");
+  await page.getByLabel("Password").fill("secret");
+  await page.getByRole("button", { name: "Sign in" }).click();
+  await expect(page.getByRole("heading", { name: "Dashboard" })).toBeVisible();
+});`, "Every async browser action and assertion is awaited."],
+      ["Data builder", "javascript", String.raw`export function user(overrides = {}) {
+  return {
+    email: "test-" + Date.now() + "@example.com",
+    role: "member",
+    active: true,
+    ...overrides
+  };
+}`, "Builders keep tests focused on the fields that matter."],
+      ["Custom error with context", "javascript", String.raw`class ApiError extends Error {
+  constructor(message, { status, body, requestId }) {
+    super(message);
+    this.status = status;
+    this.body = body;
+    this.requestId = requestId;
+  }
+}`, "Context-rich errors make CI failures easier to triage."]
+    ]
+  },
+  {
+    id: "async-node",
+    title: "Async, event loop, and Node.js",
+    subtitle: "Promises, async/await, timers, microtasks, Node runtime, and test reliability.",
+    notes: `
+      <p>Most JavaScript automation failures are really async coordination failures. A lead does not need to teach V8 internals, but should understand the event loop enough to recognize unsafe test patterns.</p>
+      <h3>Core concepts</h3>
+      <ul>
+        <li>Promises represent future values; rejected promises must be awaited or returned.</li>
+        <li><code>async</code> functions always return promises.</li>
+        <li>Microtasks, timers, and I/O callbacks can run after a test appears done if not awaited.</li>
+        <li>Node.js provides file system, process, path, environment, streams, and child process APIs for test tooling.</li>
+        <li>Use explicit timeouts and cancellation for long-running API checks.</li>
+      </ul>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["What does async function return?", "Always a Promise, even if it returns a plain value."],
+      ["Promise.all behavior?", "Runs promises concurrently and rejects as soon as one rejects."],
+      ["Promise.allSettled use?", "Collect results from all tasks even if some fail, useful for reporting multiple endpoint checks."],
+      ["Why avoid arbitrary setTimeout waits?", "They guess timing. Wait on the condition or event that proves readiness."],
+      ["Node env vars?", "Read with process.env, but validate required config before tests run."]
+    ],
+    mcqs: [
+      ["Need to check 100 independent endpoints and report every failure. Best primitive?", ["Promise.allSettled", "One by one only", "setTimeout", "JSON.stringify"], 0, "allSettled lets all checks complete and preserves each result."],
+      ["What happens if an async assertion is not awaited?", ["Runner always waits", "Test may pass before assertion runs", "Syntax error", "Browser closes slower"], 1, "Unawaited promises are a classic false-pass source."],
+      ["Best way to wait for UI state?", ["Fixed timeout", "Condition/assertion wait", "console.log", "Refresh loop"], 1, "Condition-based waits are deterministic and faster."]
+    ],
+    mockQA: [
+      ["Explain the event loop in a QA interview.", "I would keep it practical: JavaScript runs on a single call stack, and async work is scheduled to run later through promises, timers, or I/O. In tests, that means the runner must be told what to wait for. Missing await or returning nothing from an async callback can create false passes.", "Use test reliability language."],
+      ["How debug async flakes?", "I check missing awaits, race between action and assertion, network calls not intercepted, shared state, and test runner timeout settings. Then I add trace/logging around the actual readiness condition rather than raising global timeouts.", "Specific async checklist."],
+      ["When use Promise.all vs sequential flow?", "Use Promise.all for independent setup or independent API checks. Keep sequential flow when steps depend on prior state, such as login then checkout. Parallelism should not obscure causality.", "Trade-off answer."]
+    ],
+    code: [
+      ["Collect endpoint failures", "javascript", String.raw`const results = await Promise.allSettled(
+  urls.map(url => fetch(url).then(res => ({ url, status: res.status })))
+);
+
+const failures = results.filter(result =>
+  result.status === "rejected" || result.value.status >= 400
+);
+
+expect(failures).toEqual([]);`, "allSettled gives a complete failure list instead of stopping at the first error."],
+      ["Validated config", "javascript", String.raw`function requiredEnv(name) {
+  const value = process.env[name];
+  if (!value) throw new Error("Missing required env var: " + name);
+  return value;
+}
+
+export const config = {
+  apiBase: requiredEnv("QA_API_BASE"),
+  webBase: requiredEnv("QA_WEB_BASE")
+};`, "Fail fast when CI configuration is incomplete."]
+    ]
+  },
+  {
+    id: "typescript",
+    title: "TypeScript for QA frameworks",
+    subtitle: "Static typing, strict mode, DTOs, fixtures, API clients, and maintainable test code.",
+    notes: `
+      <p>TypeScript is usually the right default for serious JavaScript automation. It catches broken framework contracts before runtime and makes large suites easier to refactor.</p>
+      <h3>High-value TypeScript uses</h3>
+      <ul>
+        <li>Typed API request/response DTOs.</li>
+        <li>Typed page objects, fixtures, and helper function contracts.</li>
+        <li>Union types for roles, statuses, environments, and feature flags.</li>
+        <li>Strict null checks to catch missing data and optional fields.</li>
+        <li>Runtime validation with Zod when data comes from APIs or files.</li>
+      </ul>
+      <div class="callout"><strong>Lead signal:</strong> TypeScript is static safety, not runtime validation. Use both when the data is external.</div>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["Why TypeScript for test automation?", "It catches broken helper contracts, misspelled fields, and unsafe null access before tests run."],
+      ["Type vs interface?", "Both model shapes. Interfaces are extendable and common for object contracts; type aliases handle unions and more complex composition."],
+      ["Union type value?", "It restricts values to known options, such as 'admin' | 'member' | 'viewer'."],
+      ["What is strictNullChecks?", "A TypeScript mode that forces code to handle null and undefined explicitly."],
+      ["Why Zod with TypeScript?", "TypeScript disappears at runtime. Zod validates external JSON while also inferring static types."]
+    ],
+    mcqs: [
+      ["Best way to restrict role values?", ["string", "any", "'admin' | 'member' | 'viewer'", "object"], 2, "Union types model known finite sets."],
+      ["TypeScript validates API JSON at runtime by itself?", ["Yes", "No", "Only in Chrome", "Only with Jest"], 1, "Runtime validation needs a library or explicit checks."],
+      ["Most dangerous type in framework code?", ["unknown", "any", "boolean", "readonly"], 1, "any removes type safety and lets bugs through."]
+    ],
+    mockQA: [
+      ["How would you introduce TypeScript into a JS test suite?", "I would start with framework code and API clients, not every test file at once. Enable strict mode gradually, type the most reused helpers first, and use runtime validation for external API responses. The goal is safer refactoring without blocking delivery.", "Migration path matters."],
+      ["What do you type in a Playwright framework?", "Fixtures, page object constructor dependencies, domain actions, test data builders, API clients, and response models. Tests then get autocomplete and compile-time checks for the common paths.", "Concrete coverage."],
+      ["How do you avoid overcomplicating TypeScript?", "Avoid clever generic types unless they remove real duplication. Prefer readable interfaces and union types. Test engineers should understand the types without needing a type-system deep dive.", "Practical TypeScript stance."]
+    ],
+    code: [
+      ["Typed test data", "typescript", String.raw`type Role = "admin" | "member" | "viewer";
+
+interface User {
+  email: string;
+  role: Role;
+  active: boolean;
+}
+
+export function user(overrides: Partial<User> = {}): User {
+  return {
+    email: "test-" + crypto.randomUUID() + "@example.com",
+    role: "member",
+    active: true,
+    ...overrides
+  };
+}`, "Typed builders prevent invalid roles and missing required fields."],
+      ["Zod response validation", "typescript", String.raw`const UserResponse = z.object({
+  id: z.string(),
+  email: z.string().email(),
+  status: z.enum(["ACTIVE", "DISABLED"])
+});
+
+const body = await response.json();
+const user = UserResponse.parse(body);`, "Validate external JSON at runtime, then use safe inferred types."]
+    ]
+  },
+  {
+    id: "test-runners",
+    title: "Jest, Vitest, and assertion strategy",
+    subtitle: "Unit tests, mocks, timers, matchers, coverage, and reliable failure output.",
+    notes: `
+      <p>Jest and Vitest are common for unit and component-level JavaScript tests. A QA Lead should know how this layer supports the pyramid so fewer checks need slow UI automation.</p>
+      <h3>What to know</h3>
+      <ul>
+        <li>Arrange-Act-Assert structure keeps tests readable.</li>
+        <li>Mock external dependencies but avoid over-mocking the behavior under test.</li>
+        <li>Fake timers are useful for debounce, retry, timeout, and polling logic.</li>
+        <li>Coverage should guide risk conversations, not become a vanity gate.</li>
+        <li>Good assertions produce useful diffs and clear failure messages.</li>
+      </ul>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["Jest vs Vitest?", "Both are JS test runners. Vitest is Vite-native and very fast for modern ESM projects; Jest remains widely used and mature."],
+      ["When mock?", "Mock dependencies when testing your code's behavior, not when verifying an integration contract."],
+      ["Fake timer use?", "Testing debounce, retry, scheduled work, polling, and timeout behavior without waiting real time."],
+      ["Snapshot risk?", "Large snapshots become approval noise. Prefer focused snapshots or semantic assertions."],
+      ["Coverage caveat?", "High coverage does not guarantee meaningful assertions or risk coverage."]
+    ],
+    mcqs: [
+      ["Best assertion style for important behavior?", ["Only snapshot whole object", "Assert specific business fields and invariants", "console.log", "No assertions"], 1, "Focused assertions catch intended behavior with clear failures."],
+      ["Fake timers help test what?", ["CSS selectors", "Timeout/retry/debounce logic", "Git branches", "Screenshots"], 1, "Fake timers control time-dependent code."],
+      ["Over-mocking risk?", ["Tests become too realistic", "Tests pass while integration is broken", "More browser coverage", "No code runs"], 1, "Mocks can drift from real dependencies."]
+    ],
+    mockQA: [
+      ["How do Jest/Vitest fit into QA strategy?", "They support fast unit and component coverage owned mostly by developers. QA leads should encourage this layer because it catches logic bugs earlier and keeps UI automation focused on critical journeys.", "Connect to test pyramid."],
+      ["When are snapshots useful?", "They are useful for small, stable render output or contract-like structures. They are poor for huge UI trees where reviewers just approve noise.", "Balanced answer."],
+      ["How review test quality beyond coverage?", "I look for meaningful assertions, negative paths, edge cases, clear naming, isolation, and whether the test would fail for the bug we care about. Coverage alone is not enough.", "Senior review frame."]
+    ],
+    code: [
+      ["Vitest unit test", "javascript", String.raw`import { describe, expect, it } from "vitest";
+import { calculateDiscount } from "./pricing";
+
+describe("calculateDiscount", () => {
+  it("caps loyalty discount at 20 percent", () => {
+    expect(calculateDiscount({ years: 12 })).toBe(0.2);
+  });
+});`, "Fast unit tests protect business logic before UI tests run."],
+      ["Fake timers", "javascript", String.raw`vi.useFakeTimers();
+
+const callback = vi.fn();
+debounce(callback, 500)();
+
+vi.advanceTimersByTime(499);
+expect(callback).not.toHaveBeenCalled();
+
+vi.advanceTimersByTime(1);
+expect(callback).toHaveBeenCalledTimes(1);`, "Fake timers make time-dependent tests fast and deterministic."]
+    ]
+  },
+  {
+    id: "playwright-cypress",
+    title: "Playwright, Cypress, and UI automation",
+    subtitle: "Locators, auto-waiting, fixtures, network control, traces, videos, and parallel execution.",
+    notes: `
+      <p>Playwright and Cypress dominate modern JavaScript UI testing. Playwright is strong for cross-browser, parallel, and multi-tab flows. Cypress has a friendly developer workflow and strong component testing story. Choose by product needs, team skills, and CI constraints.</p>
+      <h3>Best practices</h3>
+      <ul>
+        <li>Use role, label, text, and test-id locators before CSS/XPath.</li>
+        <li>Rely on auto-waiting and web-first assertions. Avoid fixed sleeps.</li>
+        <li>Reset browser context and test data per test.</li>
+        <li>Mock third-party widgets where they are not under test.</li>
+        <li>Capture traces, screenshots, videos, console, and network artifacts on failure.</li>
+      </ul>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["Playwright locator priority?", "Role/name, label, text, test id, then CSS/XPath as a fallback."],
+      ["Cypress retry model?", "Cypress commands and assertions retry automatically until timeout, but plain JS outside the command chain does not."],
+      ["Why network interception?", "It stabilizes tests, simulates edge cases, and isolates the product from third-party flake when appropriate."],
+      ["Trace value?", "A trace shows actions, DOM snapshots, network, console, and timing so CI failures are debuggable."],
+      ["Fresh context per test?", "It isolates cookies, local storage, permissions, and cache."]
+    ],
+    mcqs: [
+      ["Most resilient locator?", ["button.btn.primary", "page.getByRole('button', { name: 'Save' })", "div:nth-child(4)", "Absolute XPath"], 1, "Role/name locators reflect user intent and accessibility."],
+      ["Best first step for flaky UI failures?", ["Add sleep everywhere", "Capture trace and categorize root cause", "Disable CI", "Triple retries"], 1, "Debug artifacts reveal the real cause."],
+      ["What should UI E2E cover?", ["Every validation branch", "Critical cross-system user journeys", "Only CSS", "Nothing"], 1, "Move most detailed coverage down to unit/API layers."]
+    ],
+    mockQA: [
+      ["Playwright or Cypress for a new project?", "I lean Playwright when cross-browser, parallel scale, tracing, and multiple browser contexts matter. I lean Cypress when the team values its interactive workflow and component testing. I would pilot against representative flows and compare flake, speed, debugging, and team adoption.", "Context-based tool choice."],
+      ["How reduce flakiness in JS UI tests?", "Use semantic locators, condition-based assertions, fresh context per test, deterministic data, network mocking for third parties, disabled animations in test mode, and traces on failure. Then track flake rate per test.", "Practical flake toolkit."],
+      ["How structure page objects in Playwright?", "I keep page objects or screen objects thin: locators and user-level actions. Shared widgets become components. Tests should not know CSS selectors or DOM structure.", "Composition and readability."]
+    ],
+    code: [
+      ["Playwright fixture", "typescript", String.raw`import { test as base } from "@playwright/test";
+
+export const test = base.extend({
+  signedInPage: async ({ page }, use) => {
+    await page.goto("/login");
+    await page.getByLabel("Email").fill("admin@test.local");
+    await page.getByLabel("Password").fill(process.env.TEST_PASSWORD!);
+    await page.getByRole("button", { name: "Sign in" }).click();
+    await use(page);
+  }
+});`, "Fixtures centralize setup while preserving test readability."],
+      ["Network mock", "typescript", String.raw`await page.route("**/analytics/**", route => route.fulfill({
+  status: 204,
+  body: ""
+}));`, "Mock third-party analytics when it is not part of the behavior under test."]
+    ]
+  },
+  {
+    id: "api-testing",
+    title: "API testing in JavaScript",
+    subtitle: "fetch, axios, supertest, schema validation, contract tests, and typed clients.",
+    notes: `
+      <p>API tests in JavaScript are fast, expressive, and easy to integrate with UI setup. A lead should push for typed clients, schema validation, and contracts instead of brittle full-payload assertions.</p>
+      <h3>Good API suite design</h3>
+      <ul>
+        <li>Central client handles base URL, auth, headers, timeouts, and logging.</li>
+        <li>Validate response shape with JSON Schema, Zod, Ajv, or OpenAPI tooling.</li>
+        <li>Assert specific behavior and business invariants.</li>
+        <li>Use Pact or OpenAPI checks for consumer/provider compatibility.</li>
+        <li>Mock external dependencies at unit/component level; use real calls for integration and contract checks.</li>
+      </ul>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["supertest use?", "Testing Node HTTP servers without manually starting real network plumbing in every test."],
+      ["Why schema validation?", "It catches contract drift while allowing additive fields when the schema permits them."],
+      ["Why avoid full JSON asserts?", "They break on unrelated additive changes and create noisy maintenance."],
+      ["Pact purpose?", "Consumer-driven contract testing between services."],
+      ["Timeout guidance?", "Use explicit reasonable timeouts and log request context on failure."]
+    ],
+    mcqs: [
+      ["Best response validation approach?", ["Exact full body always", "Schema plus targeted fields", "String contains only", "No validation"], 1, "Schema and targeted assertions balance safety and maintainability."],
+      ["Testing Express route in JS?", ["supertest", "Selenium", "CSS", "setInterval"], 0, "supertest is designed for HTTP server testing."],
+      ["Contract testing catches what?", ["Visual CSS diffs", "Consumer/provider API incompatibility", "Slow animations", "Memory only"], 1, "Contracts catch incompatible service changes early."]
+    ],
+    mockQA: [
+      ["How design a JS API test framework?", "I would create a central client around fetch/axios or Playwright request, validate external responses with Zod or JSON Schema, use typed request builders, and tag smoke/regression/contract suites. CI runs smoke on PR and broader API regression on main/nightly.", "Architecture and CI."],
+      ["What do you assert in API tests?", "Status and schema first, then behavior-specific fields, then business invariants. I avoid asserting unrelated payload fields so the API can evolve safely.", "Strong three-layer answer."],
+      ["How handle API auth in JS tests?", "Use a fixture or client that obtains tokens from test credentials/secrets, caches safely when appropriate, and never hardcodes secrets in the repo.", "Security and reuse."]
+    ],
+    code: [
+      ["supertest route test", "javascript", String.raw`import request from "supertest";
+import { app } from "../src/app";
+
+test("GET /health returns ok", async () => {
+  await request(app)
+    .get("/health")
+    .expect(200)
+    .expect(({ body }) => {
+      expect(body.status).toBe("ok");
+    });
+});`, "supertest keeps service tests fast and focused."],
+      ["Zod validation", "typescript", String.raw`const User = z.object({
+  id: z.string(),
+  email: z.string().email(),
+  status: z.enum(["ACTIVE", "DISABLED"])
+});
+
+const response = await api.get("/users/u-1");
+const user = User.parse(await response.json());
+expect(user.status).toBe("ACTIVE");`, "Validate shape, then assert behavior."]
+    ]
+  },
+  {
+    id: "framework-design",
+    title: "JavaScript automation framework design",
+    subtitle: "Layers, fixtures, page objects, API clients, data, config, reporting, and monorepos.",
+    notes: `
+      <p>A JavaScript/TypeScript automation framework should feel like a product for test authors. It should hide mechanics without hiding intent.</p>
+      <h3>Layered model</h3>
+      <ul>
+        <li>Tests: readable scenarios and meaningful assertions.</li>
+        <li>Domain actions: login, checkout, billing, account operations.</li>
+        <li>Drivers/clients: Playwright/Cypress, API clients, DB/message clients.</li>
+        <li>Data: builders, factories, seeded data, cleanup.</li>
+        <li>Config: typed environment settings, secrets, browser matrix, timeouts.</li>
+        <li>Observability: traces, screenshots, videos, logs, request IDs, JUnit/HTML/Allure reports.</li>
+      </ul>
+      <div class="callout"><strong>Architecture rule:</strong> Use the runner's fixture/reporting model before inventing your own framework layer.</div>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["What should tests hide?", "Tool mechanics like selectors, raw HTTP, DB setup, and cleanup details."],
+      ["What should tests show?", "Business intent, scenario data, and assertions."],
+      ["Fixture purpose?", "Reusable lifecycle-managed setup such as authenticated pages, API clients, and test data."],
+      ["Framework smell?", "Huge helper files, hidden globals, unclear failure messages, and onboarding that takes days."],
+      ["Monorepo consideration?", "Shared packages, versioned test utilities, workspace scripts, and avoiding cross-package coupling."]
+    ],
+    mcqs: [
+      ["Where should selectors live?", ["Every test", "Page/component objects or screen helpers", "package.json", "README only"], 1, "Selectors are implementation details."],
+      ["Best config style?", ["Magic strings in tests", "Typed validated config", "Ask user at runtime", "Console logs"], 1, "Validate config before tests execute."],
+      ["Good framework success metric?", ["Number of helper files", "Time to first green test", "Global timeout size", "Snapshot count"], 1, "Framework UX matters."]
+    ],
+    mockQA: [
+      ["Design a JS automation framework for web and APIs.", "I would use TypeScript, Playwright, a typed API client, data builders, validated config, and CI tags/projects. UI tests use screen/component objects and fixtures. API tests validate schemas and business invariants. Reports include JUnit plus traces, screenshots, console, and network logs. The framework stays thin and product-specific.", "Hit layers and tool choices."],
+      ["How avoid over-abstraction?", "Every abstraction should remove real duplication or clarify business intent. If a helper hides important behavior or makes failure harder to debug, I inline it or split it into smaller named actions.", "Judgment answer."],
+      ["How onboard engineers?", "Provide exact commands, example tests, templates, a review checklist, and a target of first green CI test within a day. Track onboarding friction as a framework health metric.", "Internal product mindset."]
+    ],
+    code: [
+      ["Domain-level test", "typescript", String.raw`test("member can complete checkout", async ({ page, api }) => {
+  const user = await api.users.create(userBuilder());
+  const product = await api.products.create(productBuilder());
+
+  await checkout.addProductToCart(page, user, product);
+  await checkout.payWithSavedCard(page, user);
+
+  await expectOrderCreated(api, user, product);
+});`, "Tests should express the business journey clearly."],
+      ["Typed config", "typescript", String.raw`const Config = z.object({
+  QA_WEB_BASE: z.string().url(),
+  QA_API_BASE: z.string().url(),
+  TEST_PASSWORD: z.string().min(1)
+});
+
+export const config = Config.parse(process.env);`, "Typed runtime config catches CI mistakes early."]
+    ]
+  },
+  {
+    id: "ci-cd",
+    title: "JavaScript CI/CD integration",
+    subtitle: "npm scripts, caching, browsers, sharding, artifacts, GitHub Actions, and pipeline strategy.",
+    notes: `
+      <p>JavaScript suites often depend on Node versions, browser downloads, package manager caches, and test artifacts. Strong CI design keeps PR feedback fast and failures actionable.</p>
+      <h3>Key practices</h3>
+      <ul>
+        <li>Pin Node and package manager versions.</li>
+        <li>Use <code>npm ci</code>, <code>pnpm install --frozen-lockfile</code>, or equivalent deterministic installs.</li>
+        <li>Cache package manager stores and Playwright browsers carefully.</li>
+        <li>Shard by historical runtime for large suites.</li>
+        <li>Upload traces, videos, screenshots, JUnit XML, and HTML reports on failure.</li>
+      </ul>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["npm ci vs npm install?", "npm ci installs exactly from package-lock and is preferred in CI for reproducibility."],
+      ["Why cache Playwright browsers?", "Browser downloads are large and slow; caching reduces CI cold-start time."],
+      ["What artifacts matter?", "Traces, screenshots, videos, console/network logs, JUnit XML, and HTML reports."],
+      ["Shard by what?", "Historical runtime, not just equal test count."],
+      ["Why pin Node?", "Different Node versions can change runtime behavior, package compatibility, and lockfile results."]
+    ],
+    mcqs: [
+      ["Best CI install command with package-lock?", ["npm install", "npm ci", "node app.js", "npx random"], 1, "npm ci is deterministic and lockfile-based."],
+      ["PR UI suite is slow. Best approach?", ["Skip all tests", "Smoke subset, parallel workers, sharding, caching", "Sleep less randomly", "Disable reports"], 1, "Tiering and parallelism keep feedback useful."],
+      ["Failure artifacts should upload when?", ["Only success", "Always or on failure", "Never", "Only locally"], 1, "Artifacts are needed most when tests fail."]
+    ],
+    mockQA: [
+      ["Design a JS CI pipeline.", "PR runs lint, type-check, unit tests, API smoke, and a small Playwright smoke suite under 8 minutes. Main runs broader regression. Nightly runs full cross-browser and longer flows. CI caches dependencies and browsers, shards large suites, and publishes JUnit plus traces/videos.", "Tiered pipeline with artifacts."],
+      ["How handle flaky JS CI tests?", "Track pass rate per test, capture traces, categorize root cause, and fix top offenders. Avoid blanket retries. Use targeted retries only for known external flakes, and report rerun-pass separately.", "Trust in suite."],
+      ["How keep dependency installs stable?", "Pin Node, use lockfiles with deterministic install commands, review dependency updates in small PRs, and keep browser/tool versions aligned with runner versions.", "Dependency hygiene."]
+    ],
+    code: [
+      ["GitHub Actions Playwright", "yaml", String.raw`jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps
+      - run: npx playwright test --reporter=junit,html
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report`, "Deterministic install plus artifacts makes failures inspectable."],
+      ["npm scripts", "json", String.raw`{
+  "scripts": {
+    "test": "vitest run",
+    "test:ui": "playwright test",
+    "test:smoke": "playwright test --grep @smoke",
+    "typecheck": "tsc --noEmit"
+  }
+}`, "Explicit scripts give CI and developers the same entry points."]
+    ]
+  },
+  {
+    id: "mocking-contracts",
+    title: "Mocking, service virtualization, and contracts",
+    subtitle: "MSW, nock, Playwright route, Pact, OpenAPI, and safe test doubles.",
+    notes: `
+      <p>Mocking is powerful in JavaScript because network interception is easy. The lead-level skill is knowing where mocks help and where they create false confidence.</p>
+      <h3>Guidance</h3>
+      <ul>
+        <li>Mock third parties and hard-to-trigger errors at unit/component level.</li>
+        <li>Use real services or contract tests for integration confidence.</li>
+        <li>Version mocks against OpenAPI or consumer contracts when possible.</li>
+        <li>Keep mock data realistic and intentionally minimal.</li>
+        <li>Require tests to fail loudly when an unexpected request occurs.</li>
+      </ul>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["MSW use?", "Mock Service Worker intercepts HTTP requests in browser or Node tests."],
+      ["nock use?", "Intercept HTTP calls in Node tests."],
+      ["Pact use?", "Consumer-driven contract testing for service compatibility."],
+      ["Mock risk?", "Mocks can drift from real provider behavior and create false confidence."],
+      ["Unexpected request policy?", "Fail the test so missing mocks or changed endpoints are visible."]
+    ],
+    mcqs: [
+      ["Best use of mocks?", ["Replace every integration forever", "Simulate external errors and isolate component behavior", "Hide bugs", "Avoid assertions"], 1, "Mocks are best for controlled component-level behavior."],
+      ["Contract test protects against what?", ["CSS changes", "Provider breaking consumer expectations", "Slow animations", "Browser cache"], 1, "Contracts check compatibility."],
+      ["Unexpected network call in mocked test should?", ["Be ignored", "Fail loudly", "Sleep", "Pass"], 1, "Unexpected calls mean the test setup or product behavior changed."]
+    ],
+    mockQA: [
+      ["When would you mock in JS tests?", "I mock when testing my code's behavior around dependency responses: errors, timeouts, empty states, and rare edge cases. I use real services or contracts when verifying integration compatibility.", "Boundary clarity."],
+      ["How keep mocks honest?", "Generate or validate them against OpenAPI, review contract changes, keep fixtures minimal, and run contract/integration suites in CI so mocks do not become the only source of truth.", "Mock governance."],
+      ["How test third-party failures?", "Use route interception, MSW, or nock to return 429, 500, malformed JSON, and timeouts. Assert user-facing fallback and telemetry, not just that no exception happened.", "Negative-path focus."]
+    ],
+    code: [
+      ["Playwright route mock", "typescript", String.raw`await page.route("**/payments", route => route.fulfill({
+  status: 503,
+  contentType: "application/json",
+  body: JSON.stringify({ error: "provider_unavailable" })
+}));
+
+await checkout.submitPayment();
+await expect(page.getByRole("alert")).toContainText("Payment is temporarily unavailable");`, "Route interception makes rare dependency failures testable."],
+      ["nock example", "javascript", String.raw`nock("https://billing.example.com")
+  .get("/invoices/inv-1")
+  .reply(200, { id: "inv-1", total: 100 });
+
+const invoice = await billingClient.getInvoice("inv-1");
+expect(invoice.total).toBe(100);`, "nock is useful for Node-level HTTP clients."]
+    ]
+  },
+  {
+    id: "leadership",
+    title: "Leadership and JavaScript interview stories",
+    subtitle: "STAR examples, tool decisions, mentoring, quality strategy, and stakeholder communication.",
+    notes: `
+      <p>For QA Lead and Architect roles, JavaScript knowledge should be paired with stories about tool selection, flake reduction, framework migration, CI speed, and coaching teams into shared quality ownership.</p>
+      <h3>Prepare stories for</h3>
+      <ul>
+        <li>Migrating from Selenium/WebdriverIO/Cypress to Playwright or standardizing a JS stack.</li>
+        <li>Introducing TypeScript into a brittle JavaScript suite.</li>
+        <li>Reducing UI flake with better locators, traces, and deterministic data.</li>
+        <li>Moving coverage down to Jest/Vitest/API tests.</li>
+        <li>Building CI sharding and artifact strategy for a large suite.</li>
+        <li>Mentoring manual testers or developers on async test reliability.</li>
+      </ul>
+      <div class="callout"><strong>Prep tip:</strong> Rehearse 2-3 minute STAR stories with numbers: flake rate, PR duration, escaped defects, adoption, and onboarding time.</div>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["QA vs quality?", "QA is a role or function. Quality is shared ownership across product, engineering, design, QA, and operations."],
+      ["Metrics for JS automation?", "Flake rate, PR duration p95, first-time pass rate, rerun-pass rate, escaped defects, critical journey coverage, and onboarding time."],
+      ["How influence dev-owned tests?", "Pair on examples, improve tooling, show cycle-time data, and align with engineering managers."],
+      ["Tool migration risk?", "Lost coverage, team confusion, duplicated maintenance, and false confidence during transition."],
+      ["Automation vs exploratory?", "Automation checks known behavior repeatedly. Exploratory testing discovers unknown risks."]
+    ],
+    mcqs: [
+      ["Team wants blanket retries for Playwright flakes. Best response?", ["Approve", "Measure and fix root causes; targeted retries only", "Delete tests", "Ignore"], 1, "Retries hide signal unless used carefully."],
+      ["Best way to justify TypeScript migration?", ["It is trendy", "Reduced framework defects and safer refactors", "More files", "Longer builds only"], 1, "Tie technical choices to quality and maintainability."],
+      ["What makes a strong STAR result?", ["No numbers", "Measurable impact and lesson learned", "Only tool names", "Blame"], 1, "Senior stories need outcomes and learning."]
+    ],
+    mockQA: [
+      ["Tell me about modernizing a JavaScript automation stack.", "A strong answer names the starting pain, such as slow Cypress/Selenium runs or high flake. Actions might include Playwright migration, TypeScript helpers, semantic locators, API setup, CI sharding, and trace artifacts. Results should include flake rate, build time, and adoption.", "Use numbers and trade-offs."],
+      ["How mentor people on async testing?", "I teach the mental model first: tests must wait for the thing they assert. Then we review missing awaits, action/assertion order, network waits, and runner behavior. Pairing on flaky tests is the fastest classroom.", "Practical coaching."],
+      ["How handle disagreement on JS tool choice?", "I run a short pilot against representative flows and compare speed, flake, debugging artifacts, cross-browser support, and team ergonomics. Tool choice should be evidence-based, not preference-based.", "Pilot with criteria."]
+    ],
+    code: [
+      ["STAR scaffold", "text", String.raw`Situation: What was happening and why it mattered.
+Task: What you personally owned.
+Action: Decisions, trade-offs, influence, and execution.
+Result: Measurable impact.
+Lesson: What changed afterward.`, "Prepare stories for migration, flake, CI, mentoring, and incidents."],
+      ["Quality OKR sample", "text", String.raw`Objective: Make JavaScript automation fast, trusted, and easy to extend.
+
+KR1: PR test p95 below 8 minutes.
+KR2: UI flake rate below 1 percent.
+KR3: TypeScript strict mode covers framework packages.
+KR4: New engineer ships first green test in one day.`, "Useful leadership talk track for interviews."]
+    ]
+  }
+];
+
+const state = {
+  topic: 0,
+  tab: "notes",
+  flashIndex: 0,
+  visited: new Set([0]),
+  query: ""
+};
+
+const TABS = [
+  ["notes", "Notes"],
+  ["roadmap", "Roadmap"],
+  ["flashcards", "Flashcards"],
+  ["mcqs", "MCQs"],
+  ["mockQA", "Mock Q&A"],
+  ["code", "Code"]
+];
+
+function createEl(tag, attrs = {}, ...children) {
+  const node = document.createElement(tag);
+  for (const [key, value] of Object.entries(attrs || {})) {
+    if (key === "className") node.className = value;
+    else if (key === "onclick") node.addEventListener("click", value);
+    else if (key === "innerHTML") node.innerHTML = value;
+    else node.setAttribute(key, value);
+  }
+  for (const child of children) {
+    if (child == null) continue;
+    node.appendChild(typeof child === "string" ? document.createTextNode(child) : child);
+  }
+  return node;
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function currentTopic() {
+  return TOPICS[state.topic];
+}
+
+function topicMatches(topic) {
+  const query = state.query.trim().toLowerCase();
+  if (!query) return true;
+  return [topic.title, topic.subtitle, topic.id].join(" ").toLowerCase().includes(query);
+}
+
+function switchTopic(index) {
+  state.topic = index;
+  state.tab = "notes";
+  state.flashIndex = 0;
+  state.visited.add(index);
+  renderAll();
+}
+
+function renderNav() {
+  const nav = document.getElementById("topicNav");
+  nav.innerHTML = "";
+
+  TOPICS.forEach((topic, index) => {
+    if (!topicMatches(topic)) return;
+    nav.appendChild(createEl("button", {
+      className: "topic-btn" + (index === state.topic ? " active" : "") + (state.visited.has(index) ? " done" : ""),
+      onclick: () => switchTopic(index)
+    },
+      createEl("span", { className: "num" }, String(index + 1).padStart(2, "0")),
+      createEl("span", null, topic.title)
+    ));
+  });
+
+  if (!nav.children.length) {
+    nav.appendChild(createEl("div", { className: "empty" }, "No matching topics."));
+  }
+
+  document.getElementById("progressPill").textContent =
+    "Topic " + (state.topic + 1) + " of " + TOPICS.length + " | " + state.visited.size + " viewed";
+}
+
+function renderMain() {
+  const topic = currentTopic();
+  const main = document.getElementById("main");
+  main.innerHTML = "";
+
+  if (state.tab === "roadmap" && (!topic.roadmap || !topic.roadmap.length)) state.tab = "notes";
+
+  main.appendChild(createEl("h2", { className: "topic-title" }, topic.title));
+  main.appendChild(createEl("div", { className: "topic-sub" }, topic.subtitle));
+
+  const summary = createEl("div", { className: "summary-bar" });
+  const roadmapCount = topic.roadmap && topic.roadmap.length ? "<strong>" + topic.roadmap.length + "</strong> roadmap levels | " : "";
+  summary.appendChild(createEl("div", {
+    className: "stats",
+    innerHTML: roadmapCount +
+      "<strong>" + topic.flashcards.length + "</strong> flashcards | " +
+      "<strong>" + topic.mcqs.length + "</strong> MCQs | " +
+      "<strong>" + topic.mockQA.length + "</strong> mock Q&A | " +
+      "<strong>" + topic.code.length + "</strong> code snippets"
+  }));
+
+  summary.appendChild(createEl("div", null,
+    createEl("button", {
+      className: "btn",
+      onclick: () => {
+        if (state.topic > 0) switchTopic(state.topic - 1);
+      }
+    }, "< Previous"),
+    document.createTextNode(" "),
+    createEl("button", {
+      className: "btn btn-primary",
+      onclick: () => {
+        if (state.topic < TOPICS.length - 1) switchTopic(state.topic + 1);
+      }
+    }, "Next topic >")
+  ));
+  main.appendChild(summary);
+
+  const tabBar = createEl("div", { className: "tabs" });
+  TABS.forEach(([id, label]) => {
+    if (id === "roadmap" && (!topic.roadmap || !topic.roadmap.length)) return;
+    tabBar.appendChild(createEl("button", {
+      className: "tab-btn" + (state.tab === id ? " active" : ""),
+      onclick: () => {
+        state.tab = id;
+        state.flashIndex = 0;
+        renderMain();
+      }
+    }, label));
+  });
+  main.appendChild(tabBar);
+
+  const panels = {
+    notes: renderNotes,
+    roadmap: renderRoadmap,
+    flashcards: renderFlashcards,
+    mcqs: renderMcqs,
+    mockQA: renderMockQA,
+    code: renderCode
+  };
+  main.appendChild(panels[state.tab](topic));
+}
+
+function renderNotes(topic) {
+  return createEl("section", { className: "notes", innerHTML: topic.notes });
+}
+
+function renderRoadmap(topic) {
+  const wrap = createEl("section");
+  wrap.appendChild(createEl("div", {
+    className: "roadmap-intro",
+    innerHTML: "<strong>How to use this roadmap:</strong> learn the core language, add TypeScript, then build one runnable UI/API suite in CI."
+  }));
+
+  topic.roadmap.forEach(([level, when, topics, resources, practice]) => {
+    const card = createEl("article", { className: "roadmap-level" });
+    card.appendChild(createEl("span", { className: "level-label" }, level));
+    card.appendChild(createEl("div", { className: "when" }, when));
+
+    const topicBlock = createEl("div", { className: "roadmap-block" });
+    topicBlock.appendChild(createEl("h4", null, "What to learn"));
+    const tags = createEl("div", { className: "tag-wrap" });
+    topics.forEach(item => tags.appendChild(createEl("span", { className: "tag" }, item)));
+    topicBlock.appendChild(tags);
+    card.appendChild(topicBlock);
+
+    const grid = createEl("div", { className: "roadmap-grid" });
+    grid.appendChild(renderResourceBlock("Read and study", resources));
+    grid.appendChild(renderResourceBlock("Practice with code", practice.map(item => [item[0], item[1], "practice"])));
+    card.appendChild(grid);
+    wrap.appendChild(card);
+  });
+
+  return wrap;
+}
+
+function renderResourceBlock(title, items) {
+  const block = createEl("div", { className: "roadmap-block" });
+  block.appendChild(createEl("h4", null, title));
+  items.forEach(([label, url, type = "link"]) => {
+    block.appendChild(createEl("a", {
+      className: "resource-link",
+      href: url,
+      target: "_blank",
+      rel: "noopener noreferrer"
+    },
+      createEl("span", { className: "pill" }, type),
+      document.createTextNode(label)
+    ));
+  });
+  return block;
+}
+
+function renderFlashcards(topic) {
+  const wrap = createEl("section");
+  const index = state.flashIndex;
+  const card = topic.flashcards[index];
+
+  wrap.appendChild(createEl("div", { className: "flash-controls" },
+    createEl("div", { className: "counter" }, "Card " + (index + 1) + " of " + topic.flashcards.length),
+    createEl("div", null,
+      createEl("button", {
+        className: "btn",
+        onclick: () => {
+          state.flashIndex = (index - 1 + topic.flashcards.length) % topic.flashcards.length;
+          renderMain();
+        }
+      }, "< Prev"),
+      document.createTextNode(" "),
+      createEl("button", {
+        className: "btn btn-primary",
+        onclick: () => {
+          state.flashIndex = (index + 1) % topic.flashcards.length;
+          renderMain();
+        }
+      }, "Next >")
+    )
+  ));
+
+  const flash = createEl("article", {
+    className: "flashcard",
+    onclick: event => event.currentTarget.classList.toggle("flipped")
+  });
+  flash.appendChild(createEl("div", { className: "flag" }, "Click to reveal answer"));
+  flash.appendChild(createEl("div", { className: "q" }, card[0]));
+  flash.appendChild(createEl("div", { className: "a" }, card[1]));
+  wrap.appendChild(flash);
+  return wrap;
+}
+
+function renderMcqs(topic) {
+  const wrap = createEl("section");
+  topic.mcqs.forEach(([question, options, correct, explanation], qIndex) => {
+    const card = createEl("article", { className: "quiz-q" });
+    card.appendChild(createEl("div", { className: "qtext" }, (qIndex + 1) + ". " + question));
+    options.forEach((option, optIndex) => {
+      card.appendChild(createEl("div", {
+        className: "opt",
+        onclick: () => {
+          if (card.classList.contains("answered")) return;
+          card.classList.add("answered");
+          [...card.querySelectorAll(".opt")].forEach((node, index) => {
+            if (index === correct) node.classList.add("correct");
+            else if (index === optIndex) node.classList.add("wrong");
+          });
+        }
+      }, String.fromCharCode(65 + optIndex) + ". " + option));
+    });
+    card.appendChild(createEl("div", {
+      className: "explanation",
+      innerHTML: "<strong>Why:</strong> " + escapeHtml(explanation)
+    }));
+    wrap.appendChild(card);
+  });
+  return wrap;
+}
+
+function renderMockQA(topic) {
+  const wrap = createEl("section");
+  topic.mockQA.forEach(([question, answer, tip], index) => {
+    const card = createEl("article", { className: "mock-q" });
+    card.appendChild(createEl("div", { className: "label-q" }, "Mock question " + (index + 1)));
+    card.appendChild(createEl("div", { className: "question" }, question));
+    const details = createEl("details");
+    details.appendChild(createEl("summary", null, "Show model answer"));
+    const body = createEl("div", { className: "answer-body" });
+    body.appendChild(createEl("p", null, answer));
+    body.appendChild(createEl("div", { className: "tips", innerHTML: "<strong>Coaching tip:</strong> " + escapeHtml(tip) }));
+    details.appendChild(body);
+    card.appendChild(details);
+    wrap.appendChild(card);
+  });
+  return wrap;
+}
+
+function renderCode(topic) {
+  const wrap = createEl("section");
+  topic.code.forEach(([title, language, code, desc]) => {
+    const block = createEl("article", { className: "code-block" });
+    block.appendChild(createEl("div", { className: "ctitle" },
+      document.createTextNode(title),
+      createEl("span", { className: "lang-tag" }, language)
+    ));
+    block.appendChild(createEl("pre", null, createEl("code", null, code)));
+    block.appendChild(createEl("div", { className: "desc" }, desc));
+    wrap.appendChild(block);
+  });
+  return wrap;
+}
+
+function renderAll() {
+  renderNav();
+  renderMain();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+document.getElementById("searchBox").addEventListener("input", event => {
+  state.query = event.target.value;
+  renderNav();
+});
+
+document.addEventListener("keydown", event => {
+  if (["INPUT", "TEXTAREA"].includes(event.target.tagName)) return;
+  const topic = currentTopic();
+  if (event.key === "ArrowRight" && state.tab === "flashcards") {
+    state.flashIndex = (state.flashIndex + 1) % topic.flashcards.length;
+    renderMain();
+  } else if (event.key === "ArrowLeft" && state.tab === "flashcards") {
+    state.flashIndex = (state.flashIndex - 1 + topic.flashcards.length) % topic.flashcards.length;
+    renderMain();
+  } else if (event.key.toLowerCase() === "j" && state.topic < TOPICS.length - 1) {
+    switchTopic(state.topic + 1);
+  } else if (event.key.toLowerCase() === "k" && state.topic > 0) {
+    switchTopic(state.topic - 1);
+  }
+});
+
+renderAll();
+</script>
+</body>
+</html>

@@ -41,4 +41,22 @@ Explore practical learning resources, interview prep tools, and hands-on technic
     </div>
     <a class="btn btn-primary tutorial-card-link" href="{{ '/tutorials/qa-lead-java/' | relative_url }}">Open Java Tutorial</a>
   </article>
+
+  <article class="tutorial-card">
+    <div class="tutorial-card-meta">Interview Preparation</div>
+    <h2>QA Lead / Architect Interview Prep - JavaScript Track</h2>
+    <p>
+      A JavaScript-focused training app covering core language fundamentals,
+      async and Node.js, TypeScript, Jest/Vitest, Playwright, Cypress, API
+      testing, mocking, CI/CD, framework architecture, and leadership stories.
+    </p>
+    <div class="tutorial-card-tags">
+      <span>JavaScript</span>
+      <span>TypeScript</span>
+      <span>Playwright</span>
+      <span>Cypress</span>
+      <span>Jest/Vitest</span>
+    </div>
+    <a class="btn btn-primary tutorial-card-link" href="{{ '/tutorials/qa-lead-javascript/' | relative_url }}">Open JavaScript Tutorial</a>
+  </article>
 </div>
