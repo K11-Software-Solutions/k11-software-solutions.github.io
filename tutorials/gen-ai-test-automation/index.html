@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gen AI for Test Automation - K11 Software Solutions</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0d1117;
+    --sidebar: #161b22;
+    --surface: #1c2333;
+    --border: #30363d;
+    --accent: #3b82f6;
+    --accent2: #60a5fa;
+    --gold: #f0a500;
+    --green: #22c55e;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --badge-bg: #21262d;
+    --card-bg: #161b22;
+    --tag-bg: #1f2937;
+    --code-bg: #0d1117;
+    --infobar: #1a2235;
+  }
+
+  html, body { height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 15px;
+    overflow: hidden;
+  }
+
+  header {
+    align-items: center;
+    background: #1a2b4a;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-shrink: 0;
+    justify-content: space-between;
+    padding: 10px 20px;
+  }
+  .header-left h1 { color: #fff; font-size: 18px; font-weight: 700; letter-spacing: 0; }
+  .header-left p { color: #a8c4e0; font-size: 12px; margin-top: 2px; }
+  .progress-badge {
+    background: #2a3f6f;
+    border: 1px solid #3b5998;
+    border-radius: 20px;
+    color: #a8c4e0;
+    font-size: 13px;
+    padding: 6px 14px;
+    white-space: nowrap;
+  }
+  .progress-badge span { color: #fff; font-weight: 600; }
+
+  .layout { display: flex; flex: 1; overflow: hidden; }
+  aside {
+    background: var(--sidebar);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    overflow: hidden;
+    width: 260px;
+  }
+  .search-wrap { border-bottom: 1px solid var(--border); padding: 12px; }
+  .search-wrap input {
+    background: var(--badge-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 13px;
+    outline: none;
+    padding: 7px 12px;
+    width: 100%;
+  }
+  .search-wrap input::placeholder { color: var(--muted); }
+  .search-wrap input:focus { border-color: var(--accent); }
+  .sidebar-label {
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    padding: 10px 14px 6px;
+    text-transform: uppercase;
+  }
+  .topic-list { flex: 1; overflow-y: auto; }
+  .topic-list::-webkit-scrollbar { width: 4px; }
+  .topic-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .topic-item {
+    align-items: center;
+    border-left: 3px solid transparent;
+    cursor: pointer;
+    display: flex;
+    gap: 10px;
+    padding: 9px 14px;
+    transition: background .15s;
+  }
+  .topic-item:hover { background: var(--surface); }
+  .topic-item.active { background: #1a2f52; border-left-color: var(--accent); }
+  .topic-item.viewed .topic-num { background: var(--green); color: #fff; }
+  .topic-num {
+    align-items: center;
+    background: var(--badge-bg);
+    border-radius: 6px;
+    color: var(--muted);
+    display: flex;
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 700;
+    height: 26px;
+    justify-content: center;
+    min-width: 26px;
+  }
+  .topic-item.active .topic-num { background: var(--accent); color: #fff; }
+  .topic-title-text { color: var(--text); font-size: 13px; line-height: 1.35; }
+  .topic-item.active .topic-title-text { color: #fff; font-weight: 600; }
+  .topic-item.hidden { display: none; }
+
+  main { display: flex; flex: 1; flex-direction: column; overflow-y: auto; }
+  main::-webkit-scrollbar { width: 6px; }
+  main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  .topic-header { padding: 28px 36px 0; }
+  .topic-header h2 { color: #fff; font-size: 28px; font-weight: 700; letter-spacing: 0; }
+  .topic-header .subtitle { color: var(--muted); font-size: 14px; margin-top: 6px; }
+  .info-bar {
+    align-items: center;
+    background: var(--infobar);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+    margin: 18px 36px 0;
+    padding: 12px 16px;
+  }
+  .info-counts { color: var(--muted); font-size: 13px; }
+  .info-counts b { color: var(--text); }
+  .nav-btns { display: flex; gap: 8px; }
+  .btn {
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 7px 16px;
+    transition: background .15s;
+  }
+  .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+  .btn-outline:hover { background: var(--surface); }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: #2563eb; }
+  .btn:disabled { cursor: not-allowed; opacity: .4; }
+
+  .tabs {
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 0;
+    margin: 20px 36px 0;
+  }
+  .tab {
+    border-bottom: 2px solid transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 18px;
+    transition: color .15s;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { border-bottom-color: var(--accent2); color: var(--accent2); }
+  .tab-content { flex: 1; padding: 28px 36px 40px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .notes-body p { color: #c9d1d9; line-height: 1.7; margin-bottom: 14px; }
+  .section-head { color: var(--gold); font-size: 15px; font-weight: 700; margin: 22px 0 10px; }
+  .notes-body ul, .roadmap-level ul, .qa-answer ul { margin-bottom: 14px; padding-left: 20px; }
+  .notes-body ul li, .roadmap-level ul li, .qa-answer ul li {
+    color: #c9d1d9;
+    line-height: 1.75;
+    margin-bottom: 4px;
+  }
+  .notes-body ul li::marker, .roadmap-level ul li::marker, .qa-answer ul li::marker { color: var(--accent2); }
+  code {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: #e3b341;
+    font-family: "Fira Code", "Courier New", monospace;
+    font-size: 13px;
+    padding: 1px 6px;
+  }
+  .callout {
+    background: #1a2f1a;
+    border-left: 3px solid var(--green);
+    border-radius: 6px;
+    color: #a3d9a5;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 16px 0;
+    padding: 12px 16px;
+  }
+  .callout.warning { background: #2a1f00; border-left-color: var(--gold); color: #fcd34d; }
+  .callout.info { background: #0f2035; border-left-color: var(--accent); color: #93c5fd; }
+
+  .roadmap-level { margin-bottom: 28px; }
+  .level-badge {
+    border-radius: 12px;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    margin-bottom: 10px;
+    padding: 3px 12px;
+  }
+  .level-badge.l1 { background: #1a3a1a; color: #4ade80; }
+  .level-badge.l2 { background: #1a2f52; color: #60a5fa; }
+  .level-badge.l3 { background: #3a1a2a; color: #f472b6; }
+  .roadmap-level h3 { color: var(--text); font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .roadmap-divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+  .flashcard-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+  .flashcard {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    min-height: 140px;
+    padding: 20px;
+    perspective: 1000px;
+    position: relative;
+    transition: border-color .2s;
+  }
+  .flashcard:hover { border-color: var(--accent); }
+  .flashcard-inner { height: 100%; position: relative; transform-style: preserve-3d; transition: transform .5s; width: 100%; }
+  .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+  .fc-front, .fc-back { backface-visibility: hidden; left: 0; position: absolute; top: 0; width: 100%; }
+  .fc-back { transform: rotateY(180deg); }
+  .fc-label {
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .fc-front .fc-label { color: var(--accent2); }
+  .fc-back .fc-label { color: var(--gold); }
+  .fc-text { color: var(--text); font-size: 14px; line-height: 1.6; }
+  .fc-hint { color: var(--muted); font-size: 11px; margin-top: 10px; text-align: right; }
+
+  .mcq-item, .qa-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 18px;
+  }
+  .mcq-item { padding: 20px; }
+  .mcq-q { color: var(--text); font-size: 15px; font-weight: 600; line-height: 1.5; margin-bottom: 14px; }
+  .mcq-options { display: flex; flex-direction: column; gap: 8px; list-style: none; }
+  .mcq-opt {
+    align-items: flex-start;
+    background: var(--badge-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: #c9d1d9;
+    cursor: pointer;
+    display: flex;
+    font-size: 14px;
+    gap: 10px;
+    padding: 10px 14px;
+    transition: background .15s, border-color .15s;
+  }
+  .mcq-opt:hover:not(.disabled) { background: var(--surface); border-color: var(--accent); }
+  .mcq-opt.correct { background: #1a3a1a; border-color: var(--green); color: #4ade80; }
+  .mcq-opt.wrong { background: #3a1010; border-color: #ef4444; color: #fca5a5; }
+  .mcq-opt.disabled { cursor: default; }
+  .mcq-letter { font-weight: 700; min-width: 20px; }
+  .mcq-explanation {
+    background: #0f2035;
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    color: #93c5fd;
+    display: none;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-top: 12px;
+    padding: 10px 14px;
+  }
+  .mcq-explanation.show { display: block; }
+
+  .qa-item { overflow: hidden; }
+  .qa-question {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    padding: 16px 20px;
+  }
+  .qa-question:hover { background: var(--surface); }
+  .qa-q-text { color: var(--text); font-size: 14px; font-weight: 600; line-height: 1.5; }
+  .qa-toggle { color: var(--muted); flex-shrink: 0; font-size: 18px; transition: transform .25s; }
+  .qa-item.open .qa-toggle { transform: rotate(180deg); }
+  .qa-answer { max-height: 0; overflow: hidden; padding: 0 20px; transition: max-height .3s ease, padding .3s; }
+  .qa-item.open .qa-answer { max-height: 1200px; padding: 0 20px 18px; }
+  .qa-answer p { color: #c9d1d9; font-size: 14px; line-height: 1.75; margin-bottom: 10px; }
+  .qa-tag {
+    background: var(--tag-bg);
+    border-radius: 10px;
+    color: var(--accent2);
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    padding: 2px 8px;
+  }
+
+  .code-block { margin-bottom: 28px; }
+  .code-block h3 { color: var(--text); font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+  .code-block p { color: var(--muted); font-size: 13px; line-height: 1.6; margin-bottom: 10px; }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: "Fira Code", "Courier New", monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    overflow-x: auto;
+    padding: 18px 20px;
+  }
+  .kw { color: #ff7b72; }
+  .fn { color: #d2a8ff; }
+  .str { color: #a5d6ff; }
+  .cm { color: #8b949e; font-style: italic; }
+  .num { color: #79c0ff; }
+  .cls { color: #ffa657; }
+
+  @media (max-width: 760px) {
+    body { overflow: auto; }
+    header { align-items: flex-start; flex-direction: column; }
+    .layout { display: block; overflow: visible; }
+    aside { border-right: 0; border-bottom: 1px solid var(--border); max-height: 260px; width: 100%; }
+    main { overflow: visible; }
+    .topic-header, .tab-content { padding-left: 18px; padding-right: 18px; }
+    .info-bar, .tabs { margin-left: 18px; margin-right: 18px; }
+    .tabs { overflow-x: auto; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>Gen AI for Test Automation</h1>
+    <p>AI tools, prompt engineering, LLM-based testing, self-healing, and building an AI-first QA strategy</p>
+  </div>
+  <div class="progress-badge">Topic <span id="currentNum">1</span> of <span id="totalNum">10</span> | <span id="viewedNum">0</span> viewed</div>
+</header>
+
+<div class="layout">
+  <aside>
+    <div class="search-wrap">
+      <input type="text" id="searchInput" placeholder="Search topics..." oninput="filterTopics(this.value)" />
+    </div>
+    <div class="sidebar-label">Topics to Revise</div>
+    <div class="topic-list" id="topicList"></div>
+  </aside>
+
+  <main id="mainContent">
+    <div class="topic-header">
+      <h2 id="topicTitle"></h2>
+      <p class="subtitle" id="topicSubtitle"></p>
+    </div>
+    <div class="info-bar">
+      <div class="info-counts" id="infoCounts"></div>
+      <div class="nav-btns">
+        <button class="btn btn-outline" id="prevBtn" onclick="navigate(-1)">&lt; Previous</button>
+        <button class="btn btn-primary" id="nextBtn" onclick="navigate(1)">Next topic &gt;</button>
+      </div>
+    </div>
+    <div class="tabs" id="tabBar"></div>
+    <div class="tab-content" id="tabContent"></div>
+  </main>
+</div>
+
+<script>
+const TOPICS = [
+  {
+    title: "Gen AI Fundamentals for QA",
+    subtitle: "What LLMs are, how they reason, and why they change test automation.",
+    notes: `
+      <p>Generative AI refers to models that produce content - text, code, data - by learning patterns from massive corpora. For QA, the shift is from <em>writing tests</em> to <em>describing intent</em> and letting the model draft, improve, and maintain tests on your behalf.</p>
+      <div class="section-head">Must know cold</div>
+      <ul>
+        <li>LLMs (Large Language Models) predict the next token based on context - they do not "understand" like humans, but they generalise patterns extremely well.</li>
+        <li>Key models relevant to QA: <code>GPT-4o</code>, <code>Claude 3.5/4</code>, <code>Gemini 1.5 Pro</code>, <code>Llama 3</code>.</li>
+        <li>Temperature controls creativity vs. determinism. For code generation use <code>temperature: 0-0.2</code>; for brainstorming edge cases use <code>0.7-1.0</code>.</li>
+        <li>Context window = how much text the model can "see" at once. GPT-4o: 128k tokens; Claude 3: 200k tokens. Important for pasting large test files.</li>
+        <li>Hallucination: models confidently produce incorrect output. Always review and run AI-generated tests.</li>
+        <li>RAG (Retrieval-Augmented Generation): augmenting prompts with your own docs/schemas to ground responses in your system.</li>
+      </ul>
+      <div class="section-head">Lead-level review signals</div>
+      <ul>
+        <li>Treat LLM output as a senior engineer's first draft - useful but requiring review, not production-ready copy-paste.</li>
+        <li>Establish team norms: what prompts are approved, what review gates exist before AI-generated tests merge.</li>
+        <li>Monitor token costs at scale - 1M tokens/day across a large CI pipeline adds up quickly.</li>
+        <li>Choose models based on task: cheap/fast models for syntax checks; premium models for complex test design reasoning.</li>
+      </ul>
+      <div class="callout info">Interview signal: Be able to explain the difference between a deterministic rule-based test generator and a probabilistic LLM. The first always produces the same output for the same input; the second may vary. This matters for reproducibility.</div>
+    `,
+    roadmap: roadmap(
+      ["Foundational Understanding", ["Know what an LLM is and what differentiates it from classical ML.", "Understand tokens, context windows, and temperature conceptually.", "Have used at least one AI code assistant to generate a test."]],
+      ["Applied Usage", ["Regularly use AI to draft test cases, fixtures, and mocks.", "Understand hallucination limits and validate AI output systematically.", "Know when to use frontier vs. open-source models based on cost/quality trade-offs.", "Can explain RAG and have experimented with feeding test schemas to an LLM."]],
+      ["Strategic Integration", ["Define an organisation-wide AI testing policy: approved tools, review processes, cost controls.", "Build internal tooling that wraps LLM APIs for consistent test generation.", "Evaluate model trade-offs for different testing tasks and document decisions.", "Keep up with model releases and reevaluate tooling choices quarterly."]]
+    ),
+    flashcards: [
+      { q: "What is temperature in an LLM, and what value should you use for code generation?", a: "Temperature controls randomness. 0 = deterministic, 1 = very creative. For code generation use 0-0.2 for consistent, correct output." },
+      { q: "What is a hallucination in an LLM context?", a: "When the model generates plausible-sounding but factually incorrect content - a major risk when trusting AI-generated test assertions." },
+      { q: "What is RAG and why is it useful for QA?", a: "Retrieval-Augmented Generation: grounding LLM prompts with your own data (API schemas, test plans) to produce more accurate, domain-specific output." },
+      { q: "Name three frontier LLMs relevant to test automation.", a: "GPT-4o, Claude, and Gemini. Each has different context sizes, pricing, and strengths." },
+      { q: "Why is context window size important for test automation use cases?", a: "Large test suites, OpenAPI specs, or database schemas may exceed smaller windows. Larger windows can ingest full specs in a single prompt." }
+    ],
+    mcqs: [
+      { q: "Which temperature setting is best for deterministic test code generation?", opts: ["1.0", "0.7", "0.1", "2.0"], ans: 2, explanation: "Low temperature minimises randomness, producing consistent, reliable code output." },
+      { q: "What is a key risk of using LLM-generated test assertions without review?", opts: ["Higher token costs", "Slower CI pipelines", "Hallucinations producing incorrect assertions", "Larger file sizes"], ans: 2, explanation: "LLMs can confidently produce wrong assertions. Always run and review generated tests before merging." },
+      { q: "RAG improves LLM output by:", opts: ["Increasing temperature", "Injecting your own data/docs into the prompt context", "Fine-tuning the model weights", "Reducing token count"], ans: 1, explanation: "RAG retrieves relevant context and appends it to the prompt so the model reasons about your specific system." }
+    ],
+    qa: [
+      { tag: "Conceptual", q: "How would you explain to a sceptical team lead why Gen AI is worth adopting in test automation?", a: `<p>I'd focus on the productivity multiplier rather than replacement. Gen AI handles the boilerplate - generating test scaffolding, data fixtures, and basic assertions - so engineers spend time on edge-case design, test architecture, and debugging.</p><ul><li>Test case drafting from a user story in seconds vs. 30 minutes manually.</li><li>Instant test data generation for complex schemas.</li><li>Self-healing locators reducing maintenance burden.</li></ul><p>The review overhead is real, but lower than writing from scratch. I'd propose a 2-week pilot with a small team and measure time-to-test-coverage.</p>` },
+      { tag: "Risk", q: "What governance guardrails would you put in place before allowing AI-generated tests to merge to main?", a: `<p>Three layers: human code review, CI execution, and a quality check that confirms the tests add meaningful coverage. I would also document AI-assisted tests in commit messages for traceability.</p>` }
+    ],
+    code: [
+      { title: "Basic OpenAI test generation call", desc: "Minimal Python script calling GPT-4o to generate a Playwright test from a user story.", snippet: `<span class="kw">import</span> openai
+
+client = openai.OpenAI()
+
+user_story = <span class="str">"""
+As a user I want to log in with valid credentials
+so that I can access my dashboard.
+"""</span>
+
+response = client.chat.completions.create(
+    model=<span class="str">"gpt-4o"</span>,
+    temperature=<span class="num">0.1</span>,
+    messages=[
+        {<span class="str">"role"</span>: <span class="str">"system"</span>, <span class="str">"content"</span>: <span class="str">"You are a senior QA engineer. Generate Playwright TypeScript tests."</span>},
+        {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">f"Generate a Playwright test for: {user_story}"</span>}
+    ]
+)
+
+<span class="kw">print</span>(response.choices[<span class="num">0</span>].message.content)` }
+    ]
+  },
+  {
+    title: "Prompt Engineering for Test Cases",
+    subtitle: "Writing prompts that produce high-quality, maintainable test code.",
+    notes: `
+      <p>Prompt engineering is the craft of composing inputs that reliably elicit the output you need. For QA, a good prompt is the difference between a test that passes on the first run and a hallucinated mess that costs an hour to debug.</p>
+      <div class="section-head">Must know cold</div>
+      <ul>
+        <li><strong>System prompt:</strong> sets the model's role and constraints. Always prime it as a "senior QA engineer" with your framework.</li>
+        <li><strong>Few-shot examples:</strong> include 1-2 examples of the test style you want. Models mirror format aggressively.</li>
+        <li><strong>Explicit constraints:</strong> "Do not use <code>page.waitForTimeout</code>", "use Page Object Model", "add assertions for every UI state change".</li>
+        <li><strong>Chain-of-thought:</strong> ask the model to think step-by-step before producing code. Reduces logical errors in complex tests.</li>
+        <li><strong>Output format:</strong> specify the exact output - "return only the TypeScript code block, no explanation".</li>
+        <li><strong>Context injection:</strong> paste the relevant component code, API schema, or locators into the prompt to anchor the model.</li>
+      </ul>
+      <div class="section-head">Lead-level review signals</div>
+      <ul>
+        <li>Build a prompt library - version-controlled, reusable prompt templates for common tasks.</li>
+        <li>Measure prompt quality: track hallucination rate, test pass rate, and review time per AI-generated test.</li>
+        <li>Resist over-prompting. A 2000-token prompt with all constraints upfront often outperforms iterative back-and-forth for code tasks.</li>
+      </ul>
+      <div class="callout">Best practice: Always include the phrase "If you are unsure, say so rather than guessing" in prompts that generate assertions - this reduces confident hallucinations.</div>
+    `,
+    roadmap: roadmap(
+      ["Basic Prompting", ["Can write a simple prompt to generate a test case from a requirement.", "Understands the role of system vs. user messages.", "Knows what a few-shot example is."]],
+      ["Structured Prompting", ["Uses chain-of-thought to improve complex test logic generation.", "Maintains a reusable prompt template library for common test types.", "Injects API schemas and component code into prompts for grounded output."]],
+      ["Prompt Systems Design", ["Builds automated prompt evaluation pipelines that score output quality.", "Designs meta-prompts that generate specialised prompts per test type.", "Tracks prompt version history alongside code changes in the monorepo."]]
+    ),
+    flashcards: [
+      { q: "What is a system prompt and why does it matter for test generation?", a: "The system prompt sets the model's persona and constraints before the user message. Priming as a senior QA engineer using your framework improves output quality." },
+      { q: "What is chain-of-thought prompting?", a: "Asking the model to reason step-by-step before giving the final answer. It reduces logical errors in complex scenarios." },
+      { q: "What are few-shot examples in a prompt?", a: "1-3 examples of the input/output format you want. The model mirrors structure, naming conventions, and style." },
+      { q: "Why should you inject component or API code into your prompt?", a: "It gives the model real locators, field names, and endpoints to reference, preventing hallucinated selectors or non-existent methods." },
+      { q: "What instruction reduces hallucinated assertions?", a: "\"If you are unsure about a value, say so rather than guessing.\"" }
+    ],
+    mcqs: [
+      { q: "Which prompt technique is most effective for generating complex multi-step test logic?", opts: ["Zero-shot prompting", "Chain-of-thought prompting", "Increasing temperature to 1.0", "Shortening the prompt"], ans: 1, explanation: "Chain-of-thought asks the model to reason step-by-step before producing code." },
+      { q: "You want the model to generate Playwright tests in your team's exact coding style. What is the most effective technique?", opts: ["Set temperature to 0", "Provide few-shot examples of existing tests", "Use a longer system prompt", "Use a weaker model"], ans: 1, explanation: "Few-shot examples are the strongest signal for code style." },
+      { q: "Where should you store and version your QA prompt templates?", opts: ["In a local text file", "In a shared wiki only", "Version-controlled in the repo alongside test code", "In CI environment variables"], ans: 2, explanation: "Version-controlling prompts gives change history, peer review, and correlation with quality changes." }
+    ],
+    qa: [
+      { tag: "Practical", q: "Walk me through the prompt you'd write to generate an end-to-end Playwright test for a checkout flow.", a: `<p>I would include a system role, context injection, and a precise user message. The system prompt defines Playwright TypeScript, Page Object Model, no hard waits, and assertions after every user action. Then I would paste the page component, existing locators, and APIs before asking for the checkout flow test.</p>` }
+    ],
+    code: [
+      { title: "Structured prompt template (Python)", desc: "Reusable prompt builder that injects page component code and test requirements.", snippet: `<span class="kw">def</span> <span class="fn">build_test_prompt</span>(requirement: str, component_code: str, existing_test: str) -> list:
+    <span class="kw">return</span> [
+        {
+            <span class="str">"role"</span>: <span class="str">"system"</span>,
+            <span class="str">"content"</span>: (
+                <span class="str">"You are a senior QA engineer. "</span>
+                <span class="str">"Generate Playwright TypeScript tests using Page Object Model. "</span>
+                <span class="str">"Never use waitForTimeout. Always assert after every user action. "</span>
+                <span class="str">"If you are unsure of a selector or value, say so rather than guessing. "</span>
+                <span class="str">"Return only the TypeScript code block, no explanation."</span>
+            )
+        },
+        {
+            <span class="str">"role"</span>: <span class="str">"user"</span>,
+            <span class="str">"content"</span>: <span class="str">f"""
+Requirement: {requirement}
+
+Component code for reference:
+\`\`\`tsx
+{component_code}
+\`\`\`
+
+Example test style to mirror:
+\`\`\`ts
+{existing_test}
+\`\`\`
+
+Think step by step before writing the test.
+"""</span>
+        }
+    ]` }
+    ]
+  },
+  {
+    title: "AI-Assisted Test Generation",
+    subtitle: "Using Copilot, Claude, and ChatGPT to draft, scaffold, and review tests.",
+    notes: `
+      <p>AI-assisted generation is the most immediately impactful use of Gen AI in QA. Rather than replacing QA engineers, it eliminates the blank-page problem - getting from zero to a runnable test skeleton in seconds.</p>
+      <div class="section-head">Must know cold</div>
+      <ul>
+        <li><strong>GitHub Copilot:</strong> inline autocomplete inside your IDE. Best for single-test completion when you're already writing.</li>
+        <li><strong>Claude / ChatGPT:</strong> best for larger generation tasks - full test suites, test plans, BDD scenarios.</li>
+        <li><strong>IDE chat tools:</strong> ask questions about your codebase and generate tests with full file context.</li>
+        <li>Workflow: requirement -> AI draft -> human review -> run in CI -> refine.</li>
+        <li>AI excels at: positive-path tests, CRUD scenarios, form validations, API contract tests, test data setup.</li>
+        <li>AI struggles with: business-specific edge cases, legacy system quirks, timing-sensitive UI interactions.</li>
+      </ul>
+      <div class="section-head">Lead-level review signals</div>
+      <ul>
+        <li>Define a test generation checklist: assertions, error paths, realistic test data, and brittleness checks.</li>
+        <li>Track the ratio of AI-generated tests that pass without modification vs. those needing fixes.</li>
+        <li>Use AI for test review too - paste a test and ask "What cases does this miss?"</li>
+      </ul>
+      <div class="callout warning">Anti-pattern: Blindly merging AI-generated tests without running them. Always run locally first - hallucinated selectors and wrong assertions are common.</div>
+    `,
+    roadmap: roadmap(
+      ["First Tests with AI", ["Used Copilot or ChatGPT to generate at least one test.", "Can describe inline autocomplete vs. chat-based generation."]],
+      ["Systematic Generation", ["Uses AI generation for full test suites, not just single tests.", "Has a review workflow that catches hallucinations before CI.", "Uses AI to audit existing tests for missing coverage."]],
+      ["Scalable Generation Pipeline", ["Builds CI-integrated generation scripts that propose tests for new PRs automatically.", "Measures first-run pass rate, coverage delta, and review time.", "Integrates generation with test management tooling for traceability."]]
+    ),
+    flashcards: [
+      { q: "When does GitHub Copilot work best vs. Claude chat for test generation?", a: "Copilot works best for inline single-test completion. Chat tools work better for full suites, BDD scenarios, and large context." },
+      { q: "Name two things AI test generation excels at and two it struggles with.", a: "Excels: CRUD tests and form validations. Struggles: business-specific edge cases and legacy quirks." },
+      { q: "What target first-run pass rate indicates your prompts are well-designed?", a: "Above 70% is a strong practical target." },
+      { q: "How can AI review existing tests?", a: "Ask what edge cases are missing, whether assertions are meaningful, and where the test may be brittle." }
+    ],
+    mcqs: [
+      { q: "What is the recommended workflow when using AI to generate a new test?", opts: ["Generate -> merge immediately", "Generate -> review -> run locally -> refine -> CI", "Generate -> run in CI -> merge if green", "Generate -> ask AI to verify itself -> merge"], ans: 1, explanation: "Review and local execution catch selector and assertion errors early." },
+      { q: "Which type of test is least suited to AI generation without extra context?", opts: ["CRUD API tests", "Form validation tests", "Business-specific edge cases in a legacy system", "Basic login/logout flows"], ans: 2, explanation: "Legacy business edge cases require domain knowledge the model does not have." }
+    ],
+    qa: [
+      { tag: "Strategy", q: "How would you introduce AI-assisted test generation to a team that has never used it?", a: `<p>Run a structured pilot: choose one feature with clear acceptance criteria, generate tests with AI, compare time and quality against manual work, then create shared prompt templates and a review checklist before scaling.</p>` }
+    ],
+    code: [
+      { title: "Generate BDD scenarios from a user story", desc: "Ask Claude to produce Gherkin feature file content from plain-English requirements.", snippet: `<span class="kw">import</span> Anthropic <span class="kw">from</span> <span class="str">"@anthropic-ai/sdk"</span>;
+
+<span class="kw">const</span> client = <span class="kw">new</span> <span class="cls">Anthropic</span>();
+
+<span class="kw">async function</span> <span class="fn">generateBDD</span>(userStory: string): Promise&lt;string&gt; {
+  <span class="kw">const</span> msg = <span class="kw">await</span> client.messages.create({
+    model: <span class="str">"claude-opus-4-6"</span>,
+    max_tokens: <span class="num">1024</span>,
+    system: <span class="str">"You are a senior QA engineer expert in BDD. Generate Gherkin feature files. Return only the feature file content."</span>,
+    messages: [{ role: <span class="str">"user"</span>, content: <span class="str">\`Generate BDD scenarios for: \${userStory}\`</span> }]
+  });
+
+  <span class="kw">return</span> (msg.content[<span class="num">0</span>] <span class="kw">as</span> { text: string }).text;
+}` }
+    ]
+  },
+  {
+    title: "AI Test Data Generation",
+    subtitle: "Creating realistic, varied, and schema-compliant test data with LLMs.",
+    notes: `
+      <p>Test data is often the most tedious part of automation. AI dramatically accelerates this by generating realistic fixtures, edge cases, and boundary values on demand.</p>
+      <div class="section-head">Must know cold</div>
+      <ul>
+        <li>LLMs excel at generating realistic-looking PII-safe synthetic data: names, addresses, test card patterns, order histories.</li>
+        <li>Provide the JSON schema or TypeScript interface - the model will respect types and constraints.</li>
+        <li>Prompt for diversity: empty middle name, very long surname, unicode characters, minimum-age user.</li>
+        <li>Tools: <code>Faker.js</code> + AI for domain data; <code>json-schema-faker</code> for schema-driven generation; LLM APIs for narrative-heavy data.</li>
+        <li>Never use production data in tests - privacy compliance matters.</li>
+        <li>Seed your data generator for reproducibility.</li>
+      </ul>
+      <div class="section-head">Lead-level review signals</div>
+      <ul>
+        <li>Build a test data catalogue - shared AI-generated fixtures checked into the repo.</li>
+        <li>Refresh synthetic data quarterly using updated prompts to catch data drift.</li>
+        <li>Consider masking pipelines for staging environments when realism requires it.</li>
+      </ul>
+      <div class="callout">Tip: Ask the model to generate data in two categories - happy path and edge/boundary - and always include at least 3 edge cases per entity type.</div>
+    `,
+    roadmap: roadmap(
+      ["Manual Fixture Creation with AI Help", ["Uses AI to generate JSON fixtures for simple entities.", "Understands why production data must not be used in tests."]],
+      ["Schema-Driven Generation", ["Passes TypeScript interfaces or JSON schemas to LLMs.", "Maintains a shared fixture library used across the test suite.", "Generates happy-path and edge-case data sets."]],
+      ["Data Governance & Pipelines", ["Owns the test data strategy: synthetic policy, refresh cadence, compliance review.", "Builds automated data generation pipelines that run on schema changes.", "Evaluates data masking alongside synthetic generation."]]
+    ),
+    flashcards: [
+      { q: "Why is AI-generated synthetic test data preferable to anonymised production data?", a: "It avoids privacy risk entirely because the data is artificial." },
+      { q: "How do you ensure AI-generated test data respects your TypeScript types?", a: "Paste the TypeScript interface or JSON schema into the prompt." },
+      { q: "What instruction ensures data diversity in AI-generated fixtures?", a: "Ask explicitly for edge cases: empty optional fields, max-length strings, unicode, and min/max numeric values." },
+      { q: "What is json-schema-faker?", a: "A library that generates random data from JSON schema, useful for deterministic CI pipelines." }
+    ],
+    mcqs: [
+      { q: "You need 500 diverse user records for load testing. What is the most efficient approach?", opts: ["Hand-write all records", "Copy from production", "Generate a seeded script using LLM assistance", "Repeat the same 10 records"], ans: 2, explanation: "Let the LLM generate the script logic, then run it deterministically." },
+      { q: "When should you not rely solely on LLM-generated test data?", opts: ["When generating realistic names", "When deterministic reproducibility is required in CI", "When creating unit fixtures", "When creating BDD examples"], ans: 1, explanation: "For CI, commit fixtures or use seeded generators." }
+    ],
+    qa: [
+      { tag: "Architecture", q: "How would you design a test data strategy for a large e-commerce platform using Gen AI?", a: `<p>Use static AI-generated fixtures for unit and component tests, dynamic Faker scripts for setup, and a masked staging data set supplemented with synthetic data for new features. Govern it with refresh cadence and compliance checks.</p>` }
+    ],
+    code: [
+      { title: "Schema-driven fixture generation", desc: "Pass a TypeScript interface to an LLM and get back typed JSON fixtures.", snippet: `<span class="kw">const</span> schema = <span class="str">\`
+interface User {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  age: number;
+  role: 'admin' | 'viewer' | 'editor';
+}
+\`</span>;
+
+<span class="kw">const</span> prompt = <span class="str">\`
+Generate 10 User objects as a JSON array.
+Schema: \${schema}
+Include edge cases:
+- One user with no preferences
+- One user with maximum-length name
+- One user with unicode characters in name
+- One user aged exactly 18
+Return only the JSON array, no explanation.
+\`</span>;` }
+    ]
+  },
+  {
+    title: "LLM-Powered API Testing",
+    subtitle: "Using AI for contract generation, schema validation, and intelligent API test coverage.",
+    notes: `
+      <p>APIs are an ideal target for AI-assisted testing because they have structured schemas that can be fed directly into LLM prompts.</p>
+      <div class="section-head">Must know cold</div>
+      <ul>
+        <li>Paste your OpenAPI spec into a prompt to generate happy-path, error-path, and boundary tests.</li>
+        <li>Tools: <code>Supertest</code>, <code>httpx</code>, <code>Playwright APIRequestContext</code>, and <code>Pact</code>.</li>
+        <li>AI can detect contract drift by comparing old and new specs.</li>
+        <li>LLMs can generate Pact consumer contracts from a spec.</li>
+        <li>Use AI to generate negative tests: invalid payloads, missing fields, wrong types, oversized values.</li>
+        <li>GraphQL: paste SDL and ask for query/mutation coverage including fragments, variables, and error scenarios.</li>
+      </ul>
+      <div class="section-head">Lead-level review signals</div>
+      <ul>
+        <li>Integrate OpenAPI-driven test generation into the PR pipeline.</li>
+        <li>Use AI to audit existing API test suites for untested endpoints.</li>
+      </ul>
+      <div class="callout info">Interview signal: Know the difference between schema validation and semantic validation. AI helps with both, but semantic validation needs domain context.</div>
+    `,
+    roadmap: roadmap(
+      ["Manual API Tests with AI Help", ["Uses AI to generate basic happy-path tests from endpoint descriptions.", "Understands OpenAPI structure and can paste it into a prompt."]],
+      ["Contract-Aware Testing", ["Generates endpoint suites from OpenAPI specs.", "Uses AI to detect breaking contract changes.", "Generates Pact consumer contracts with assistance."]],
+      ["AI-Driven Contract Pipeline", ["Automates test proposal on spec PR changes.", "Integrates AI contract diffing into API review.", "Builds coverage dashboards mapping specs to tests."]]
+    ),
+    flashcards: [
+      { q: "How can you use an OpenAPI spec to generate comprehensive API tests?", a: "Paste the spec and ask for happy path, 4xx errors, missing required fields, and boundary values." },
+      { q: "What is schema vs. semantic validation?", a: "Schema checks structure and types; semantic validation checks whether data makes business sense." },
+      { q: "How can AI help detect breaking API changes?", a: "Compare old and new OpenAPI specs and list removed fields, changed types, and new required fields." },
+      { q: "What API tests do humans often skip that AI generates well?", a: "Negative tests: invalid payloads, missing required fields, wrong types, and oversized values." }
+    ],
+    mcqs: [
+      { q: "What should you provide to generate tests for all REST error scenarios?", opts: ["Just the URL", "The OpenAPI spec for that endpoint", "Only happy path text", "Only the database schema"], ans: 1, explanation: "The spec contains fields, types, and response codes." },
+      { q: "AI-generated API tests are most reliable for:", opts: ["Domain-heavy business logic", "Schema conformance and structural validation", "Performance testing", "Security penetration testing"], ans: 1, explanation: "Schema conformance is directly derivable from the spec." }
+    ],
+    qa: [
+      { tag: "Technical", q: "How would you use AI to increase API test coverage on a 200-endpoint REST service?", a: `<p>Audit coverage against the OpenAPI spec, group endpoints by resource, generate focused batches of tests, review each batch in PRs, and add a CI step that proposes new tests when specs change.</p>` }
+    ],
+    code: [
+      { title: "OpenAPI-to-tests generator (Node.js)", desc: "Reads an OpenAPI spec file and generates Supertest tests for each endpoint.", snippet: `<span class="kw">import</span> fs <span class="kw">from</span> <span class="str">"fs"</span>;
+<span class="kw">import</span> Anthropic <span class="kw">from</span> <span class="str">"@anthropic-ai/sdk"</span>;
+
+<span class="kw">async function</span> <span class="fn">generateApiTests</span>(specPath: string): Promise&lt;<span class="kw">void</span>&gt; {
+  <span class="kw">const</span> spec = fs.readFileSync(specPath, <span class="str">"utf-8"</span>);
+  <span class="kw">const</span> client = <span class="kw">new</span> <span class="cls">Anthropic</span>();
+
+  <span class="kw">const</span> response = <span class="kw">await</span> client.messages.create({
+    model: <span class="str">"claude-sonnet-4-6"</span>,
+    max_tokens: <span class="num">4096</span>,
+    system: <span class="str">"Generate Supertest + Jest API tests in TypeScript. Return only code."</span>,
+    messages: [{ role: <span class="str">"user"</span>, content: <span class="str">\`Generate comprehensive tests for this OpenAPI spec:\\n\\n\${spec}\`</span> }]
+  });
+
+  <span class="kw">const</span> code = (response.content[<span class="num">0</span>] <span class="kw">as</span> { text: string }).text;
+  fs.writeFileSync(<span class="str">"./tests/api/generated.test.ts"</span>, code);
+}` }
+    ]
+  },
+  {
+    title: "Visual & UI Testing with AI",
+    subtitle: "AI visual regression, self-healing locators, and intelligent UI test design.",
+    notes: `
+      <p>Traditional visual regression compares screenshots pixel-by-pixel. AI-powered visual testing focuses on intent: did the checkout button disappear, or did an important layout state change?</p>
+      <div class="section-head">Must know cold</div>
+      <ul>
+        <li><strong>Applitools Eyes:</strong> detects meaningful UI differences while ignoring trivial rendering noise.</li>
+        <li><strong>Percy:</strong> snapshot-based review with AI-assisted workflows.</li>
+        <li><strong>Self-healing locators:</strong> tools like Testim and Mabl re-locate elements when selectors drift.</li>
+        <li>LLMs can suggest resilient locators from HTML, usually aria roles and data-testid attributes.</li>
+        <li>AI accessibility testing can describe issues in human language and suggest fixes.</li>
+        <li>AI can generate visual-state assertions from acceptance criteria.</li>
+      </ul>
+      <div class="section-head">Lead-level review signals</div>
+      <ul>
+        <li>Adopt a <code>data-testid</code> convention team-wide.</li>
+        <li>Evaluate visual AI ROI against baseline management cost.</li>
+        <li>Use AI to generate accessibility scripts from component code, not just scanner output.</li>
+      </ul>
+    `,
+    roadmap: roadmap(
+      ["Basic Visual Testing", ["Understands pixel diff vs. AI visual comparison.", "Has used Playwright screenshot assertions or Percy."]],
+      ["AI-Enhanced Visual Testing", ["Uses Applitools or a similar AI visual tool in CI.", "Uses LLMs to suggest resilient locators.", "Generates accessibility tests with AI assistance."]],
+      ["Visual Strategy Ownership", ["Defines visual testing strategy: tools, baseline management, approval workflows.", "Mandates data-testid conventions and linting.", "Evaluates self-healing tools for ROI."]]
+    ),
+    flashcards: [
+      { q: "What is the key advantage of AI visual testing over pixel diff?", a: "It ignores trivial rendering changes and flags meaningful UI regressions." },
+      { q: "What locator should an LLM suggest to prevent fragility?", a: "Aria role + accessible name locators or data-testid attributes." },
+      { q: "Name two AI-powered visual testing tools.", a: "Applitools Eyes and Percy; Testim and Mabl also use AI for UI element recognition." }
+    ],
+    mcqs: [
+      { q: "A test fails because a CSS class changes after UI refactors. What is the best AI-assisted fix?", opts: ["Add waitForTimeout", "Ask for a data-testid or aria-role locator", "Increase visual diff threshold", "Use pixel-only comparison"], ans: 1, explanation: "Aria-role and data-testid locators are less coupled to implementation details." }
+    ],
+    qa: [
+      { tag: "Strategy", q: "How do you decide between Applitools, Percy, and built-in Playwright screenshots?", a: `<p>Use Playwright for small teams and critical checks, Percy when you need a central review UI, and Applitools when cross-browser visual coverage and maintenance reduction justify enterprise cost.</p>` }
+    ],
+    code: [
+      { title: "LLM locator resilience check", desc: "Ask Claude to analyse a flaky selector and suggest a more resilient alternative.", snippet: `<span class="kw">async function</span> <span class="fn">suggestResilientLocator</span>(html: string, brokenSelector: string): Promise&lt;string&gt; {
+  <span class="kw">const</span> client = <span class="kw">new</span> <span class="cls">Anthropic</span>();
+  <span class="kw">const</span> response = <span class="kw">await</span> client.messages.create({
+    model: <span class="str">"claude-sonnet-4-6"</span>,
+    max_tokens: <span class="num">512</span>,
+    messages: [{
+      role: <span class="str">"user"</span>,
+      content: <span class="str">\`
+HTML snippet:
+\`\`\`html
+\${html}
+\`\`\`
+
+Current selector: \${brokenSelector}
+Suggest a resilient Playwright locator.
+\`</span>
+    }]
+  });
+  <span class="kw">return</span> (response.content[<span class="num">0</span>] <span class="kw">as</span> { text: string }).text.trim();
+}` }
+    ]
+  },
+  {
+    title: "Self-Healing Tests & AI Maintenance",
+    subtitle: "Reducing test maintenance burden with AI-powered self-healing and flaky test detection.",
+    notes: `
+      <p>Test maintenance is one of the biggest costs in automation. AI-powered self-healing keeps tests passing through UI changes, and LLMs can diagnose flaky tests faster from logs and DOM snapshots.</p>
+      <div class="section-head">Must know cold</div>
+      <ul>
+        <li><strong>Self-healing locators:</strong> tools like Testim, Mabl, and Healenium find likely matches when locators fail.</li>
+        <li><strong>Healenium:</strong> intercepts failed findElement calls and searches for similar elements.</li>
+        <li>LLMs can suggest fixes from a failing test and current DOM snapshot.</li>
+        <li>Flaky test analysis: feed CI logs and ask for likely root causes.</li>
+        <li>AI can classify failures as product bug, environment issue, or test flakiness.</li>
+        <li>AI review can help manage visual snapshot baselines.</li>
+      </ul>
+      <div class="section-head">Lead-level review signals</div>
+      <ul>
+        <li>Track flaky test rate as a KPI. A good target is below 2%.</li>
+        <li>Review self-healing events weekly. Excessive healing means tests need rework.</li>
+        <li>Do not over-rely on self-healing: a healed locator may point to the wrong element.</li>
+      </ul>
+      <div class="callout warning">Anti-pattern: Using self-healing as a substitute for good test design. It catches drift; it does not fix hard-coded timing or poor assertions.</div>
+    `,
+    roadmap: roadmap(
+      ["Understanding Self-Healing", ["Can explain what a self-healing test tool does.", "Has investigated at least one flaky test manually."]],
+      ["Applied Self-Healing", ["Has integrated a self-healing tool.", "Uses LLMs to diagnose flaky tests from CI logs.", "Tracks healing events to improve locator quality."]],
+      ["Maintenance Strategy", ["Defines flakiness KPIs.", "Evaluates self-healing ROI against better test design.", "Builds AI-assisted triage bots for CI failures."]]
+    ),
+    flashcards: [
+      { q: "How does Healenium fix a broken locator?", a: "It compares the broken selector against the current DOM and retries with the best match, then logs the healed locator." },
+      { q: "How can you use an LLM to analyse flaky tests?", a: "Feed CI logs and ask for test names, likely root causes, confidence, and suggested fixes." },
+      { q: "What metric measures self-healing effectiveness?", a: "Healing event rate per week." },
+      { q: "What is the risk of over-relying on self-healing?", a: "False passes if a healed locator points to the wrong element." }
+    ],
+    mcqs: [
+      { q: "A locator breaks after a CSS class rename. What is the best long-term fix?", opts: ["Rely on self-healing forever", "Hard-code the new class", "Refactor to data-testid or aria-role and keep self-healing as a safety net", "Remove the test"], ans: 2, explanation: "Fix root cause first, then use self-healing as a safety net." }
+    ],
+    qa: [
+      { tag: "Process", q: "Your team's flaky test rate is 15%. How would you bring it below 2% using AI tools?", a: `<p>Classify failures from recent CI logs, fix the top offenders first, harden brittle locators, replace timing waits with web-first assertions, and add a rolling flakiness gate.</p>` }
+    ],
+    code: [
+      { title: "LLM failure classifier for CI logs", desc: "Parse CI output and ask Claude to classify each failure by root cause.", snippet: `<span class="kw">import</span> Anthropic <span class="kw">from</span> <span class="str">"@anthropic-ai/sdk"</span>;
+<span class="kw">import</span> fs <span class="kw">from</span> <span class="str">"fs"</span>;
+
+<span class="kw">async function</span> <span class="fn">classifyFailures</span>(ciLogPath: string) {
+  <span class="kw">const</span> log = fs.readFileSync(ciLogPath, <span class="str">"utf-8"</span>);
+  <span class="kw">const</span> client = <span class="kw">new</span> <span class="cls">Anthropic</span>();
+
+  <span class="kw">const</span> res = <span class="kw">await</span> client.messages.create({
+    model: <span class="str">"claude-sonnet-4-6"</span>,
+    max_tokens: <span class="num">2048</span>,
+    messages: [{
+      role: <span class="str">"user"</span>,
+      content: <span class="str">\`Analyse this CI test log and classify each failed test:
+\${log.slice(0, 50000)}\`</span>
+    }]
+  });
+  console.log((res.content[<span class="num">0</span>] <span class="kw">as</span> { text: string }).text);
+}` }
+    ]
+  },
+  {
+    title: "Evaluating AI Testing Tools",
+    subtitle: "How to assess, compare, and select AI-powered testing tools for your team.",
+    notes: `
+      <p>The AI testing tooling landscape changes rapidly. A structured evaluation framework prevents tool sprawl and ensures you pick tools that solve real problems rather than chasing hype.</p>
+      <div class="section-head">Must know cold</div>
+      <ul>
+        <li><strong>Categories:</strong> generation, visual testing, AI-driven E2E, self-healing, and CI analytics.</li>
+        <li><strong>Launchable:</strong> predicts which tests are likely to fail for a change.</li>
+        <li><strong>Mabl:</strong> low-code AI-driven E2E with auto-healing and visual diffs.</li>
+        <li><strong>Testim:</strong> AI element identification and self-healing.</li>
+        <li>Evaluation dimensions: accuracy, maintenance overhead, CI integration, cost, vendor lock-in, explainability.</li>
+        <li>Always run a proof of concept on a real part of your product.</li>
+      </ul>
+      <div class="section-head">Lead-level review signals</div>
+      <ul>
+        <li>Build a scorecard with weighted criteria before starting any PoC.</li>
+        <li>Measure vendor lock-in risk: can tests be exported in a portable format?</li>
+        <li>Total cost of ownership includes licence, integration time, learning curve, and maintenance.</li>
+        <li>Assess explainability: if AI marks a test as passed, can you understand why?</li>
+      </ul>
+    `,
+    roadmap: roadmap(
+      ["Tool Awareness", ["Can name several AI testing tools and describe their purpose.", "Has reviewed tool comparisons or vendor demos."]],
+      ["Structured Evaluation", ["Runs PoCs with scorecards and real product tests.", "Compares tools on accuracy, integration, cost, and lock-in.", "Makes adoption recommendations with supporting data."]],
+      ["Tool Strategy", ["Owns the testing tool strategy and roadmap.", "Evaluates tools quarterly as the landscape evolves.", "Builds internal tooling where vendors do not fit."]]
+    ),
+    flashcards: [
+      { q: "What is Launchable?", a: "A predictive test selection tool that uses ML to run tests likely to fail for a change." },
+      { q: "What is vendor lock-in risk?", a: "Risk that tests become tied to a proprietary format you cannot export." },
+      { q: "What should a scorecard include?", a: "Accuracy, maintenance overhead, CI integration, cost, lock-in, explainability, and learning curve." },
+      { q: "Why should PoCs use real product tests?", a: "Vendor demos are curated; real products reveal integration complexity and true accuracy." }
+    ],
+    mcqs: [
+      { q: "You need to reduce CI runtime from 45 minutes to under 15. Which tool type addresses this directly?", opts: ["AI visual regression", "Self-healing locator", "Predictive test selection", "LLM test generation"], ans: 2, explanation: "Predictive selection runs only the tests likely to matter for the code change." },
+      { q: "After a vendor demo passes, what is the most important next step?", opts: ["Sign immediately", "Run a trial against your own product", "Only compare pricing", "Ask for case studies"], ans: 1, explanation: "A real PoC reveals maintenance load and integration complexity." }
+    ],
+    qa: [
+      { tag: "Leadership", q: "How would you build a business case for adopting an AI testing tool that costs 50k/year?", a: `<p>Baseline maintenance hours, flaky investigation time, and CI delay cost. Run a PoC, estimate hours saved, include indirect benefits, and compare total savings against licence and rollout cost.</p>` }
+    ],
+    code: [
+      { title: "Tool evaluation scorecard", desc: "A structured way to score AI testing tools across key dimensions.", snippet: `<span class="kw">interface</span> <span class="cls">ToolScore</span> {
+  toolName: string;
+  scores: {
+    accuracy: <span class="num">1</span> | <span class="num">2</span> | <span class="num">3</span> | <span class="num">4</span> | <span class="num">5</span>;
+    ciIntegration: <span class="num">1</span> | <span class="num">2</span> | <span class="num">3</span> | <span class="num">4</span> | <span class="num">5</span>;
+    maintenanceLoad: <span class="num">1</span> | <span class="num">2</span> | <span class="num">3</span> | <span class="num">4</span> | <span class="num">5</span>;
+    vendorLockIn: <span class="num">1</span> | <span class="num">2</span> | <span class="num">3</span> | <span class="num">4</span> | <span class="num">5</span>;
+    explainability: <span class="num">1</span> | <span class="num">2</span> | <span class="num">3</span> | <span class="num">4</span> | <span class="num">5</span>;
+    costPerMonth: number;
+  };
+  notes: string;
+}` }
+    ]
+  },
+  {
+    title: "AI in CI/CD Pipelines",
+    subtitle: "Integrating Gen AI into your pipeline for smarter, faster test execution.",
+    notes: `
+      <p>CI/CD is where AI testing pays off most visibly - faster pipelines, smarter test selection, automatic failure triage, and PR-level test proposals.</p>
+      <div class="section-head">Must know cold</div>
+      <ul>
+        <li><strong>Predictive test selection:</strong> ML predicts which tests to run based on code diff.</li>
+        <li><strong>Automatic failure triage:</strong> CI bots use LLMs to summarize root cause and suggested fix.</li>
+        <li><strong>PR-level test proposals:</strong> CI detects changed files and proposes tests.</li>
+        <li><strong>Flaky test quarantine:</strong> AI classifies tests as likely flaky based on historical patterns.</li>
+        <li>Cost awareness: use cheaper models for routine triage and premium models for complex generation.</li>
+        <li>AI code review bots can spot missing test coverage before merge.</li>
+      </ul>
+      <div class="section-head">Lead-level review signals</div>
+      <ul>
+        <li>Measure CI minutes saved per month after predictive selection.</li>
+        <li>Add a test debt CI step that flags new code without tests.</li>
+        <li>Log which tests were selected/skipped and whether triage was accurate.</li>
+      </ul>
+    `,
+    roadmap: roadmap(
+      ["Basic CI Awareness", ["Can describe predictive test selection.", "Has read CI logs and manually investigated failures."]],
+      ["AI-Enhanced CI", ["Has implemented automatic failure triage.", "Integrated predictive selection or flaky quarantine.", "Measures CI runtime improvements."]],
+      ["AI-Native Pipeline", ["Designs generate -> select -> execute -> triage -> propose-fix workflows.", "Owns LLM cost management in CI.", "Builds observability dashboards for AI accuracy."]]
+    ),
+    flashcards: [
+      { q: "How does predictive test selection reduce CI runtime?", a: "It analyses code diff and runs only tests statistically likely to fail." },
+      { q: "What is flaky test quarantine?", a: "Moving unstable tests to a separate suite so they do not block PRs while still being monitored." },
+      { q: "What is the cost consideration when using LLMs in CI?", a: "Every PR run can incur API cost, so use cheap models for frequent triage." }
+    ],
+    mcqs: [
+      { q: "Your CI pipeline takes 45 minutes. What AI approach is most direct?", opts: ["Generate more tests", "Visual AI", "Predictive test selection", "LLM failure triage"], ans: 2, explanation: "Predictive selection cuts runtime by running relevant tests first or only." },
+      { q: "Which model tier is cost-appropriate for routine failure triage on every PR?", opts: ["Most expensive model", "Fast, cheap model", "Only local 7B model", "No model"], ans: 1, explanation: "High-frequency routine tasks should use fast, cheap models." }
+    ],
+    qa: [
+      { tag: "Architecture", q: "Design an AI-native CI pipeline for a team running 2000 tests on every PR.", a: `<p>Predict high-risk tests from the diff, run selected tests first, run the full suite nightly, triage failures with an LLM, propose tests when new files lack coverage, and gate on failure rate, flakiness, and coverage thresholds.</p>` }
+    ],
+    code: [
+      { title: "GitHub Actions step: AI failure triage", desc: "YAML step that sends failed test output to Claude and posts a PR comment.", snippet: `<span class="cm"># .github/workflows/test.yml</span>
+- name: AI Failure Triage
+  <span class="kw">if</span>: failure()
+  <span class="kw">env</span>:
+    ANTHROPIC_API_KEY: <span class="str">\${{ secrets.ANTHROPIC_API_KEY }}</span>
+    TEST_OUTPUT: <span class="str">\${{ steps.run-tests.outputs.test-output }}</span>
+    PR_NUMBER: <span class="str">\${{ github.event.pull_request.number }}</span>
+  <span class="kw">run</span>: |
+    TRIAGE=$(node -e "
+      const Anthropic = require('@anthropic-ai/sdk');
+      const client = new Anthropic();
+      (async () => {
+        const msg = await client.messages.create({
+          model: 'claude-haiku-4-5-20251001',
+          max_tokens: 512,
+          messages: [{ role: 'user', content: \`Classify this failure: \${process.env.TEST_OUTPUT?.slice(0,4000)}\` }]
+        });
+        console.log(msg.content[0].text);
+      })();
+    ")
+    gh pr comment \${PR_NUMBER} --body "AI Triage: \${TRIAGE}"` }
+    ]
+  },
+  {
+    title: "Building an AI-First QA Strategy",
+    subtitle: "Team adoption, governance, metrics, and leading the transition to AI-augmented testing.",
+    notes: `
+      <p>An AI-first QA strategy is not about replacing testers - it is about radically changing where human effort is spent. Engineers move from writing boilerplate to designing test strategies, reviewing AI output, and solving genuinely hard quality problems.</p>
+      <div class="section-head">Must know cold</div>
+      <ul>
+        <li><strong>Shift from writing to reviewing:</strong> the QA engineer's core skill moves to strategy and critical review.</li>
+        <li><strong>Governance pillars:</strong> approved tools, prompt ownership, review gates, cost monitoring, privacy compliance.</li>
+        <li><strong>Metrics:</strong> coverage delta, time-to-test, AI first-run pass rate, flaky rate, CI runtime, maintenance hours.</li>
+        <li><strong>Team upskilling:</strong> prompt engineering, AI literacy, critical review, model trade-offs.</li>
+        <li>Do not automate bad processes. AI scales bad strategy faster.</li>
+        <li>Start with high-ROI low-risk use cases like test data generation and API scaffolding.</li>
+      </ul>
+      <div class="section-head">Lead-level review signals</div>
+      <ul>
+        <li>Build a quarterly AI testing review.</li>
+        <li>Create an AI testing handbook for the team.</li>
+        <li>Advocate for AI QA investment with data, not enthusiasm alone.</li>
+      </ul>
+      <div class="callout">Final signal: The best AI-first QA leads combine deep testing expertise with AI literacy. You need to know what a good test looks like to judge AI-generated tests.</div>
+    `,
+    roadmap: roadmap(
+      ["Personal AI Adoption", ["Uses AI tools personally and can articulate the value.", "Understands basic governance concerns."]],
+      ["Squad-Level Strategy", ["Leads AI adoption for a squad.", "Tracks and presents AI QA metrics.", "Has run a PoC and made a tool recommendation."]],
+      ["Organisation-Wide Strategy", ["Owns AI testing strategy across multiple teams.", "Writes and enforces governance policy.", "Presents ROI to leadership with supporting data.", "Mentors QA engineers in AI literacy."]]
+    ),
+    flashcards: [
+      { q: "How does the QA engineer's role shift in an AI-first team?", a: "From writing every test to designing strategy, reviewing AI output, owning prompt libraries, evaluating tools, and solving complex quality problems." },
+      { q: "What are the governance pillars?", a: "Approved tools, versioned prompt library, review gates, API cost monitoring, and data privacy compliance." },
+      { q: "What metrics demonstrate AI testing ROI?", a: "Coverage delta, time-to-test, first-run pass rate, flaky rate, CI runtime, and maintenance hours." },
+      { q: "Why start with test data generation?", a: "It is high ROI, low risk, easy to validate, and does not require trusting autonomous agents." },
+      { q: "What is the biggest risk of AI-first QA done poorly?", a: "Scaling a bad test strategy faster." }
+    ],
+    mcqs: [
+      { q: "What is the first use case you should introduce AI testing for in a new team?", opts: ["Fully autonomous agents", "Test data generation and API scaffolding", "Replacing testers", "Skipping review"], ans: 1, explanation: "Start with high-ROI, low-risk use cases." },
+      { q: "What is the key risk of skipping review for AI-written tests?", opts: ["Token costs", "Hallucinated assertions and false confidence", "Team will not learn TypeScript", "Tool integration fails"], ans: 1, explanation: "Green tests can verify the wrong thing if no one reviews them." },
+      { q: "What governance artefact should every AI-first QA team maintain?", opts: ["All provider pricing", "Version-controlled prompt library", "A hallucination spreadsheet", "Daily model comparison"], ans: 1, explanation: "A prompt library standardises AI use and enables peer review." }
+    ],
+    qa: [
+      { tag: "Leadership", q: "You're presenting an AI QA strategy to the CTO. How do you structure the case?", a: `<p>Lead with current pain and numbers, present a phased strategy with measurable deliverables, then show ROI: hours saved, tool costs, faster CI, and reduced maintenance.</p>` },
+      { tag: "Culture", q: "Half your QA team is resistant to adopting AI tools. How do you address this?", a: `<p>Address fear of job loss directly, build trust by reviewing AI mistakes together, and reduce skill anxiety with prompt training and team demos. The goal is critical adoption, not blind enthusiasm.</p>` }
+    ],
+    code: [
+      { title: "AI QA metrics dashboard script", desc: "Tracks AI adoption KPIs over time.", snippet: `<span class="kw">interface</span> <span class="cls">SprintMetrics</span> {
+  sprint: string;
+  aiTestsGenerated: number;
+  firstRunPassRate: number;
+  coverageDelta: number;
+  ciRuntimeMinutes: number;
+  maintenanceHours: number;
+  flakiness: number;
+}
+
+<span class="kw">const</span> data: <span class="cls">SprintMetrics</span>[] = [
+  { sprint: <span class="str">"S1 baseline"</span>, aiTestsGenerated: <span class="num">0</span>, firstRunPassRate: <span class="num">0</span>, coverageDelta: <span class="num">0</span>, ciRuntimeMinutes: <span class="num">44</span>, maintenanceHours: <span class="num">12</span>, flakiness: <span class="num">0.15</span> },
+  { sprint: <span class="str">"S4"</span>, aiTestsGenerated: <span class="num">90</span>, firstRunPassRate: <span class="num">0.85</span>, coverageDelta: <span class="num">19</span>, ciRuntimeMinutes: <span class="num">11</span>, maintenanceHours: <span class="num">4</span>, flakiness: <span class="num">0.02</span> },
+];
+
+console.table(data);
+console.log(<span class="str">\`CI time improvement: \${data[0].ciRuntimeMinutes}m -> \${data[data.length - 1].ciRuntimeMinutes}m\`</span>);` }
+    ]
+  }
+];
+
+let currentTopic = 0;
+let currentTab = "notes";
+const viewedSet = new Set();
+const TAB_KEYS = ["notes", "roadmap", "flashcards", "mcqs", "qa", "code"];
+const TAB_LABELS = { notes: "Notes", roadmap: "Roadmap", flashcards: "Flashcards", mcqs: "MCQs", qa: "Mock Q&A", code: "Code" };
+
+function roadmap(l1, l2, l3) {
+  return [l1, l2, l3].map((level, index) => `
+    <div class="roadmap-level">
+      <span class="level-badge l${index + 1}">Level ${index + 1} - ${index === 0 ? "Aware" : index === 1 ? "Practitioner" : "Lead/Architect"}</span>
+      <h3>${level[0]}</h3>
+      <ul>${level[1].map(item => `<li>${item}</li>`).join("")}</ul>
+    </div>
+    ${index < 2 ? `<hr class="roadmap-divider" />` : ""}
+  `).join("");
+}
+
+function renderSidebar() {
+  const list = document.getElementById("topicList");
+  list.innerHTML = TOPICS.map((t, i) => `
+    <div class="topic-item${i === currentTopic ? " active" : ""}${viewedSet.has(i) ? " viewed" : ""}" onclick="loadTopic(${i})" data-title="${t.title.toLowerCase()}">
+      <div class="topic-num">${String(i + 1).padStart(2, "0")}</div>
+      <div class="topic-title-text">${t.title}</div>
+    </div>
+  `).join("");
+  document.getElementById("viewedNum").textContent = viewedSet.size;
+}
+
+function loadTopic(idx) {
+  currentTopic = idx;
+  currentTab = "notes";
+  viewedSet.add(idx);
+  renderSidebar();
+
+  const t = TOPICS[idx];
+  document.getElementById("topicTitle").textContent = t.title;
+  document.getElementById("topicSubtitle").textContent = t.subtitle;
+  document.getElementById("currentNum").textContent = idx + 1;
+
+  document.getElementById("infoCounts").innerHTML =
+    `<b>3</b> roadmap levels | <b>${t.flashcards.length}</b> flashcards | <b>${t.mcqs.length}</b> MCQs | <b>${t.qa.length}</b> mock Q&A | <b>${t.code.length}</b> code snippets`;
+
+  document.getElementById("prevBtn").disabled = idx === 0;
+  document.getElementById("nextBtn").disabled = idx === TOPICS.length - 1;
+
+  renderTabs();
+  renderPanel(t, "notes");
+  document.getElementById("mainContent").scrollTop = 0;
+}
+
+function renderTabs() {
+  const bar = document.getElementById("tabBar");
+  bar.innerHTML = TAB_KEYS.map(k => `
+    <div class="tab${k === currentTab ? " active" : ""}" onclick="switchTab('${k}')">${TAB_LABELS[k]}</div>
+  `).join("");
+}
+
+function switchTab(key) {
+  currentTab = key;
+  renderTabs();
+  renderPanel(TOPICS[currentTopic], key);
+}
+
+function renderPanel(t, key) {
+  const area = document.getElementById("tabContent");
+  switch (key) {
+    case "notes": area.innerHTML = `<div class="notes-body">${t.notes}</div>`; break;
+    case "roadmap": area.innerHTML = `<div>${t.roadmap}</div>`; break;
+    case "flashcards": area.innerHTML = renderFlashcards(t.flashcards); break;
+    case "mcqs": area.innerHTML = renderMCQs(t.mcqs); break;
+    case "qa": area.innerHTML = renderQA(t.qa); break;
+    case "code": area.innerHTML = renderCode(t.code); break;
+  }
+}
+
+function renderFlashcards(cards) {
+  return `<div class="flashcard-grid">` + cards.map(c => `
+    <div class="flashcard" onclick="flipCard(this)">
+      <div class="flashcard-inner">
+        <div class="fc-front">
+          <div class="fc-label">Question</div>
+          <div class="fc-text">${c.q}</div>
+          <div class="fc-hint">Click to reveal answer</div>
+        </div>
+        <div class="fc-back">
+          <div class="fc-label">Answer</div>
+          <div class="fc-text">${c.a}</div>
+        </div>
+      </div>
+    </div>
+  `).join("") + `</div>`;
+}
+
+function flipCard(el) { el.classList.toggle("flipped"); }
+
+function renderMCQs(mcqs) {
+  return mcqs.map((m, qi) => `
+    <div class="mcq-item" id="mcq-${qi}">
+      <div class="mcq-q"><b>Q${qi + 1}.</b> ${m.q}</div>
+      <ul class="mcq-options">
+        ${m.opts.map((o, oi) => `
+          <li class="mcq-opt" id="mcq-${qi}-opt-${oi}" onclick="selectMCQ(${qi},${oi},${m.ans})">
+            <span class="mcq-letter">${"ABCD"[oi]}.</span>
+            <span>${o}</span>
+          </li>
+        `).join("")}
+      </ul>
+      <div class="mcq-explanation" id="mcq-${qi}-exp">${m.explanation}</div>
+    </div>
+  `).join("");
+}
+
+function selectMCQ(qi, selected, correct) {
+  const opts = document.querySelectorAll(`#mcq-${qi} .mcq-opt`);
+  opts.forEach(o => { o.classList.add("disabled"); o.onclick = null; });
+  opts[selected].classList.add(selected === correct ? "correct" : "wrong");
+  if (selected !== correct) opts[correct].classList.add("correct");
+  document.getElementById(`mcq-${qi}-exp`).classList.add("show");
+}
+
+function renderQA(qa) {
+  return qa.map((item, i) => `
+    <div class="qa-item" id="qa-${i}">
+      <div class="qa-question" onclick="toggleQA(${i})">
+        <div>
+          <span class="qa-tag">${item.tag}</span>
+          <div class="qa-q-text">${item.q}</div>
+        </div>
+        <div class="qa-toggle">v</div>
+      </div>
+      <div class="qa-answer">${item.a}</div>
+    </div>
+  `).join("");
+}
+
+function toggleQA(i) {
+  document.getElementById(`qa-${i}`).classList.toggle("open");
+}
+
+function renderCode(snippets) {
+  return snippets.map(s => `
+    <div class="code-block">
+      <h3>${s.title}</h3>
+      <p>${s.desc}</p>
+      <pre>${s.snippet}</pre>
+    </div>
+  `).join("");
+}
+
+function navigate(dir) {
+  const next = currentTopic + dir;
+  if (next >= 0 && next < TOPICS.length) loadTopic(next);
+}
+
+function filterTopics(query) {
+  const q = query.toLowerCase().trim();
+  document.querySelectorAll(".topic-item").forEach(el => {
+    const title = el.dataset.title || "";
+    el.classList.toggle("hidden", q.length > 0 && !title.includes(q));
+  });
+}
+
+document.getElementById("totalNum").textContent = TOPICS.length;
+loadTopic(0);
+</script>
+</body>
+</html>
