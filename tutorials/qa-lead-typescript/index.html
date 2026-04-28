@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QA Lead / Architect Interview Prep - TypeScript Track</title>
+<style>
+  :root {
+    --bg: #10141c;
+    --surface: #171d29;
+    --surface-2: #222b3b;
+    --border: #334055;
+    --text: #eef4ff;
+    --muted: #a9b6ca;
+    --accent: #4db4ff;
+    --accent-2: #8fd0ff;
+    --good: #65dc9b;
+    --warn: #f0bd57;
+    --bad: #ff6b78;
+    --code-bg: #0b1018;
+    --radius: 8px;
+    --shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Arial, sans-serif;
+    line-height: 1.55;
+  }
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 18px 28px;
+    background: linear-gradient(135deg, #14304b 0%, #235a8d 55%, #2c6da6 100%);
+    border-bottom: 1px solid var(--border);
+  }
+
+  header h1 {
+    margin: 0;
+    font-size: 20px;
+    letter-spacing: 0;
+  }
+
+  header small {
+    display: block;
+    color: #dff2ff;
+    font-size: 13px;
+    font-weight: 400;
+    margin-top: 2px;
+  }
+
+  button, input { font: inherit; }
+
+  .progress-pill {
+    flex: 0 0 auto;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 7px 14px;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+    min-height: calc(100vh - 74px);
+  }
+
+  nav {
+    position: sticky;
+    top: 74px;
+    height: calc(100vh - 74px);
+    overflow-y: auto;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 16px 12px;
+  }
+
+  .search {
+    width: 100%;
+    margin-bottom: 14px;
+    padding: 9px 11px;
+    color: var(--text);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    outline: none;
+  }
+
+  .search:focus { border-color: var(--accent); }
+
+  .label {
+    margin: 4px 8px 10px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+  }
+
+  .topic-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 4px;
+    padding: 10px 12px;
+    color: var(--text);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .topic-btn:hover { background: var(--surface-2); }
+  .topic-btn.active { background: var(--surface-2); border-color: var(--accent); }
+
+  .topic-btn .num {
+    min-width: 28px;
+    padding: 2px 8px;
+    color: var(--accent-2);
+    background: rgba(77, 180, 255, 0.16);
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 800;
+    text-align: center;
+  }
+
+  .topic-btn.done .num {
+    color: var(--good);
+    background: rgba(101, 220, 155, 0.18);
+  }
+
+  main {
+    max-width: 1120px;
+    min-width: 0;
+    padding: 26px 32px 60px;
+    overflow-x: hidden;
+  }
+
+  .topic-title {
+    margin: 0 0 4px;
+    font-size: 26px;
+  }
+
+  .topic-sub {
+    margin-bottom: 18px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .summary-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 22px;
+    padding: 14px 18px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  .stats {
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .stats strong { color: var(--text); }
+
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 22px;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tab-btn {
+    padding: 10px 16px;
+    color: var(--muted);
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    font-weight: 800;
+  }
+
+  .notes p { margin: 0 0 12px; }
+  .notes h3 { margin: 22px 0 8px; color: var(--accent-2); font-size: 17px; }
+  .notes ul { margin: 0 0 14px; padding-left: 22px; }
+  .notes li { margin-bottom: 6px; }
+  code { color: #9cdcfe; }
+
+  .callout {
+    margin: 14px 0;
+    padding: 12px 14px;
+    background: rgba(77, 180, 255, 0.09);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+  }
+
+  .callout strong { color: var(--accent-2); }
+
+  .roadmap-intro,
+  .roadmap-level,
+  .flashcard,
+  .quiz-q,
+  .mock-q,
+  .code-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .roadmap-intro {
+    margin-bottom: 18px;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, rgba(20, 48, 75, 0.68), rgba(44, 109, 166, 0.28));
+  }
+
+  .roadmap-level {
+    margin-bottom: 16px;
+    padding: 18px 22px;
+  }
+
+  .level-label {
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 4px 12px;
+    color: #dff2ff;
+    background: linear-gradient(135deg, #14304b, #235a8d);
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+  }
+
+  .when {
+    margin-bottom: 12px;
+    color: var(--muted);
+    font-size: 13.5px;
+    font-style: italic;
+  }
+
+  .roadmap-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 12px;
+  }
+
+  .roadmap-block {
+    padding: 12px 14px;
+    background: var(--surface-2);
+    border-radius: var(--radius);
+  }
+
+  .roadmap-block h4 {
+    margin: 0 0 8px;
+    color: var(--accent-2);
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .tag-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    padding: 3px 9px;
+    color: var(--accent-2);
+    background: rgba(77, 180, 255, 0.12);
+    border-radius: 999px;
+    font-size: 12px;
+  }
+
+  .resource-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+    padding: 7px 10px;
+    color: var(--text);
+    text-decoration: none;
+    border-radius: 6px;
+  }
+
+  .resource-link:hover {
+    color: var(--accent-2);
+    background: rgba(77, 180, 255, 0.10);
+  }
+
+  .pill {
+    flex: 0 0 auto;
+    padding: 2px 7px;
+    color: var(--muted);
+    background: var(--bg);
+    border-radius: 4px;
+    font-size: 10px;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+  }
+
+  .flash-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+
+  .counter { color: var(--muted); font-size: 13px; }
+
+  .flashcard {
+    margin-bottom: 16px;
+    padding: 24px 28px;
+    cursor: pointer;
+  }
+
+  .flashcard:hover { border-color: var(--accent); }
+
+  .flashcard .flag {
+    margin-bottom: 10px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+  }
+
+  .flashcard .q {
+    font-size: 16px;
+    font-weight: 800;
+  }
+
+  .flashcard .a {
+    display: none;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border);
+    font-size: 14.5px;
+  }
+
+  .flashcard.flipped .a { display: block; }
+  .flashcard.flipped .flag { color: var(--good); }
+
+  .quiz-q,
+  .mock-q {
+    margin-bottom: 16px;
+    padding: 18px 22px;
+  }
+
+  .qtext {
+    margin-bottom: 12px;
+    font-weight: 800;
+  }
+
+  .opt {
+    display: block;
+    margin-bottom: 7px;
+    padding: 10px 14px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+
+  .opt:hover { border-color: var(--accent); }
+  .opt.correct { background: rgba(101, 220, 155, 0.13); border-color: var(--good); }
+  .opt.wrong { background: rgba(255, 107, 120, 0.11); border-color: var(--bad); }
+
+  .explanation {
+    display: none;
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: rgba(240, 189, 87, 0.09);
+    border-left: 3px solid var(--warn);
+    border-radius: 6px;
+    font-size: 13.5px;
+  }
+
+  .quiz-q.answered .explanation { display: block; }
+
+  .label-q {
+    margin-bottom: 6px;
+    color: var(--accent-2);
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+  }
+
+  .question {
+    margin-bottom: 10px;
+    font-size: 15.5px;
+    font-weight: 800;
+  }
+
+  details { margin-top: 8px; }
+
+  summary {
+    color: var(--accent);
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  .answer-body {
+    margin-top: 10px;
+    padding: 12px 14px;
+    background: var(--surface-2);
+    border-radius: var(--radius);
+    font-size: 14px;
+  }
+
+  .answer-body p { margin: 0 0 8px; }
+
+  .tips {
+    margin-top: 8px;
+    padding-left: 10px;
+    color: var(--muted);
+    border-left: 2px solid var(--warn);
+    font-size: 13px;
+  }
+
+  .code-block {
+    margin-bottom: 18px;
+    overflow: hidden;
+  }
+
+  .ctitle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+    font-weight: 800;
+  }
+
+  .lang-tag {
+    padding: 2px 8px;
+    color: var(--accent-2);
+    background: rgba(77, 180, 255, 0.15);
+    border-radius: 4px;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  pre {
+    margin: 0;
+    padding: 16px 18px;
+    overflow-x: auto;
+    color: #e6edf3;
+    background: var(--code-bg);
+    font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .desc {
+    padding: 12px 16px;
+    color: var(--muted);
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+  }
+
+  .btn {
+    padding: 8px 14px;
+    color: var(--text);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  .btn:hover { border-color: var(--accent); }
+
+  .btn-primary {
+    color: #07111c;
+    background: var(--accent);
+    border-color: var(--accent);
+    font-weight: 800;
+  }
+
+  .btn-primary:hover { background: var(--accent-2); }
+
+  .empty {
+    padding: 18px;
+    color: var(--muted);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+  }
+
+  @media (max-width: 860px) {
+    header { position: static; align-items: flex-start; flex-direction: column; }
+    .layout { grid-template-columns: 1fr; }
+    nav {
+      position: static;
+      height: auto;
+      max-height: 45vh;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+    }
+    main { padding: 18px; }
+    .roadmap-grid { grid-template-columns: 1fr; }
+    .summary-bar, .flash-controls { align-items: stretch; flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>QA Lead / Architect Interview Prep
+    <small>TypeScript track: strict typing, Playwright, API contracts, runners, CI/CD, and architecture</small>
+  </h1>
+  <div class="progress-pill" id="progressPill">Topic 1 of 10</div>
+</header>
+
+<div class="layout">
+  <nav>
+    <input id="searchBox" class="search" type="search" placeholder="Search TypeScript topics">
+    <div class="label">Topics to revise</div>
+    <div id="topicNav"></div>
+  </nav>
+  <main id="main"></main>
+</div>
+
+<script>
+const TOPICS = [
+  {
+    id: "ts-foundations",
+    title: "TypeScript foundations",
+    subtitle: "Why TypeScript matters for QA architecture and how it differs from JavaScript.",
+    notes: `
+      <p>TypeScript is JavaScript with a static type system. For QA automation, the biggest value is not clever types; it is safer framework code, reliable refactors, typed API contracts, and better onboarding for large suites.</p>
+      <h3>Must know cold</h3>
+      <ul>
+        <li>Type annotations, inference, interfaces, type aliases, unions, intersections, and literal types.</li>
+        <li><code>unknown</code> vs <code>any</code>, and why <code>any</code> should be rare in shared framework code.</li>
+        <li>Optional properties, nullability, strict mode, and control-flow narrowing.</li>
+        <li>Classes, access modifiers, readonly, generics, utility types, and modules.</li>
+        <li>TypeScript types are erased at runtime, so external data still needs validation.</li>
+      </ul>
+      <h3>Lead-level review signals</h3>
+      <ul>
+        <li>Use strict mode for framework packages when possible.</li>
+        <li>Model domain values with unions instead of loose strings.</li>
+        <li>Use <code>unknown</code> for untrusted input, then narrow or validate.</li>
+        <li>Keep types readable. A test author should not need a type-system PhD to add a test.</li>
+      </ul>
+      <div class="callout"><strong>Interview signal:</strong> TypeScript catches internal contract mistakes before tests run, but it does not validate JSON from an API unless you add runtime checks.</div>
+    `,
+    roadmap: [
+      ["Beginner", "Goal: write typed helpers and understand strict-mode errors.", ["Types", "Interfaces", "Unions", "Optional properties", "Narrowing", "Modules", "tsconfig"], [["TypeScript Handbook", "https://www.typescriptlang.org/docs/handbook/intro.html", "docs"], ["Total TypeScript beginner material", "https://www.totaltypescript.com/tutorials/beginners-typescript", "tutorial"]], [["TypeScript Exercises", "https://typescript-exercises.github.io/"], ["Exercism TypeScript", "https://exercism.org/tracks/typescript"]]],
+      ["Intermediate", "Goal: build typed API clients, fixtures, and page objects.", ["Generics", "Utility types", "Discriminated unions", "Zod", "Playwright fixtures", "Vitest", "ESM"], [["Playwright TypeScript docs", "https://playwright.dev/docs/test-typescript", "docs"], ["Zod docs", "https://zod.dev/", "docs"], ["Vitest with TypeScript", "https://vitest.dev/guide/", "docs"]], [["Build a typed API client", "https://zod.dev/"], ["Convert a JS Playwright suite to TS", "https://playwright.dev/docs/test-typescript"]]],
+      ["Advanced", "Goal: architect a large TypeScript automation platform.", ["Project references", "Monorepos", "Shared packages", "Contract testing", "Code generation", "CI sharding", "Strict migration"], [["TypeScript project references", "https://www.typescriptlang.org/docs/handbook/project-references.html", "docs"], ["Pact JS", "https://docs.pact.io/implementation_guides/javascript", "docs"], ["OpenAPI TypeScript", "https://openapi-ts.dev/", "docs"]], [["Generate types from OpenAPI", "https://openapi-ts.dev/"], ["Build Playwright CI shards", "https://playwright.dev/docs/test-sharding"]]]
+    ],
+    flashcards: [
+      ["TypeScript vs JavaScript?", "TypeScript adds static types and tooling on top of JavaScript. It compiles to JavaScript and has no runtime type enforcement by itself."],
+      ["unknown vs any?", "unknown requires narrowing before use. any disables type safety and should be avoided in shared framework code."],
+      ["Interface vs type?", "Interfaces are good for object contracts and extension. Type aliases are flexible for unions, intersections, mapped types, and primitives."],
+      ["What is strict mode?", "A set of compiler checks that catches unsafe null access, implicit any, and other risky patterns."],
+      ["Why literal unions?", "They restrict values to a known set, such as 'admin' | 'member' | 'viewer', and prevent invalid test data."],
+      ["Does TypeScript validate API JSON?", "No. Types are erased at runtime. Use Zod, Ajv, JSON Schema, or explicit checks for external data."]
+    ],
+    mcqs: [
+      ["Best type for untrusted JSON before validation?", ["any", "unknown", "string", "never"], 1, "unknown forces you to validate or narrow before use."],
+      ["Best type for user roles?", ["string", "any", "'admin' | 'member' | 'viewer'", "object"], 2, "Literal unions model finite valid values."],
+      ["TypeScript runtime validation is automatic?", ["Yes", "No", "Only in Playwright", "Only in Node 20"], 1, "TypeScript checks at compile time; runtime validation needs code or a library."],
+      ["Most risky type in shared framework code?", ["readonly", "boolean", "any", "Date"], 2, "any removes compiler protection."]
+    ],
+    mockQA: [
+      ["Why would you choose TypeScript for a QA automation framework?", "I would choose TypeScript because test frameworks become shared production infrastructure. Types catch helper contract bugs before runtime, make API clients safer, improve IDE support, and make large refactors less risky. I still add runtime validation for API responses because TypeScript types disappear at runtime.", "Connect type safety to maintainability and confidence."],
+      ["How would you migrate a JavaScript suite to TypeScript?", "I would migrate framework code first: config, fixtures, API clients, and page objects. Then turn on strict checks gradually and convert high-change test areas. I would avoid blocking delivery with a big-bang migration. Each step should reduce real defects or improve refactoring safety.", "Incremental migration is the senior answer."],
+      ["What TypeScript mistakes do you watch for in code review?", "Overuse of any, overly clever generic types, unsafe non-null assertions, DTO types that do not match runtime validation, and types so complex that test authors avoid them. I want strong contracts with readable code.", "Shows balanced judgment."]
+    ],
+    code: [
+      ["Literal unions for test data", "typescript", String.raw`type Role = "admin" | "member" | "viewer";
+
+interface UserRequest {
+  email: string;
+  role: Role;
+  active: boolean;
+}
+
+function user(overrides: Partial<UserRequest> = {}): UserRequest {
+  return {
+    email: "test-" + crypto.randomUUID() + "@example.com",
+    role: "member",
+    active: true,
+    ...overrides
+  };
+}`, "Union types prevent invalid role values in test data."],
+      ["Narrow unknown", "typescript", String.raw`function getMessage(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return String(error);
+}`, "unknown keeps error handling honest without throwing away type safety."]
+    ]
+  },
+  {
+    id: "narrowing-modeling",
+    title: "Type modeling and narrowing",
+    subtitle: "Discriminated unions, guards, utility types, readonly data, and safe assertions.",
+    notes: `
+      <p>Good TypeScript automation code models the product domain. That means roles, states, feature flags, API variants, and error cases become explicit types instead of loose strings and maps.</p>
+      <h3>High-value patterns</h3>
+      <ul>
+        <li>Discriminated unions for API success/error variants.</li>
+        <li>Type guards for narrowing unknown external data.</li>
+        <li><code>Partial</code> for builders, <code>Pick</code>/<code>Omit</code> for focused payloads, and <code>Readonly</code> for immutable fixture data.</li>
+        <li><code>as const</code> for literal maps and stable constants.</li>
+        <li>Typed assertion helpers that produce clear failure messages.</li>
+      </ul>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["Discriminated union?", "A union where each variant has a shared literal property, such as kind or status, allowing safe narrowing."],
+      ["Type guard?", "A function returning value is Type that narrows a value when the condition is true."],
+      ["Partial use?", "Make all properties optional, useful for builder overrides."],
+      ["Pick/Omit use?", "Create focused types from a larger object shape without duplication."],
+      ["as const use?", "Preserve literal types for object and array constants instead of widening to string or number."]
+    ],
+    mcqs: [
+      ["Best model for API result success/error variants?", ["any", "Discriminated union", "string only", "boolean only"], 1, "Discriminated unions make each path explicit and safely narrowed."],
+      ["Builder overrides commonly use what utility type?", ["Partial", "Required", "Record only", "never"], 0, "Partial lets tests override only scenario-specific fields."],
+      ["Type guard return shape?", ["boolean only", "value is Type", "Promise", "void always"], 1, "value is Type tells TypeScript how to narrow."]
+    ],
+    mockQA: [
+      ["How do you model API success and error responses?", "I use a discriminated union with a literal status or kind field. Tests then handle success and error explicitly, and TypeScript prevents accessing success-only fields on an error response.", "Strong modeling answer."],
+      ["How do typed builders improve tests?", "They give realistic defaults, keep tests focused on what is unique, and prevent invalid payloads from compiling. With Partial overrides, the call sites stay short but still typed.", "Connect to readability."],
+      ["When can types become harmful?", "When they become more complex than the product behavior they model. If a helper requires advanced type gymnastics to use, I simplify it. Test infrastructure should invite contribution.", "Architect judgment."]
+    ],
+    code: [
+      ["Discriminated union", "typescript", String.raw`type ApiResult =
+  | { kind: "success"; id: string; status: "ACTIVE" }
+  | { kind: "error"; code: string; message: string };
+
+function expectSuccess(result: ApiResult): string {
+  if (result.kind === "error") {
+    throw new Error(result.message);
+  }
+  return result.id;
+}`, "The kind field safely narrows each variant."],
+      ["Type guard", "typescript", String.raw`interface User {
+  id: string;
+  email: string;
+}
+
+function isUser(value: unknown): value is User {
+  return typeof value === "object" &&
+    value !== null &&
+    "id" in value &&
+    "email" in value;
+}`, "Use guards at boundaries where runtime data enters typed code."]
+    ]
+  },
+  {
+    id: "runtime-validation",
+    title: "Runtime validation and API contracts",
+    subtitle: "Zod, Ajv, JSON Schema, OpenAPI, generated types, and contract confidence.",
+    notes: `
+      <p>TypeScript makes internal code safer, but API responses, files, environment variables, and message payloads are untrusted at runtime. Validation closes that gap.</p>
+      <h3>Options</h3>
+      <ul>
+        <li><strong>Zod:</strong> ergonomic schema definitions with inferred TypeScript types.</li>
+        <li><strong>Ajv:</strong> fast JSON Schema validation, common for OpenAPI-aligned contracts.</li>
+        <li><strong>OpenAPI generators:</strong> generate client types and schemas from source-of-truth specs.</li>
+        <li><strong>Pact:</strong> consumer-driven contracts for microservice compatibility.</li>
+      </ul>
+      <div class="callout"><strong>Lead signal:</strong> Compile-time types protect your framework. Runtime validators protect you from the outside world.</div>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["Why runtime validation?", "External data can be wrong even if your TypeScript compiles. Runtime validation catches schema drift."],
+      ["Zod benefit?", "One schema validates runtime data and can infer the TypeScript type."],
+      ["Ajv benefit?", "Fast JSON Schema validation, useful when schemas come from OpenAPI."],
+      ["Generated types risk?", "Generated types are only as trustworthy as the source spec and generation pipeline."],
+      ["Contract test purpose?", "Ensure providers continue satisfying consumer expectations before deployment."]
+    ],
+    mcqs: [
+      ["Best tool for runtime validation with inferred TS types?", ["Zod", "ESLint", "Prettier", "ts-node"], 0, "Zod validates runtime data and infers static types."],
+      ["OpenAPI generated types guarantee provider behavior?", ["Always", "No, they reflect the spec; provider still needs verification", "Only locally", "Only in Chrome"], 1, "Generated types need contract/integration verification."],
+      ["When validate environment variables?", ["After half the tests run", "At startup before tests execute", "Never", "Only manually"], 1, "Fail fast on bad CI config."]
+    ],
+    mockQA: [
+      ["How would you validate API responses in a TypeScript suite?", "I would use Zod for product-specific schemas or Ajv when JSON Schema/OpenAPI is the source of truth. Each API client validates at the boundary, returns typed data, and includes useful context on validation failure.", "Boundary validation is the key phrase."],
+      ["How do OpenAPI types fit into QA?", "They reduce duplicate model work and keep clients aligned with the spec, but they do not prove the deployed provider behaves correctly. I pair them with contract or integration tests.", "Avoid false confidence."],
+      ["How would you test schema drift?", "Run schema validation in smoke and contract suites, publish clear failures with endpoint, request ID, and diff, and gate provider deploys when consumer contracts break.", "Governance plus tooling."]
+    ],
+    code: [
+      ["Zod API schema", "typescript", String.raw`import { z } from "zod";
+
+const UserResponse = z.object({
+  id: z.string(),
+  email: z.string().email(),
+  status: z.enum(["ACTIVE", "DISABLED"])
+});
+
+type UserResponse = z.infer<typeof UserResponse>;
+
+const body: unknown = await response.json();
+const user = UserResponse.parse(body);`, "Validate unknown JSON before returning typed data to tests."],
+      ["Validated config", "typescript", String.raw`const Env = z.object({
+  QA_WEB_BASE: z.string().url(),
+  QA_API_BASE: z.string().url(),
+  TEST_PASSWORD: z.string().min(1)
+});
+
+export const env = Env.parse(process.env);`, "Configuration should fail before the suite starts."]
+    ]
+  },
+  {
+    id: "playwright-ts",
+    title: "Playwright with TypeScript",
+    subtitle: "Fixtures, page objects, components, typed test data, tracing, and parallelism.",
+    notes: `
+      <p>Playwright and TypeScript pair naturally. Playwright gives fixtures, parallelism, web-first assertions, tracing, projects, and test isolation; TypeScript makes the framework layer safer.</p>
+      <h3>Best practices</h3>
+      <ul>
+        <li>Use role, label, text, and test-id locators before CSS/XPath.</li>
+        <li>Create typed fixtures for authenticated pages, API clients, and seeded data.</li>
+        <li>Keep page objects small; model reusable widgets as components.</li>
+        <li>Use projects for browsers, devices, and environment-like variants.</li>
+        <li>Capture trace/video/screenshot on failure or retry.</li>
+      </ul>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["Why TypeScript fixtures?", "Fixtures can expose typed dependencies such as apiClient, adminPage, and testUser to every test."],
+      ["Locator priority?", "Role/name, label, text, test id, then CSS/XPath as a fallback."],
+      ["Page object or component?", "Page objects model screens; components model reusable widgets that appear across screens."],
+      ["Trace value?", "Trace shows actions, DOM snapshots, console, network, and timing for CI triage."],
+      ["Project use?", "Run the same tests across browsers, devices, locales, auth states, or feature variants."]
+    ],
+    mcqs: [
+      ["Best place for authenticated page setup?", ["Every test body", "Typed Playwright fixture", "Global mutable variable", "README"], 1, "Fixtures centralize lifecycle while keeping tests readable."],
+      ["Most resilient button locator?", ["nth-child", "getByRole with accessible name", "absolute XPath", "CSS class chain"], 1, "Role/name reflects user intent."],
+      ["Best failure artifact for Playwright?", ["Only console.log", "Trace plus screenshot/video", "Nothing", "Manual notes"], 1, "Trace artifacts make remote CI failures debuggable."]
+    ],
+    mockQA: [
+      ["How would you structure a Playwright TypeScript framework?", "I would define typed fixtures for API clients, authenticated pages, and data builders. Page and component objects hold locators and user-level actions. Tests stay scenario-focused. CI runs projects for supported browsers and stores traces on failure.", "Clear layering."],
+      ["How do you keep Playwright tests from becoming flaky?", "Use web-first assertions, semantic locators, fresh browser context per test, deterministic data, route mocks for third parties, and trace review for failures. Avoid arbitrary sleeps.", "Practical flake answer."],
+      ["When would you avoid page objects?", "For very small suites or one-off flows, direct Playwright locators can be clearer. I add page objects when duplication or UI change frequency justifies the abstraction.", "Balanced architecture."]
+    ],
+    code: [
+      ["Typed fixture", "typescript", String.raw`type TestFixtures = {
+  adminPage: Page;
+  api: ApiClient;
+};
+
+export const test = base.extend<TestFixtures>({
+  api: async ({ request }, use) => {
+    await use(new ApiClient(request));
+  },
+  adminPage: async ({ page }, use) => {
+    await signInAsAdmin(page);
+    await use(page);
+  }
+});`, "Typed fixtures make dependencies explicit and reusable."],
+      ["Component object", "typescript", String.raw`class Toast {
+  constructor(private readonly page: Page) {}
+
+  async expectMessage(text: string) {
+    await expect(this.page.getByRole("status")).toContainText(text);
+  }
+}`, "Components keep shared UI behavior out of giant page classes."]
+    ]
+  },
+  {
+    id: "api-clients",
+    title: "Typed API clients and test data",
+    subtitle: "Request builders, response models, API setup, cleanup, and reliable assertions.",
+    notes: `
+      <p>Typed API clients are one of the biggest wins in TypeScript QA. They make setup faster than UI, reduce duplication, and turn schema drift into clear failures.</p>
+      <h3>Client design</h3>
+      <ul>
+        <li>Centralize base URL, auth, headers, timeouts, retries, and logging.</li>
+        <li>Validate responses at the boundary and return typed models.</li>
+        <li>Use builders for request bodies with realistic defaults.</li>
+        <li>Track created IDs for cleanup, or create isolated data per worker.</li>
+        <li>Include request ID, endpoint, payload, and response body in failure context.</li>
+      </ul>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["Why typed API client?", "It gives test authors safe methods and typed responses instead of repeated fetch calls and loose JSON access."],
+      ["Where validate response?", "At the boundary inside the client, before returning data to tests."],
+      ["Builder purpose?", "Create realistic default payloads with scenario-specific overrides."],
+      ["Cleanup strategy?", "Track created resources, use unique prefixes, or isolate data by worker/environment."],
+      ["Failure context?", "Endpoint, method, payload, status, response body, request ID, and environment."]
+    ],
+    mcqs: [
+      ["Best return from api.users.create?", ["any", "unknown forever", "Validated typed User", "string log"], 2, "Tests should receive validated typed data."],
+      ["Fast way to set up UI preconditions?", ["Click through every screen", "Use API setup where valid", "Manual DB edits only", "Sleep"], 1, "API setup is faster and less brittle for preconditions."],
+      ["Builder overrides should use what?", ["Partial<T>", "any", "never", "void"], 0, "Partial lets tests specify only fields that matter."]
+    ],
+    mockQA: [
+      ["How do typed API clients support UI tests?", "They create users, products, orders, or permissions through APIs so UI tests can focus on the journey under test. Typed clients also validate contracts and make setup failures clear.", "Cross-layer thinking."],
+      ["How would you design cleanup?", "Prefer test-owned data with unique prefixes and API cleanup. For parallel suites, isolate by worker. Cleanup should be best-effort but visible, and environments should have scheduled data janitors.", "Real-world answer."],
+      ["How do you avoid over-asserting API payloads?", "The client validates schema, while tests assert behavior-specific fields and business invariants. Full payload equality is reserved for true contract snapshots.", "Maintainability frame."]
+    ],
+    code: [
+      ["Typed API client method", "typescript", String.raw`class UsersClient {
+  constructor(private readonly request: APIRequestContext) {}
+
+  async create(payload: CreateUserRequest): Promise<User> {
+    const response = await this.request.post("/users", { data: payload });
+    expect(response.ok()).toBeTruthy();
+    return UserSchema.parse(await response.json());
+  }
+}`, "Client methods hide mechanics and return validated typed models."],
+      ["Request builder", "typescript", String.raw`function createUserRequest(
+  overrides: Partial<CreateUserRequest> = {}
+): CreateUserRequest {
+  return {
+    email: "test-" + crypto.randomUUID() + "@example.com",
+    role: "member",
+    active: true,
+    ...overrides
+  };
+}`, "Builders make setup compact and type-safe."]
+    ]
+  },
+  {
+    id: "runners",
+    title: "Vitest, Jest, Mocha, Chai, and Sinon",
+    subtitle: "Choosing test runners, assertion libraries, mocks, spies, timers, and legacy suite strategy.",
+    notes: `
+      <p>For new TypeScript suites, Vitest, Jest, and Playwright Test are usually the first tools to consider. Mocha, Chai, and Sinon are still important for legacy and flexible Node test stacks, and they come up in interviews.</p>
+      <h3>Tool positioning</h3>
+      <ul>
+        <li><strong>Playwright Test:</strong> best default for browser automation with fixtures, assertions, traces, and parallelism.</li>
+        <li><strong>Vitest:</strong> fast modern runner, strong TypeScript and ESM fit, great for unit/component/helper tests.</li>
+        <li><strong>Jest:</strong> mature, widely used, rich mocking ecosystem.</li>
+        <li><strong>Mocha + Chai:</strong> flexible runner/assertion pairing, common in older Node/WebdriverIO stacks.</li>
+        <li><strong>Sinon:</strong> spies, stubs, mocks, and fake timers, often paired with Mocha/Chai.</li>
+      </ul>
+      <div class="callout"><strong>Interview answer:</strong> Mocha/Chai is not required for new TypeScript automation, but knowing it helps when maintaining enterprise suites.</div>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["Is Mocha/Chai required?", "No. It is useful and common in legacy suites, but Playwright Test, Vitest, or Jest are more common defaults for new TypeScript automation."],
+      ["Chai role?", "Assertion library with expect/should/assert styles."],
+      ["Sinon role?", "Spies, stubs, mocks, and fake timers."],
+      ["Vitest advantage?", "Fast Vite-native runner with strong ESM and TypeScript experience."],
+      ["Snapshot risk?", "Large snapshots become review noise. Prefer focused semantic assertions."]
+    ],
+    mcqs: [
+      ["Best default for Playwright UI automation?", ["Mocha only", "Playwright Test", "Manual runner", "No runner"], 1, "Playwright Test includes fixtures, assertions, parallelism, and tracing."],
+      ["Mocha usually needs what assertion library?", ["Chai", "TypeScript compiler only", "CSS", "Docker"], 0, "Mocha is a runner; Chai commonly provides assertions."],
+      ["Sinon is used for what?", ["Spies/stubs/fake timers", "CSS layout", "Package install", "Browser rendering"], 0, "Sinon provides test doubles and fake time controls."]
+    ],
+    mockQA: [
+      ["How would you explain Mocha/Chai in a TypeScript interview?", "I would say Mocha is a flexible test runner and Chai is an assertion library. They are still valid, especially in older Node and WebdriverIO suites. For new work, I usually choose Playwright Test for UI and Vitest/Jest for unit tests because they include more batteries out of the box.", "Balanced and current."],
+      ["How do you choose a runner?", "I choose based on layer and ecosystem: Playwright Test for browser, Vitest/Jest for unit and helper tests, Mocha/Chai when maintaining an existing stack or needing its flexibility. I also consider TypeScript config, reporting, parallelism, and team familiarity.", "Context-based selection."],
+      ["What makes mocks dangerous?", "Mocks can assert implementation details or drift from real behavior. I use them for controlled unit paths and keep integration/contract tests for real compatibility.", "Avoid over-mocking."]
+    ],
+    code: [
+      ["Mocha and Chai", "typescript", String.raw`import { expect } from "chai";
+
+describe("discount", () => {
+  it("caps loyalty discount", () => {
+    expect(calculateDiscount({ years: 12 })).to.equal(0.2);
+  });
+});`, "Mocha runs the test; Chai provides assertions."],
+      ["Sinon fake timers", "typescript", String.raw`const clock = sinon.useFakeTimers();
+const callback = sinon.spy();
+
+debounce(callback, 500)();
+clock.tick(499);
+expect(callback.called).to.equal(false);
+
+clock.tick(1);
+expect(callback.calledOnce).to.equal(true);
+clock.restore();`, "Fake timers make time-based logic deterministic."]
+    ]
+  },
+  {
+    id: "tsconfig-tooling",
+    title: "tsconfig, linting, and build tooling",
+    subtitle: "Strict mode, module resolution, ESM/CommonJS, ESLint, Prettier, path aliases, and monorepos.",
+    notes: `
+      <p>Many TypeScript automation problems are configuration problems. A lead should understand enough tsconfig and tooling to keep local, CI, and IDE behavior aligned.</p>
+      <h3>Key topics</h3>
+      <ul>
+        <li><code>strict</code>, <code>noImplicitAny</code>, <code>strictNullChecks</code>, and incremental migration.</li>
+        <li>ESM vs CommonJS, module resolution, and test runner compatibility.</li>
+        <li>Path aliases and why they must be supported by runtime/test tooling too.</li>
+        <li>ESLint with TypeScript rules and Prettier for consistent formatting.</li>
+        <li>Project references for large repos and shared framework packages.</li>
+      </ul>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["strict mode value?", "It catches unsafe assumptions early and makes framework refactors safer."],
+      ["Path alias risk?", "TypeScript may compile aliases that the runtime/test runner cannot resolve unless configured too."],
+      ["ESM/CommonJS risk?", "Mismatched module settings cause import/export failures in test runners and Node."],
+      ["noImplicitAny?", "Prevents untyped parameters and values from silently becoming any."],
+      ["Project references?", "A way to split large TypeScript projects into buildable dependent units."]
+    ],
+    mcqs: [
+      ["Which option catches untyped parameters?", ["noImplicitAny", "skipLibCheck", "target", "outDir"], 0, "noImplicitAny prevents silent any."],
+      ["Path aliases require config where?", ["Only tsconfig", "tsconfig and runtime/test tooling", "Only README", "Nowhere"], 1, "Both compiler and runner must understand aliases."],
+      ["Best migration strategy to strict mode?", ["Big bang always", "Incremental package-by-package", "Never", "Disable compiler"], 1, "Incremental migration avoids blocking delivery."]
+    ],
+    mockQA: [
+      ["How do you roll out strict TypeScript in a test repo?", "I start with shared framework packages, then high-change helpers, then test files. I track any as technical debt and avoid blocking teams with a big bang. The migration should reduce defects as it goes.", "Practical migration."],
+      ["How do you handle ESM/CommonJS issues?", "I align package.json type, tsconfig module settings, test runner config, and Node version. I avoid mixing import styles randomly and document the supported pattern.", "Config alignment."],
+      ["What lint rules matter in TypeScript QA?", "No floating promises, no explicit any without justification, consistent type imports, no unused variables, and rules that prevent unsafe assertions. The no-floating-promises rule is especially valuable for async test reliability.", "Specific rule knowledge."]
+    ],
+    code: [
+      ["Strict tsconfig core", "json", String.raw`{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true
+  }
+}`, "Strict compiler settings catch framework defects early."],
+      ["No floating promises example", "typescript", String.raw`// Bad: test may finish before the promise rejects.
+api.createUser(payload);
+
+// Good.
+await api.createUser(payload);`, "Linting can catch missing await patterns before CI flakes."]
+    ]
+  },
+  {
+    id: "framework-architecture",
+    title: "TypeScript automation architecture",
+    subtitle: "Layered design, shared packages, fixtures, typed clients, observability, and extension points.",
+    notes: `
+      <p>A TypeScript automation framework should use the type system to make the easy path safe. It should not turn test authoring into generic-type archaeology.</p>
+      <h3>Layered model</h3>
+      <ul>
+        <li>Tests: readable scenarios and meaningful assertions.</li>
+        <li>Domain actions: checkout, account, billing, admin, and workflow operations.</li>
+        <li>Drivers/clients: Playwright, API clients, DB/message clients.</li>
+        <li>Data: builders, factories, seeded data, cleanup, worker isolation.</li>
+        <li>Config: validated environment settings and typed projects.</li>
+        <li>Observability: traces, screenshots, videos, logs, request IDs, JUnit/HTML/Allure reports.</li>
+      </ul>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["Architecture goal?", "Make correct test authoring easy and incorrect patterns hard."],
+      ["Shared package risk?", "Versioning and cross-team ownership. Changes need compatibility and clear release notes."],
+      ["Where use advanced generics?", "Only where they simplify repeated patterns without confusing test authors."],
+      ["Observability artifacts?", "Trace, screenshot, video, console logs, network logs, request IDs, and test data IDs."],
+      ["Framework health metric?", "Time to first green test, flake rate, PR duration, and contributor adoption."]
+    ],
+    mcqs: [
+      ["What should tests expose?", ["Business intent and assertions", "Raw selectors everywhere", "All HTTP headers", "DB cleanup details"], 0, "Tests should read like scenarios."],
+      ["What belongs in framework core?", ["Config, clients, fixtures, reporting, data helpers", "Every product team's special case", "Manual notes", "Only CSS"], 0, "Core should contain shared infrastructure."],
+      ["When add abstraction?", ["Always", "When it reduces real duplication or clarifies intent", "Never", "For every line"], 1, "Abstractions need a payoff."]
+    ],
+    mockQA: [
+      ["Design a TypeScript QA framework for web and APIs.", "I would use Playwright Test with TypeScript strict mode, typed fixtures, a validated config layer, Zod-backed API clients, data builders, and page/component objects. CI publishes traces and JUnit reports, while tags/projects split smoke, regression, browser, and API suites.", "Hit stack, layers, CI, and observability."],
+      ["How do you keep types from hurting productivity?", "I keep public framework APIs simple, document examples, avoid exposing complex generics to test authors, and use code review to simplify clever types. Type safety should reduce friction, not add ceremony.", "Mature TypeScript answer."],
+      ["How would you make this framework multi-team?", "Create shared packages with semantic versioning, changelogs, templates, and extension points. Keep team-specific behavior outside core unless multiple teams need it.", "Ownership and scaling."]
+    ],
+    code: [
+      ["Domain-level test", "typescript", String.raw`test("member can complete checkout", async ({ page, api }) => {
+  const user = await api.users.create(userRequest());
+  const product = await api.products.create(productRequest());
+
+  await checkout.addProductToCart(page, user, product);
+  await checkout.payWithSavedCard(page, user);
+
+  await expectOrderCreated(api, user, product);
+});`, "TypeScript keeps setup and assertions safe while the test reads like a journey."],
+      ["Typed action dependency", "typescript", String.raw`class CheckoutActions {
+  constructor(
+    private readonly page: Page,
+    private readonly api: ApiClient
+  ) {}
+
+  async completePurchase(user: User, product: Product) {
+    await this.api.cart.add(user.id, product.id);
+    await this.page.goto("/checkout");
+    await this.page.getByRole("button", { name: "Pay" }).click();
+  }
+}`, "Constructor types make dependencies clear."]
+    ]
+  },
+  {
+    id: "ci-cd",
+    title: "TypeScript CI/CD integration",
+    subtitle: "Type-checking, deterministic installs, caching, sharding, reports, and build gates.",
+    notes: `
+      <p>TypeScript adds a valuable pre-test gate: type-checking. CI should fail before browser or API tests run if framework contracts are broken.</p>
+      <h3>Pipeline guidance</h3>
+      <ul>
+        <li>Pin Node and package manager versions.</li>
+        <li>Use deterministic installs: <code>npm ci</code>, <code>pnpm install --frozen-lockfile</code>, or equivalent.</li>
+        <li>Run lint and <code>tsc --noEmit</code> before expensive tests.</li>
+        <li>Cache dependencies and browser binaries carefully.</li>
+        <li>Shard large suites and upload artifacts on failure.</li>
+      </ul>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["Why run tsc in CI?", "It catches framework and contract errors before runtime tests start."],
+      ["npm ci purpose?", "Install exactly from lockfile for reproducible CI builds."],
+      ["Artifact examples?", "Trace, screenshot, video, HTML report, JUnit XML, logs."],
+      ["Shard by what?", "Historical runtime, not equal test count."],
+      ["Why pin Node?", "Node versions affect runtime behavior, dependency compatibility, and module handling."]
+    ],
+    mcqs: [
+      ["Best pre-test TypeScript gate?", ["tsc --noEmit", "console.log", "sleep", "manual refresh"], 0, "Type-checking is fast compared with UI suites and catches many issues."],
+      ["Deterministic npm install?", ["npm ci", "npm install --force", "delete lockfile", "manual copy"], 0, "npm ci uses package-lock exactly."],
+      ["When upload Playwright artifacts?", ["Always or on failure", "Never", "Only before tests", "Only manually"], 0, "Artifacts are needed for triage."]
+    ],
+    mockQA: [
+      ["What would your TypeScript CI pipeline include?", "PR runs install, lint, type-check, unit tests, API smoke, and a small Playwright smoke suite. Main runs broader regression. Nightly handles cross-browser and long flows. CI publishes traces, videos, screenshots, JUnit, and HTML reports.", "Tiered pipeline."],
+      ["How do you keep TypeScript CI fast?", "Run cheap gates first, cache package manager stores, cache browser binaries carefully, shard long suites, and split smoke from full regression. Watch p95 PR duration as a health metric.", "Speed plus signal."],
+      ["How handle type-check failures owned by many teams?", "Shared framework packages should have clear owners. For product test files, ownership follows feature teams. Type errors should be treated like compile failures, not optional warnings.", "Governance answer."]
+    ],
+    code: [
+      ["GitHub Actions TypeScript gate", "yaml", String.raw`steps:
+  - uses: actions/checkout@v4
+  - uses: actions/setup-node@v4
+    with:
+      node-version: 20
+      cache: npm
+  - run: npm ci
+  - run: npm run lint
+  - run: npm run typecheck
+  - run: npm test`, "Run lint and type-check before expensive tests."],
+      ["Useful scripts", "json", String.raw`{
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "test:smoke": "playwright test --grep @smoke"
+  }
+}`, "Give developers and CI the same commands."]
+    ]
+  },
+  {
+    id: "interview-leadership",
+    title: "TypeScript leadership and interview stories",
+    subtitle: "Migration stories, standards, mentoring, architecture trade-offs, and stakeholder communication.",
+    notes: `
+      <p>For QA Lead and Architect interviews, TypeScript should be presented as a quality strategy, not just a language preference. Prepare stories that show judgment, migration planning, and measurable outcomes.</p>
+      <h3>Prepare stories for</h3>
+      <ul>
+        <li>Migrating a JavaScript suite to TypeScript incrementally.</li>
+        <li>Reducing framework bugs with strict mode and typed clients.</li>
+        <li>Standardizing Playwright fixtures and API clients across teams.</li>
+        <li>Introducing runtime schema validation for API tests.</li>
+        <li>Resolving friction when strict typing slows teams down initially.</li>
+        <li>Mentoring QA engineers into TypeScript automation ownership.</li>
+      </ul>
+      <div class="callout"><strong>Prep tip:</strong> Tie TypeScript choices to business outcomes: fewer framework defects, faster refactors, lower flake, shorter onboarding, and safer releases.</div>
+    `,
+    roadmap: [],
+    flashcards: [
+      ["How justify TypeScript?", "Safer refactors, fewer framework defects, better IDE support, clearer contracts, and stronger onboarding."],
+      ["Migration risk?", "Too much strictness too fast can stall teams. Migrate incrementally with visible wins."],
+      ["Good metric?", "Type-check failures caught before runtime, PR duration, flake rate, framework bug count, onboarding time."],
+      ["How mentor?", "Pair on real tests, explain errors as design feedback, and provide templates/builders."],
+      ["Leadership frame?", "Types are a quality control, not a purity contest."]
+    ],
+    mcqs: [
+      ["Best TypeScript migration strategy for a busy team?", ["Big bang always", "Incremental with framework code first", "Never type anything", "Delete tests"], 1, "Framework-first migration gives value without blocking all work."],
+      ["How communicate TypeScript value to leadership?", ["Tool preference only", "Reduced defects and safer delivery", "More syntax", "Longer code"], 1, "Tie to outcomes."],
+      ["What is a strong STAR result?", ["No numbers", "Measurable impact and process change", "Only opinions", "Blame"], 1, "Senior answers need outcomes and learning."]
+    ],
+    mockQA: [
+      ["Tell me about introducing TypeScript to a QA framework.", "A strong answer starts with pain: fragile helpers, runtime API field errors, or slow refactors. Then explain the incremental plan: type config, fixtures, API clients, and data builders first; add runtime validation for external data; then migrate tests by area. End with metrics such as fewer framework bugs or faster refactors.", "Use before/after metrics."],
+      ["How handle pushback that TypeScript slows test writing?", "I would acknowledge the short-term learning curve and reduce friction with templates, builders, examples, and pairing. I would also show where type-checking caught real bugs before CI. The goal is safer speed, not ceremony.", "Empathy plus evidence."],
+      ["What TypeScript standard would you enforce as lead?", "No unreviewed any in framework code, no floating promises, strict mode in shared packages, runtime validation at external boundaries, and clear public helper APIs. I would keep exceptions possible but explicit.", "Specific standards."]
+    ],
+    code: [
+      ["STAR scaffold", "text", String.raw`Situation: What was broken or risky.
+Task: What you owned.
+Action: Migration plan, standards, coaching, and trade-offs.
+Result: Metrics and behavior change.
+Lesson: What you would repeat or adjust.`, "Prepare stories for migration, framework standards, and team adoption."],
+      ["TypeScript quality OKR", "text", String.raw`Objective: Make TypeScript automation safe, fast, and easy to extend.
+
+KR1: Framework packages run with strict mode.
+KR2: API clients validate runtime responses.
+KR3: PR type-check failures catch issues before E2E execution.
+KR4: New QA engineer ships first typed test in one day.`, "Use this as a leadership interview talk track."]
+    ]
+  }
+];
+
+const state = {
+  topic: 0,
+  tab: "notes",
+  flashIndex: 0,
+  visited: new Set([0]),
+  query: ""
+};
+
+const TABS = [
+  ["notes", "Notes"],
+  ["roadmap", "Roadmap"],
+  ["flashcards", "Flashcards"],
+  ["mcqs", "MCQs"],
+  ["mockQA", "Mock Q&A"],
+  ["code", "Code"]
+];
+
+function createEl(tag, attrs = {}, ...children) {
+  const node = document.createElement(tag);
+  for (const [key, value] of Object.entries(attrs || {})) {
+    if (key === "className") node.className = value;
+    else if (key === "onclick") node.addEventListener("click", value);
+    else if (key === "innerHTML") node.innerHTML = value;
+    else node.setAttribute(key, value);
+  }
+  for (const child of children) {
+    if (child == null) continue;
+    node.appendChild(typeof child === "string" ? document.createTextNode(child) : child);
+  }
+  return node;
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function currentTopic() {
+  return TOPICS[state.topic];
+}
+
+function topicMatches(topic) {
+  const query = state.query.trim().toLowerCase();
+  if (!query) return true;
+  return [topic.title, topic.subtitle, topic.id].join(" ").toLowerCase().includes(query);
+}
+
+function switchTopic(index) {
+  state.topic = index;
+  state.tab = "notes";
+  state.flashIndex = 0;
+  state.visited.add(index);
+  renderAll();
+}
+
+function renderNav() {
+  const nav = document.getElementById("topicNav");
+  nav.innerHTML = "";
+
+  TOPICS.forEach((topic, index) => {
+    if (!topicMatches(topic)) return;
+    nav.appendChild(createEl("button", {
+      className: "topic-btn" + (index === state.topic ? " active" : "") + (state.visited.has(index) ? " done" : ""),
+      onclick: () => switchTopic(index)
+    },
+      createEl("span", { className: "num" }, String(index + 1).padStart(2, "0")),
+      createEl("span", null, topic.title)
+    ));
+  });
+
+  if (!nav.children.length) {
+    nav.appendChild(createEl("div", { className: "empty" }, "No matching topics."));
+  }
+
+  document.getElementById("progressPill").textContent =
+    "Topic " + (state.topic + 1) + " of " + TOPICS.length + " | " + state.visited.size + " viewed";
+}
+
+function renderMain() {
+  const topic = currentTopic();
+  const main = document.getElementById("main");
+  main.innerHTML = "";
+
+  if (state.tab === "roadmap" && (!topic.roadmap || !topic.roadmap.length)) state.tab = "notes";
+
+  main.appendChild(createEl("h2", { className: "topic-title" }, topic.title));
+  main.appendChild(createEl("div", { className: "topic-sub" }, topic.subtitle));
+
+  const summary = createEl("div", { className: "summary-bar" });
+  const roadmapCount = topic.roadmap && topic.roadmap.length ? "<strong>" + topic.roadmap.length + "</strong> roadmap levels | " : "";
+  summary.appendChild(createEl("div", {
+    className: "stats",
+    innerHTML: roadmapCount +
+      "<strong>" + topic.flashcards.length + "</strong> flashcards | " +
+      "<strong>" + topic.mcqs.length + "</strong> MCQs | " +
+      "<strong>" + topic.mockQA.length + "</strong> mock Q&A | " +
+      "<strong>" + topic.code.length + "</strong> code snippets"
+  }));
+
+  summary.appendChild(createEl("div", null,
+    createEl("button", {
+      className: "btn",
+      onclick: () => {
+        if (state.topic > 0) switchTopic(state.topic - 1);
+      }
+    }, "< Previous"),
+    document.createTextNode(" "),
+    createEl("button", {
+      className: "btn btn-primary",
+      onclick: () => {
+        if (state.topic < TOPICS.length - 1) switchTopic(state.topic + 1);
+      }
+    }, "Next topic >")
+  ));
+  main.appendChild(summary);
+
+  const tabBar = createEl("div", { className: "tabs" });
+  TABS.forEach(([id, label]) => {
+    if (id === "roadmap" && (!topic.roadmap || !topic.roadmap.length)) return;
+    tabBar.appendChild(createEl("button", {
+      className: "tab-btn" + (state.tab === id ? " active" : ""),
+      onclick: () => {
+        state.tab = id;
+        state.flashIndex = 0;
+        renderMain();
+      }
+    }, label));
+  });
+  main.appendChild(tabBar);
+
+  const panels = {
+    notes: renderNotes,
+    roadmap: renderRoadmap,
+    flashcards: renderFlashcards,
+    mcqs: renderMcqs,
+    mockQA: renderMockQA,
+    code: renderCode
+  };
+  main.appendChild(panels[state.tab](topic));
+}
+
+function renderNotes(topic) {
+  return createEl("section", { className: "notes", innerHTML: topic.notes });
+}
+
+function renderRoadmap(topic) {
+  const wrap = createEl("section");
+  wrap.appendChild(createEl("div", {
+    className: "roadmap-intro",
+    innerHTML: "<strong>How to use this roadmap:</strong> start with strict fundamentals, then build a typed UI/API framework with runtime validation and CI gates."
+  }));
+
+  topic.roadmap.forEach(([level, when, topics, resources, practice]) => {
+    const card = createEl("article", { className: "roadmap-level" });
+    card.appendChild(createEl("span", { className: "level-label" }, level));
+    card.appendChild(createEl("div", { className: "when" }, when));
+
+    const topicBlock = createEl("div", { className: "roadmap-block" });
+    topicBlock.appendChild(createEl("h4", null, "What to learn"));
+    const tags = createEl("div", { className: "tag-wrap" });
+    topics.forEach(item => tags.appendChild(createEl("span", { className: "tag" }, item)));
+    topicBlock.appendChild(tags);
+    card.appendChild(topicBlock);
+
+    const grid = createEl("div", { className: "roadmap-grid" });
+    grid.appendChild(renderResourceBlock("Read and study", resources));
+    grid.appendChild(renderResourceBlock("Practice with code", practice.map(item => [item[0], item[1], "practice"])));
+    card.appendChild(grid);
+    wrap.appendChild(card);
+  });
+
+  return wrap;
+}
+
+function renderResourceBlock(title, items) {
+  const block = createEl("div", { className: "roadmap-block" });
+  block.appendChild(createEl("h4", null, title));
+  items.forEach(([label, url, type = "link"]) => {
+    block.appendChild(createEl("a", {
+      className: "resource-link",
+      href: url,
+      target: "_blank",
+      rel: "noopener noreferrer"
+    },
+      createEl("span", { className: "pill" }, type),
+      document.createTextNode(label)
+    ));
+  });
+  return block;
+}
+
+function renderFlashcards(topic) {
+  const wrap = createEl("section");
+  const index = state.flashIndex;
+  const card = topic.flashcards[index];
+
+  wrap.appendChild(createEl("div", { className: "flash-controls" },
+    createEl("div", { className: "counter" }, "Card " + (index + 1) + " of " + topic.flashcards.length),
+    createEl("div", null,
+      createEl("button", {
+        className: "btn",
+        onclick: () => {
+          state.flashIndex = (index - 1 + topic.flashcards.length) % topic.flashcards.length;
+          renderMain();
+        }
+      }, "< Prev"),
+      document.createTextNode(" "),
+      createEl("button", {
+        className: "btn btn-primary",
+        onclick: () => {
+          state.flashIndex = (index + 1) % topic.flashcards.length;
+          renderMain();
+        }
+      }, "Next >")
+    )
+  ));
+
+  const flash = createEl("article", {
+    className: "flashcard",
+    onclick: event => event.currentTarget.classList.toggle("flipped")
+  });
+  flash.appendChild(createEl("div", { className: "flag" }, "Click to reveal answer"));
+  flash.appendChild(createEl("div", { className: "q" }, card[0]));
+  flash.appendChild(createEl("div", { className: "a" }, card[1]));
+  wrap.appendChild(flash);
+  return wrap;
+}
+
+function renderMcqs(topic) {
+  const wrap = createEl("section");
+  topic.mcqs.forEach(([question, options, correct, explanation], qIndex) => {
+    const card = createEl("article", { className: "quiz-q" });
+    card.appendChild(createEl("div", { className: "qtext" }, (qIndex + 1) + ". " + question));
+    options.forEach((option, optIndex) => {
+      card.appendChild(createEl("div", {
+        className: "opt",
+        onclick: () => {
+          if (card.classList.contains("answered")) return;
+          card.classList.add("answered");
+          [...card.querySelectorAll(".opt")].forEach((node, index) => {
+            if (index === correct) node.classList.add("correct");
+            else if (index === optIndex) node.classList.add("wrong");
+          });
+        }
+      }, String.fromCharCode(65 + optIndex) + ". " + option));
+    });
+    card.appendChild(createEl("div", {
+      className: "explanation",
+      innerHTML: "<strong>Why:</strong> " + escapeHtml(explanation)
+    }));
+    wrap.appendChild(card);
+  });
+  return wrap;
+}
+
+function renderMockQA(topic) {
+  const wrap = createEl("section");
+  topic.mockQA.forEach(([question, answer, tip], index) => {
+    const card = createEl("article", { className: "mock-q" });
+    card.appendChild(createEl("div", { className: "label-q" }, "Mock question " + (index + 1)));
+    card.appendChild(createEl("div", { className: "question" }, question));
+    const details = createEl("details");
+    details.appendChild(createEl("summary", null, "Show model answer"));
+    const body = createEl("div", { className: "answer-body" });
+    body.appendChild(createEl("p", null, answer));
+    body.appendChild(createEl("div", { className: "tips", innerHTML: "<strong>Coaching tip:</strong> " + escapeHtml(tip) }));
+    details.appendChild(body);
+    card.appendChild(details);
+    wrap.appendChild(card);
+  });
+  return wrap;
+}
+
+function renderCode(topic) {
+  const wrap = createEl("section");
+  topic.code.forEach(([title, language, code, desc]) => {
+    const block = createEl("article", { className: "code-block" });
+    block.appendChild(createEl("div", { className: "ctitle" },
+      document.createTextNode(title),
+      createEl("span", { className: "lang-tag" }, language)
+    ));
+    block.appendChild(createEl("pre", null, createEl("code", null, code)));
+    block.appendChild(createEl("div", { className: "desc" }, desc));
+    wrap.appendChild(block);
+  });
+  return wrap;
+}
+
+function renderAll() {
+  renderNav();
+  renderMain();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+document.getElementById("searchBox").addEventListener("input", event => {
+  state.query = event.target.value;
+  renderNav();
+});
+
+document.addEventListener("keydown", event => {
+  if (["INPUT", "TEXTAREA"].includes(event.target.tagName)) return;
+  const topic = currentTopic();
+  if (event.key === "ArrowRight" && state.tab === "flashcards") {
+    state.flashIndex = (state.flashIndex + 1) % topic.flashcards.length;
+    renderMain();
+  } else if (event.key === "ArrowLeft" && state.tab === "flashcards") {
+    state.flashIndex = (state.flashIndex - 1 + topic.flashcards.length) % topic.flashcards.length;
+    renderMain();
+  } else if (event.key.toLowerCase() === "j" && state.topic < TOPICS.length - 1) {
+    switchTopic(state.topic + 1);
+  } else if (event.key.toLowerCase() === "k" && state.topic > 0) {
+    switchTopic(state.topic - 1);
+  }
+});
+
+renderAll();
+</script>
+</body>
+</html>

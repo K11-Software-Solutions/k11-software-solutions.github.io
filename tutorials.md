@@ -59,4 +59,22 @@ Explore practical learning resources, interview prep tools, and hands-on technic
     </div>
     <a class="btn btn-primary tutorial-card-link" href="{{ '/tutorials/qa-lead-javascript/' | relative_url }}">Open JavaScript Tutorial</a>
   </article>
+
+  <article class="tutorial-card">
+    <div class="tutorial-card-meta">Interview Preparation</div>
+    <h2>QA Lead / Architect Interview Prep - TypeScript Track</h2>
+    <p>
+      A TypeScript-focused training app covering strict typing, type modeling,
+      runtime validation, Playwright fixtures, typed API clients, Vitest/Jest,
+      Mocha/Chai/Sinon, CI/CD, framework architecture, and leadership stories.
+    </p>
+    <div class="tutorial-card-tags">
+      <span>TypeScript</span>
+      <span>Playwright</span>
+      <span>Zod</span>
+      <span>Vitest/Jest</span>
+      <span>Mocha/Chai</span>
+    </div>
+    <a class="btn btn-primary tutorial-card-link" href="{{ '/tutorials/qa-lead-typescript/' | relative_url }}">Open TypeScript Tutorial</a>
+  </article>
 </div>
