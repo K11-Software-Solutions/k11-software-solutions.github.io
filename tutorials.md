@@ -8,6 +8,23 @@ Explore practical learning resources, interview prep tools, and hands-on technic
 
 <div class="tutorials-grid">
   <article class="tutorial-card">
+    <div class="tutorial-card-meta">Fundamentals</div>
+    <h2>Python Coding Basics to Advanced</h2>
+    <p>
+      A comprehensive self-paced learning app covering Python fundamentals from basics to advanced concepts,
+      including data structures, OOP, functional programming, testing, and practical coding examples.
+    </p>
+    <div class="tutorial-card-tags">
+      <span>Python</span>
+      <span>Fundamentals</span>
+      <span>OOP</span>
+      <span>Testing</span>
+      <span>Best Practices</span>
+    </div>
+    <a class="btn btn-primary tutorial-card-link" href="{{ '/tutorials/python-coding-lessons/' | relative_url }}">Open Python Lessons</a>
+  </article>
+
+  <article class="tutorial-card">
     <div class="tutorial-card-meta">Interview Preparation</div>
     <h2>QA Lead / Architect Interview Prep - Python Track</h2>
     <p>
