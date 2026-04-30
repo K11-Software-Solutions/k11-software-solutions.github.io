@@ -94,23 +94,4 @@ Explore practical learning resources, interview prep tools, and hands-on technic
     </div>
     <a class="btn btn-primary tutorial-card-link" href="{{ '/tutorials/qa-lead-typescript/' | relative_url }}">Open TypeScript Tutorial</a>
   </article>
-
-  <article class="tutorial-card">
-    <div class="tutorial-card-meta">AI Testing</div>
-    <h2>Gen AI for Test Automation</h2>
-    <p>
-      A self-paced training app covering LLM fundamentals, prompt engineering,
-      AI-assisted test generation, synthetic test data, API and visual testing,
-      self-healing tests, AI tooling evaluation, CI/CD integration, and AI-first
-      QA strategy.
-    </p>
-    <div class="tutorial-card-tags">
-      <span>Gen AI</span>
-      <span>LLMs</span>
-      <span>Prompt Engineering</span>
-      <span>Self-Healing</span>
-      <span>CI/CD</span>
-    </div>
-    <a class="btn btn-primary tutorial-card-link" href="{{ '/tutorials/gen-ai-test-automation/' | relative_url }}">Open Gen AI Tutorial</a>
-  </article>
 </div>
