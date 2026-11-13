@@ -656,3 +656,52 @@ body {
     justify-content: center;
   }
 }
+
+/* Community Page */
+.community-feature {
+  background: #ffffff;
+  border: 1px solid #e4ecef;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  margin: 30px 0 40px;
+  overflow: hidden;
+}
+
+.community-feature img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.community-feature-body {
+  padding: 28px 30px 30px;
+}
+
+.community-feature-body h2 {
+  color: #001f3f;
+  font-size: 1.7rem;
+  margin-bottom: 12px;
+}
+
+.community-feature-body p {
+  color: #555;
+  line-height: 1.7;
+}
+
+.community-btn-outline {
+  background: transparent;
+  border: 2px solid #001f3f;
+  color: #001f3f;
+}
+
+.community-btn-outline:hover {
+  background: #001f3f;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+  .community-feature-body {
+    padding: 22px 18px 24px;
+  }
+}
